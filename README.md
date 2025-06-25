@@ -40,11 +40,11 @@ Refer to the file `.env.setup.guide` for info about the environment variables.
 ### 1. What blockchain technology did you use?
 - We used Polygon, a scaling solution built on top of Ethereum. Polygon is designed to make blockchain transactions faster, cheaper, and more efficient, which makes it well-suited for voting systems.
 ### 2. How was the blockchain deployed in this project?
-The blockchain component was deployed on the Amoy Testnet, which is a test network used for development and experimentation.
+- The blockchain component was deployed on the Amoy Testnet, which is a test network used for development and experimentation.
 ### 3. Is this the actual repository used in the project?
-No. This is a meta repository intended for public viewing and documentation purposes only. It does not contain the complete or production-ready source code.
+- No. This is a meta repository intended for public viewing and documentation purposes only. It does not contain the complete or production-ready source code.
 ### 4. How can I run the full system?
-This meta repository does not include all the components necessary to run the system. If you require access to the full implementation (for academic or research purposes), please contact us at the emails below.
+- This meta repository does not include all the components necessary to run the system. If you require access to the full implementation (for academic or research purposes), please contact us at the emails below.
 
 ## Feedback
 
