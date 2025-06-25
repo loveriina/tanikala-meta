@@ -50,15 +50,15 @@ This meta repository does not include all the components necessary to run the sy
 
 If you have any feedback/comment/request, please reach out to us at:  
 
-<div style="display:flex; justify-content: center;">
-  <div style="text-align: center;">
+<p align="center">
+  <div style="display: inline-block; text-align: center; margin: 0 40px;">
     <img src="./readme-img/yvan.png" width="100"/><br/>
     💌 aquino.ylt@gmail.com
   </div>
-  <div style="text-align: center;">
+  <div style="display: inline-block; text-align: center; margin: 0 40px;">
     <img src="./readme-img/zari.png" width="100"/><br/>
     💌 dungo.zr@gmail.com
   </div>
-<div>
+</p>
 
 Include your name, affiliation, and a clear reason for your request.
