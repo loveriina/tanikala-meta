@@ -28,6 +28,38 @@ By integrating blockchain into the voting system, this project addresses the com
 
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
+## Features & Contributions
+
+| Section                  | Features                                                                                   | @Lowell0803        | @loverinaa         |
+|--------------------------|--------------------------------------------------------------------------------------------|--------------------|--------------------|
+| Project Management       | Task organization, coordination, and execution oversight                                  |                    | <p align="center">✔️</p> |
+| System Concept           | Conceptualization of System                                                               |                    | <p align="center">✔️</p> |
+| Designer & Graphics      | Logo design and graphical resource creation                                               |                    | <p align="center">✔️</p> |
+| System Quality Testing   | Visual QA, logic testing, user flow testing                                               |                    | <p align="center">✔️</p> |
+| Home & Static Pages      | Homepage, About, Candidates, Contact, dynamic EJS pages                                   | <p align="center">✔️</p> | <p align="center">✔️</p> |
+| Mobile UX                | Mobile responsiveness (Home, Voting, Results pages)                                       | <p align="center">✔️</p> | <p align="center">✔️</p> |
+| Authentication           | OTP via SendGrid, Microsoft login via Azure, Admin login UI                              | <p align="center">✔️</p> | <p align="center">✔️</p> |
+| Admin Panel              | Dashboard, Config, Blockchain, Logs, Admin tabs & components                              | <p align="center">✔️</p> | <p align="center">✔️</p> |
+| Voting Flow              | Vote, Review, Verify, Receipt flow                                                        | <p align="center">✔️</p> | <p align="center">✔️</p> |
+| Results Verification     | Tally display, turnout stats, result logic & pages                                        | <p align="center">✔️</p> | <p align="center">✔️</p> |
+| Contact System           | Contact form logic with MongoDB storage                                                   | <p align="center">✔️</p> |                    |
+| Candidate & Voter Data   | CRUD for candidates, tailored ballot, voter info storage/filtering                        | <p align="center">✔️</p> |                    |
+| System Logic             | Election config, archive/reset logic, activity logs, admin management                     | <p align="center">✔️</p> |                    |
+| UI Components            | Sidebar, Header, Footer, Notifications, reusable layout                                   | <p align="center">✔️</p> | <p align="center">✔️</p> |
+| Blockchain Setup         | MetaMask, Amoy Testnet, deploy scripts, submit votes/candidates, reset, hash tracking     | <p align="center">✔️</p> |                    |
+| Blockchain Features      | Vote hash storage, CoinGecko API, candidate data fetching from chain                      | <p align="center">✔️</p> |                    |
+
+---
+
+## Acknowledgment
+
+Special thanks to **Formula 1**, the original thesis group led by **Ms. Dungo**, who helped in the initial UI prototyping using Canva.  
+They also attempted implementation and contributed code, but due to architectural misalignment and backend integration challenges, their version could not be continued.
+
+As a result, the entire system was fully redesigned and rebuilt from scratch by **Ms. Zarina Dungo** and **Mr. Yvan Lowell Aquino**.
+
+In general, **Mr. Aquino** handled the backend and blockchain logic, while **Ms. Dungo** focused on the frontend, UI/UX design, system testing, and project planning.
+
 ## Deployment
 
 This website was deployed in [Render](render.com) over the duration of 2 months for the Thesis defense. But, after that, the deployment was discontinued to save costs.  
