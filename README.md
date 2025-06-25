@@ -24,9 +24,46 @@ By integrating blockchain into the voting system, this project addresses the com
 
 *This is in partial fulfillment of the requirements for the course subject **Thesis**, as part of the curriculum for fourth year students of the Bachelor of Science in Mathematics with Specialization in Computer Science.*
 
-## Screenshots
+## System Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+### Dynamic Homepage
+<img src="readme-img/ss-homepages.png" alt="Homepage" width="300">
+
+### Voter Registration
+<img src="readme-img/ss-registration.png" alt="Voter Registration" width="300">
+
+### Voting Interface
+<img src="readme-img/ss-vote.png" alt="Vote Interface" width="300">
+
+### Vote Receipt
+<img src="readme-img/ss-receipt.png" alt="Vote Receipt" width="300">
+
+### Vote Verification
+<img src="readme-img/ss-verify.png" alt="Vote Verification" width="300">
+
+### Vote Audit
+<img src="readme-img/ss-vote-audit.png" alt="Vote Audit" width="300">
+
+### Vote Tally
+<img src="readme-img/ss-vote-tally.png" alt="Vote Tally" width="300">
+
+### Admin Dashboard
+<img src="readme-img/ss-admin-dashboard.png" alt="Admin Dashboard" width="300">
+
+### Blockchain Record - 1
+<img src="readme-img/ss-blockchain-1.png" alt="Blockchain Record 1" width="300">
+
+### Blockchain Record - 2
+<img src="readme-img/ss-blockchain-2.png" alt="Blockchain Record 2" width="300">
+
+### RVS - Main
+<img src="readme-img/ss-rvs.png" alt="RVS Main" width="300">
+
+### RVS - Voter ID View
+<img src="readme-img/ss-rvs-voter-id.png" alt="RVS Voter ID View" width="300">
+
+### RVS - Votes Per Candidate
+<img src="readme-img/ss-rvs-votes-per-candidate.png" alt="RVS Votes Per Candidate" width="300">
 
 ## Deployment
 
