@@ -5,7 +5,7 @@
 [![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
 
 <p align="center">
-  <img src="./readme-img/logo-tanikala.png" alt="Logo" width="200"/>
+  <img src="./readme-img/logo-tanikala.png" alt="Logo" width="400"/>
 </p>
 
 A blockchain-based voting system for Bulacan State University to enhance the security, reliability, and transparency of its student government elections.
@@ -50,15 +50,15 @@ This meta repository does not include all the components necessary to run the sy
 
 If you have any feedback/comment/request, please reach out to us at:  
 
-<p align="center">
-  <div style="display: inline-block; text-align: center; margin: 0 20px;">
-    <img src="./readme-img/yvan.png" width="200"/><br/>
+<div style="display:flex; justify-content: center;">
+  <div style="text-align: center;">
+    <img src="./readme-img/yvan.png" width="100"/><br/>
     💌 aquino.ylt@gmail.com
   </div>
-  <div style="display: inline-block; text-align: center; margin: 0 20px;">
-    <img src="./readme-img/zari.png" width="200"/><br/>
+  <div style="text-align: center;">
+    <img src="./readme-img/zari.png" width="100"/><br/>
     💌 dungo.zr@gmail.com
   </div>
-</p>
+<div>
 
 Include your name, affiliation, and a clear reason for your request.
