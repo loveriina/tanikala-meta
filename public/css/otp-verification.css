@@ -1,0 +1,140 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  padding: 2rem;
+  padding-bottom: 0;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #f0f1e1;
+  border-radius: 1.5rem;
+  color: rgb(0, 0, 0);
+  /* position: relative; */
+  /* margin-bottom: 2rem; */
+}
+
+i {
+  font-size: 3rem;
+  color: var(--color-darkBlue);
+}
+
+.blue {
+  color: var(--color-darkBlue);
+  font-size: 2rem;
+}
+
+button {
+  background-color: #e1ae5b;
+}
+
+.otp-field {
+  width: 10rem;
+  height: 2rem;
+  padding: 0.3rem;
+}
+
+input {
+  border: 2px solid var(--color-lightBlue); /* Default border */
+  outline: none; /* Remove default focus outline */
+}
+
+input:focus {
+  border-color: var(--color-darkBlue); /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Optional glow effect */
+}
+
+#resend-btn {
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-radius: 1rem;
+  border: 0.1rem solid var(--color-lightBlue);
+}
+
+button:hover {
+  /* background-color: #f5ab29; */
+  font-weight: bold;
+  color: white;
+}
+
+.button {
+  padding: 2% 3%;
+  font-size: 0.9rem;
+  margin: 0.5rem auto;
+}
+
+.button {
+  background-color: #6e1311;
+  border-radius: 0.5rem;
+  width: auto;
+  padding: 3% 4%;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  line-height: normal;
+  height: auto;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) 0px 2px 4px;
+}
+
+hr {
+  width: 100%;
+}
+
+.content-main {
+  /* margin-bottom: 4rem; */
+}
+
+/* .beside {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+} */
+
+.gray {
+  color: rgb(88, 81, 81);
+}
+
+.otp {
+  background-color: var(--color-lightBlue);
+}
+
+.otp:hover {
+  background-color: blue;
+}
+
+.card p {
+  font-size: 1rem;
+}
+
+.content-main {
+  padding-top: -1rem;
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 80vw; /* Increase card width for smaller screens */
+    padding: 1.5rem; /* Reduce padding */
+    padding-bottom: 0;
+  }
+
+  .otp-field {
+    width: 8rem; /* Adjust the input width */
+  }
+
+  .button {
+    padding: 2% 4%; /* Adjust button padding */
+    font-size: 0.8rem; /* Slightly smaller font size */
+  }
+
+  #resend-btn {
+    padding: 0.3rem;
+    margin-top: 0.3rem;
+  }
+
+  .footer p {
+    font-size: 0.6rem;
+  }
+}

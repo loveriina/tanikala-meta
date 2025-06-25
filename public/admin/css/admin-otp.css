@@ -1,0 +1,122 @@
+.otp-container {
+  text-align: center;
+  background-color: #f8e7c7;
+  padding: 30px 40px;
+  border-radius: 15px;
+  text-align: center;
+  width: 400px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  height: 28.5rem;
+  margin: 0 auto;
+  color: #444;
+  font-size: 14px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* .card {
+      background-color: #f8e7c7;
+      padding: 30px 40px;
+      border-radius: 15px;
+      text-align: center;
+      width: 400px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    } */
+
+.otp-icon img {
+  width: 4rem;
+  /* margin-bottom: 0.rem; */
+}
+
+.otp-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.otp-inputs input {
+  width: 48px;
+  height: 58px;
+  font-size: 24px;
+  text-align: center;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.otp-inputs input:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 5px #4caf50;
+}
+
+.confirm-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.3s ease;
+}
+
+.confirm-btn:hover {
+  background-color: #43a047;
+}
+
+.resend-btn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: transparent;
+  border: 2px solid #28a745 !important;
+  color: #28a745;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  /* transition: 0.3s ease; */
+}
+
+.resend-btn:hover {
+  color: white;
+  background-color: #28a745;
+  /* background-color: red; */
+}
+
+.resend-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.resem .buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-wrapper:hover .resend-btn:disabled {
+  /* border: none; */
+  color: #28a745;
+  background-color: transparent;
+  cursor: default !important;
+}
+
+.verify-title {
+  font-weight: 700;
+  font-size: 24px;
+  color: #333;
+  margin-top: 10px;
+}
+
+/* .confirm-btn,
+.resend-btn {
+  width: 12rem;
+} */
+
+otp-instructions {
+  color: #444;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,441 @@
+.form {
+  border-radius: 1rem;
+  /* border: .2rem solid; */
+}
+
+.main {
+  background-color: #faf2db;
+}
+
+.first-main {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 100%;
+  margin-bottom: 1.5rem;
+  padding: 2rem;
+  padding-top: 0;
+}
+
+.main-column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 50%;
+  margin-bottom: 1.5rem;
+}
+
+#election-configuration {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 50%;
+  background-color: #b8e5ff;
+  margin-right: 1.5rem;
+  padding: 1.5rem;
+}
+
+.election-configuration {
+  padding-left: 1.5rem;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 50%;
+  /* background-color: #c6cee7; */
+}
+
+.quick-actions-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  padding: 2rem;
+  padding-bottom: 0;
+}
+
+#quick-actions {
+  background-color: #ffbc97;
+  color: #c24703;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.quick-actions-buttons {
+  background-color: #f8d69e;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+  padding: 0.35rem;
+  width: 22%;
+  height: 10rem;
+  color: #2e3844;
+}
+
+.quick-actions-buttons p {
+  font-weight: bold;
+}
+
+.quick-buttons {
+  width: 30%;
+  height: auto;
+}
+
+.view-export {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.separator {
+  margin: 0 0.4rem;
+}
+
+.indent {
+  text-indent: 20rem;
+}
+
+#election-settings {
+  display: flex;
+  background-color: #c0edbc;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.5rem;
+  margin-right: 1.5rem;
+  margin-bottom: 1.5rem;
+  height: 25vh;
+}
+
+.center {
+  text-align: center;
+  width: 100%;
+}
+
+.full-line {
+  width: 100%;
+  height: 0.19rem;
+  background-color: #58664e;
+}
+
+#candidates-title {
+  background-color: #ffe1ab;
+  color: #bb7e15;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.edit-student-totals-popup {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100vw;
+}
+
+.beside {
+  display: flex;
+  flex-direction: row;
+}
+
+#candidate-submission,
+#vote-queue {
+  display: flex;
+  flex-direction: column;
+  height: 25vh;
+  flex-basis: 50%;
+  background-color: #dbd1fa;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  margin-right: 1.5rem;
+  align-items: center;
+}
+
+#registered-students {
+  display: flex;
+  flex-direction: column;
+  height: 25vh;
+  flex-basis: 50%;
+  background-color: #f8d69e;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  align-items: center;
+}
+
+#voter-turnout {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 50%;
+  height: 25vh;
+  background-color: #f8d69e;
+  align-items: center;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+#blockchain-management {
+  display: flex;
+  flex-direction: column;
+  background-color: #bca8ff;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.blockchain-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.quick-actions-buttons i {
+  font-size: 3.2rem;
+  padding-bottom: 0.5rem;
+}
+
+.quick-actions-buttons p,
+.box-label {
+  font-size: 1.1rem;
+}
+
+#blockchain-dashboard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #b8e5ff;
+  margin-right: 1.5rem;
+  padding: 1.5rem;
+}
+
+#registered-students,
+#voter-turnout {
+  background-color: #ffbc97;
+}
+
+#blockchain-dashboard,
+#vote-queue,
+#candidate-submission {
+  background-color: #dbd1fa;
+}
+
+.big {
+  font-size: 2.5rem;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+.med {
+  font-size: 2rem;
+}
+
+.pre-med {
+  font-size: 1.5rem;
+}
+
+.pre-med2 {
+  font-size: 1.3rem;
+}
+
+.first {
+  margin-left: 0;
+}
+
+.last {
+  margin-right: 0;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* border: 3px solid black; */
+}
+
+.orange {
+  color: #c24703;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.purple {
+  color: #402e7b;
+}
+
+.green {
+  color: #0b8000;
+}
+
+.grow {
+  font-size: 1.1rem;
+}
+
+.top {
+  color: #885708;
+}
+
+.blue {
+  color: #451b9d;
+  font-weight: bold;
+}
+
+.purple {
+  color: #451b9d;
+  font-weight: bold;
+}
+
+#blockchain-dashboard hr {
+  height: 0.2rem;
+}
+
+#blockchain-dashboard th {
+  background-color: #ad9bd5;
+}
+
+#blockchain-transaction tr {
+  background-color: #d8d1fa;
+}
+
+.first-main {
+  gap: 0;
+}
+
+.results,
+.double-check {
+  background-color: green;
+}
+/* .left-blockchain,
+.right-blockchain {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 50%;
+} */
+
+#registered-students,
+#voter-turnout,
+#vote-queue,
+#candidate-submission,
+#election-settings,
+#election-configuration,
+#blockchain-dashboard {
+  background-color: white;
+}
+
+.first {
+  background-color: #d6d6b1c6;
+}
+
+.second {
+  background-color: #c4e79bbe;
+}
+
+.third {
+  background-color: #9091cba1;
+}
+
+.fourth {
+  background-color: #b7bb9aa3;
+}
+
+.fifth {
+  background-color: #acb4bab0;
+}
+
+/* .reset {
+  background: #873835;
+}
+
+.resume,
+.results,
+.double-check {
+  background: #218044;
+} */
+
+.center {
+  gap: 2rem;
+}
+
+#registered-students {
+  border: 0.03rem solid #28303b71;
+}
+
+#voter-turnout {
+  border: 0.03rem solid #28303b71;
+}
+
+#vote-queue {
+  border: 0.03rem solid #28303b71;
+}
+
+#candidate-submission {
+  border: 0.03rem solid #28303b71;
+}
+
+#election-settings {
+  border: 0.03rem solid #28303b71;
+}
+
+#election-configuration {
+  border: 0.03rem solid #28303b71;
+}
+
+#blockchain-dashboard {
+  border: 0.03rem solid #28303b71;
+}
+
+.large {
+  font-size: 1.3rem;
+}
+
+.download-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.download-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-width: 120px;
+  z-index: 100;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f2f2f2;
+}
+
+.quick-actions-buttons a {
+  color: #007bff;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 1rem;
+}

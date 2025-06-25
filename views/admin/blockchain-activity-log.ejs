@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>BulSU Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/blockchain-activity-log.css" />
+
+    <!-- Boxicons CDN Link -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <%- include('header') %>
+
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'blockchain', activeSub: "blockchain-activity-log" }) %>
+      <main class="main">
+        <div class="title-container">
+          <div class="r">
+                  <i class="fa fa-link"></i>
+            <h1 class="title">Blockchain Activity Log</h1>
+          </div>
+            <h3 class="top">      
+              <a class="link" href="https://amoy.polygonscan.com/address/0xdd70759c1166a90c30c5115db0188d31b5d331da" target="_blank">
+                View TANIKALA Transactions on the Blockchain <span><i class="fa-solid fa-magnifying-glass"></i></span> 
+              </a>
+            </h3>
+  
+        </div>
+        <hr class="title-line" />
+        <div class="first-main">
+         
+          <br />
+          <table id="blockchainActivityTable">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Transaction Hash</th>
+                <th>Action</th>
+                <th>Performed By</th>
+                <th>Cost in POL</th>
+                <th>Cost in PHP</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <% logs.forEach(function(log) { %>
+              <tr>
+                <td class="textie-left"><%= new Date(log.timestamp).toLocaleString() %></td>
+                <td>
+                  <a href="https://amoy.polygonscan.com/tx/<%= log.transactionHash %>" target="_blank"> <%= log.transactionHash %> </a>
+                </td>
+                <td><%= log.action %></td>
+                <td><%= log.actor %></td>
+                <td><%= log.costPol %> POL</td>
+                <td><%= log.costPhp %> PHP</td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+
+    <%- include('footer') %>
+
+    <script src="admin/js/sidebar.js"></script>
+    <script src="admin/js/index-admin.js"></script>
+    <script src="admin/js/dropdown.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      // Connect to Socket.IO, passing the logged-in admin's email
+      const socket = io("/", { query: { email: "<%= loggedInAdmin.email %>" } });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>BulSU Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/system-activity-log.css" />
+
+    <!-- Boxicons CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <%- include('header') %>
+
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'system', activeSub: "system-activity-log" }) %>
+      <main class="main">
+        <div class="title-container">
+          <div class="r">
+            <i class="fa fa-history" aria-hidden="true"></i>
+            <h1 class="title">System Activity Log</h1>
+          </div>
+        </div>
+        <hr class="title-line" />
+        <div class="first-main">
+          <div class="select-log">
+            <div>
+              <input type="radio" id="all-activity-log" name="system-log" value="all-activity-log" checked />
+              <label for="all-activity-log">All</label>
+            </div>
+            <div>
+              <input type="radio" id="admin-activity-log" name="system-log" value="admin-activity-log" />
+              <label for="admin-activity-log">Admin Activity Log</label>
+            </div>
+            <div>
+              <input type="radio" id="voter-activity-log" name="system-log" value="voter-activity-log" />
+              <label for="voter-activity-log">Voter Activity Log</label>
+            </div>
+          </div>
+          <br />
+          <table id="systemActivityTable">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Performed By</th>
+                <th>Role</th>
+                <th>Action</th>
+                <!-- <th>Details</th> -->
+                <!-- <th>Type</th> -->
+              </tr>
+            </thead>
+            <tbody id="activityLogsTableBody">
+              <% if (loggedInAdmin.role === "Developer" || loggedInAdmin.role === "Electoral Board Member" || loggedInAdmin.role === "Technical Team Member") { %>
+              <% if (activityLogs && activityLogs.length) { %>
+                <% activityLogs.forEach(log => { %>
+                  <tr class="<%= log.activityType ? log.activityType.toLowerCase() : '' %>" data-type="<%= log.activityType || 'Unknown' %>">
+
+                    <td class="textie-left"><%= new Date(log.timestamp).toLocaleString() %></td>
+                    <td><%= log.adminUsername %></td>
+                    <td><%= log.adminRole %></td>
+                    <td><%= log.eventName %></td>
+                    <!-- <td><%= log.activityType %></td> -->
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="6">No activity logs found.</td>
+                </tr>
+              <% } %>
+               <% } else { %>
+                  <td colspan="5" class="error-message" style="text-align:center">You do not have permission to view this information.</td>
+                  <% } %>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+
+    <%- include('footer') %>
+
+    <script src="admin/js/sidebar.js"></script>
+    <script src="admin/js/index-admin.js"></script>
+
+    <script>
+      // JavaScript to filter logs based on radio button selection
+      const logRadios = document.querySelectorAll('input[name="system-log"]');
+      const tableRows = document.querySelectorAll("#activityLogsTableBody tr");
+
+      logRadios.forEach(radio => {
+        radio.addEventListener('change', function () {
+          const selectedFilter = this.value;
+          filterLogs(selectedFilter);
+        });
+      });
+
+      // Filter logs based on the selected radio button
+      function filterLogs(filter) {
+        tableRows.forEach(row => {
+          const rowType = row.getAttribute('data-type').toLowerCase();
+
+          if (filter === 'all-activity-log') {
+            row.style.display = ''; // Show all rows
+          } else if (filter === 'admin-activity-log' && rowType === 'Admin'.toLowerCase()) {
+            row.style.display = ''; // Show admin logs
+          } else if (filter === 'voter-activity-log' && rowType === 'Voter'.toLowerCase()) {
+            row.style.display = ''; // Show voter logs
+          } else {
+            row.style.display = 'none'; // Hide non-matching rows
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

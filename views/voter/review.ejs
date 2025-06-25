@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Voting System</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="voter/css/index-voter.css" />
+    <link rel="stylesheet" type="text/css" href="voter/css/vote.css" />
+    <link rel="stylesheet" type="text/css" href="voter/css/review.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+      .loading-bar {
+        width: 0;
+        height: 5px;
+        background-color: #4caf50;
+        margin-top: 10px;
+        transition: width 10s linear;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="header-logo">
+        <img src="img/logo_tanikala.png" alt="Tanikala Voting System" />
+      </div>
+      <nav class="header-nav">
+        <ul class="header-nav-content">
+          <div id="links">
+            <li>Vote</li>
+            <p class="line">|</p>
+            <li id="active-link">Review</li>
+            <p class="line">|</p>
+            <li>Verify</li>
+          </div>
+          <div class="settings">
+            <i class="fa-solid fa-user"></i>
+
+            <div class="dropdown" onclick="toggleDropdownVoter()"></div>
+            <div class="dropdown-menu">
+              <p>
+                Logged in as <br />
+                <strong><%= email %></strong>
+              </p>
+              <hr class="dropdown-line" />
+              <a href="/voter/logout">Log Out</a>
+            </div>
+          </div>
+        </ul>
+      </nav>
+
+      <div class="header-bottom-line"></div>
+    </header>
+
+    <div class="content">
+      <div class="main-first">
+        <img src="img/logo_bulsu.png" class="main-first-logo no-mobile" alt="BulSU Logo" />
+        <div class="first-text">
+          <h2 class="title"><%= electionConfig.electionName %></h2>
+        </div>
+        <!-- <div class="content-mobile logos">
+          <div class="content-main-left">
+            <img src="img/logo_bulsu.png" alt="BulSU Logo" class="logo-opacity" />
+          </div>
+
+          <div class="content-main-right">
+            <img src="img/logo_bulsu_ucse.png" alt="BulSU UCSE Logo" class="logo-opacity" />
+          </div>
+        </div> -->
+        <img src="img/logo_bulsu_ucse.png" class="main-first-logo no-mobile" alt="BulSU UCSE Logo" />
+      </div>
+
+      <div class="content-main">
+        <p class="please-review"><i>Please REVIEW your votes before SUBMITTING BALLOT to the Blockchain.</i></p>
+        <br />
+        <div class="review">
+          <br />
+
+          <h3 class="ballot-header ballot-summary">VOTE SUMMARY</h3>
+          <br />
+          <h3 class="ballot-header ballot-council">BulSU Supreme Student Council</h3>
+
+          <h4 class="ballot-header ballot-group">President / Vice President</h4>
+
+          <div class="container container-ssc">
+            <div class="candidate-card">
+              <div class="container-image">
+                <% if (president.name === "Abstain") { %>
+                <img class="candidate-image" src="img/profile-abstain.png" alt="<%= president.name %>" />
+                <% } else { %>
+                <img class="candidate-image" src="<%= president.image %>" alt="<%= president.name %>" />
+                <% } %>
+              </div>
+
+              <div class="card-header">
+                <p class="candidate-name"><%= president.name %></p>
+                <p class="candidate-party"><i><%= president.party %></i></p>
+              </div>
+              <hr />
+              <p class="candidate-info"><%= president.moreInfo %></p>
+              <hr />
+              <div class="container-position">
+                <b class="candidate-position">President</b>
+              </div>
+            </div>
+            <div class="candidate-card">
+              <div class="container-image">
+                <% if (vicePresident.name === "Abstain") { %>
+                <img class="candidate-image" src="img/profile-abstain.png" alt="<%= vicePresident.name %>" />
+                <% } else { %>
+                <img class="candidate-image" src="<%= vicePresident.image %>" alt="<%= vicePresident.name %>" />
+                <% } %>
+              </div>
+              <div class="card-header">
+                <p class="candidate-name"><%= vicePresident.name %></p>
+                <p class="candidate-party"><i><%= vicePresident.party %></i></p>
+              </div>
+              <hr />
+              <p class="candidate-info"><%= vicePresident.moreInfo %></p>
+              <hr />
+              <div class="container-position">
+                <b class="candidate-position">Vice President</b>
+              </div>
+            </div>
+          </div>
+
+          <h4 class="ballot-header ballot-group">Senator(s)</h4>
+
+          <div class="container container-senators">
+            <% if (Array.isArray(senator)) { %> <% senator.forEach(function(senatorCandidate) { %>
+            <div class="candidate-card">
+              <div class="container-image">
+                <img class="candidate-image" src="<%= senatorCandidate.image %>" alt="<%= senatorCandidate.name %>" />
+              </div>
+              <div class="card-header">
+                <p class="candidate-name"><%= senatorCandidate.name %></p>
+                <p class="candidate-party"><i><%= senatorCandidate.party %></i></p>
+              </div>
+              <hr />
+              <p class="candidate-info"><%= senatorCandidate.moreInfo %></p>
+              <hr />
+              <div class="container-position">
+                <b class="candidate-position">Senator</b>
+              </div>
+            </div>
+            <% }); %> <% } else { %>
+            <div class="candidate-card">
+              <div class="container-image">
+                <img class="candidate-image" src="<%= senator.image %>" alt="<%= senator.name %>" />
+              </div>
+              <div class="card-header">
+                <p class="candidate-name"><%= senator.name %></p>
+                <p class="candidate-party"><i><%= senator.party %></i></p>
+              </div>
+              <hr />
+              <p class="candidate-info"><%= senator.moreInfo %></p>
+              <hr />
+              <div class="container-position">
+                <b class="candidate-position">Senator</b>
+              </div>
+            </div>
+            <% } %>
+          </div>
+
+          <h4 class="ballot-header ballot-group">Governor / Vice Governor / Board Member</h4>
+
+          <div class="container container-lsc">
+            <div class="candidate-card">
+              <div class="container-image">
+                <% if (governor.name === "Abstain") { %>
+                <img class="candidate-image" src="img/profile-abstain.png" alt="<%= governor.name %>" />
+                <% } else { %>
+                <img class="candidate-image" src="<%= governor.image %>" alt="<%= governor.name %>" />
+                <% } %>
+              </div>
+
+              <div class="card-header">
+                <p class="candidate-name"><%= governor.name %></p>
+                <p class="candidate-party"><i><%= governor.party %></i></p>
+              </div>
+              <hr />
+              <p class="candidate-info"><%= governor.moreInfo %></p>
+              <hr />
+              <div class="container-position">
+                <b class="candidate-position">Governor</b>
+              </div>
+            </div>
+            <div class="candidate-card">
+              <div class="container-image">
+                <% if (viceGovernor.name === "Abstain") { %>
+                <img class="candidate-image" src="img/profile-abstain.png" alt="<%= viceGovernor.name %>" />
+                <% } else { %>
+                <img class="candidate-image" src="<%= viceGovernor.image %>" alt="<%= viceGovernor.name %>" />
+                <% } %>
+              </div>
+              <div class="card-header">
+                <p class="candidate-name"><%= viceGovernor.name %></p>
+                <p class="candidate-party"><i><%= viceGovernor.party %></i></p>
+              </div>
+              <hr />
+              <p class="candidate-info"><%= viceGovernor.moreInfo %></p>
+              <hr />
+              <div class="container-position">
+                <b class="candidate-position">Vice Governor</b>
+              </div>
+            </div>
+            <div class="candidate-card">
+              <div class="container-image">
+                <% if (boardMember.name === "Abstain") { %>
+                <img class="candidate-image" src="img/profile-abstain.png" alt="<%= boardMember.name %>" />
+                <% } else { %>
+                <img class="candidate-image" src="<%= boardMember.image %>" alt="<%= boardMember.name %>" />
+                <% } %>
+              </div>
+              <div class="card-header">
+                <p class="candidate-name"><%= boardMember.name %></p>
+                <p class="candidate-party"><i><%= boardMember.party %></i></p>
+              </div>
+              <hr />
+              <p class="candidate-info"><%= boardMember.moreInfo %></p>
+              <hr />
+              <div class="container-position">
+                <b class="candidate-position">Board Member</b>
+              </div>
+            </div>
+          </div>
+
+          <form id="voteForm" action="/submit-votes-to-blockchain" method="POST">
+            <!-- Hidden inputs for each candidate object -->
+            <input type="hidden" name="president" value="<%= JSON.stringify(president) %>" />
+            <input type="hidden" name="vicePresident" value="<%= JSON.stringify(vicePresident) %>" />
+            <input type="hidden" name="senator" value="<%= JSON.stringify(senator) %>" />
+            <input type="hidden" name="governor" value="<%= JSON.stringify(governor) %>" />
+            <input type="hidden" name="viceGovernor" value="<%= JSON.stringify(viceGovernor) %>" />
+            <input type="hidden" name="boardMember" value="<%= JSON.stringify(boardMember) %>" />
+            <input type="hidden" name="college" value="<%= college %>" />
+            <input type="hidden" name="program" value="<%= program %>" />
+            <input type="hidden" name="email" value="<%= email %>" />
+            <br />
+            <!-- Submit button -->
+            <div class="button-container">
+              <button class="button-back" type="button" onclick="window.history.back()">
+                <svg fill="none" viewBox="0 4 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12H4.5m0 0l6.75-6.75M4.5 12l6.75 6.75"></path>
+                </svg>
+                <div class="text">Go Back</div>
+              </button>
+
+              <input type="hidden" id="voteData" value="Vote data placeholder" />
+              <button type="submit" id="submitBtn" value="Submit Votes to Blockchain" onclick="" class="button">
+                <span class="fold"></span>
+
+                <div class="points_wrapper">
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                </div>
+
+                <span class="inner">
+                  <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5">
+                    <polyline points="13.18 1.37 13.18 9.64 21.45 9.64 10.82 22.63 10.82 14.36 2.55 14.36 13.18 1.37"></polyline>
+                  </svg>
+                  <span>Submit Votes to Blockchain</span>
+                </span>
+              </button>
+            </div>
+
+            <!-- Loading bar as a block element -->
+            <div id="loadingBar" class="loading-bar"></div>
+            <!-- <hr class="review-line" />
+            <p class="review"><i>You still need to review and confirm your votes in the next page.</i></p>
+            <hr class="review-line" /> -->
+          </form>
+
+          <script>
+            document.getElementById("voteForm").addEventListener("submit", function () {
+              document.getElementById("loadingBar").style.width = "100%";
+            });
+          </script>
+
+          <br /><br />
+        </div>
+
+        <input type="hidden" name="college" value="<%= college %>" />
+        <input type="hidden" name="program" value="<%= program %>" />
+        <input type="hidden" name="email" value="<%= email %>" />
+      </div>
+    </div>
+
+   
+    
+    <script src="js/index.js"></script>
+
+    <script>
+      // Use registration dates from server configuration.
+      const registrationStart = new Date("<%= electionConfig.registrationStart %>").getTime();
+      const registrationEnd = new Date("<%= electionConfig.registrationEnd %>").getTime();
+
+      // Get fakeCurrentDate from EJS template if provided.
+      // Use fakeCurrentDate if provided; otherwise use the real current time.
+      const fakeCurrentDateStr = "<%= electionConfig.fakeCurrentDate ? electionConfig.fakeCurrentDate : '' %>";
+      const baseNow = fakeCurrentDateStr ? new Date(fakeCurrentDateStr).getTime() : new Date().getTime();
+      let elapsed = 0;
+      function getCurrentTime() {
+        return baseNow + elapsed;
+      }
+
+      // // Update the date range display.
+      // const datePeriodElem = document.querySelector(".date-period");
+      // datePeriodElem.textContent = new Date(registrationStart).toLocaleDateString() + " - " + new Date(registrationEnd).toLocaleDateString();
+
+      // Update the date range display with the desired format (Month Day, Year).
+      const datePeriodElem = document.querySelector(".date-period");
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      datePeriodElem.textContent = new Date(registrationStart).toLocaleDateString("en-US", options) + " - " + new Date(registrationEnd).toLocaleDateString("en-US", options);
+
+      // Grab elements by id.
+      const electionPeriodElem = document.getElementById("election-period");
+      // const countdownElem = document.getElementById("countdown");
+      const daysElem = document.getElementById("days");
+      const hoursElem = document.getElementById("hours");
+      const minutesElem = document.getElementById("minutes");
+      const secondsElem = document.getElementById("seconds");
+      const timeLeftElem = document.getElementById("time-left");
+      const getReadyToRegisterElem = document.getElementById("get-ready-to-register");
+      const getReadyToRegisterContainer = document.getElementById("get-ready-container");
+      const registerButton = document.getElementById("register-button");
+
+      function updatePhase() {
+        const now = baseNow + elapsed;
+        let distance = 0;
+        if (now < registrationStart) {
+          electionPeriodElem.textContent = "Registration Period:";
+          timeLeftElem.textContent = "Time Until Registration Opens";
+          getReadyToRegisterElem.textContent = "Get Ready to Register!";
+          distance = registrationStart - now;
+          registerButton.style.display = "none";
+        } else if (now >= registrationStart && now <= registrationEnd) {
+          electionPeriodElem.textContent = "Registration Period:";
+          timeLeftElem.textContent = "Left to Register";
+          getReadyToRegisterContainer.textContent = "";
+          distance = registrationEnd - now;
+          registerButton.style.display = "block";
+        } else {
+          electionPeriodElem.textContent = "Registration Ended";
+          timeLeftElem.textContent = "";
+          distance = 0;
+          registerButton.style.display = "none";
+        }
+        return distance;
+      }
+
+      const interval = setInterval(() => {
+        const distance = updatePhase();
+        // Simulate time progression if using fakeCurrentDate:
+        if (fakeCurrentDateStr) {
+          elapsed += 1000;
+        }
+        if (distance <= 0) {
+          clearInterval(interval);
+          // countdownElem.textContent = "00 00 00 00";
+          daysElem.textContent = "00";
+          hoursElem.textContent = "00";
+          minutesElem.textContent = "00";
+          secondsElem.textContent = "00";
+        } else {
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          // countdownElem.textContent = (days < 10 ? "0" + days : days) + " " + (hours < 10 ? "0" + hours : hours) + " " + (minutes < 10 ? "0" + minutes : minutes) + " " + (seconds < 10 ? "0" + seconds : seconds);
+          daysElem.textContent = days < 10 ? "0" + days : days;
+          hoursElem.textContent = hours < 10 ? "0" + hours : hours;
+          minutesElem.textContent = minutes < 10 ? "0" + minutes : minutes;
+          secondsElem.textContent = seconds < 10 ? "0" + seconds : seconds;
+        }
+      }, 1000);
+    </script>
+    <script src="js/dropdown.js"></script>
+    <%- include('footer') %> 
+  </body>
+</html>

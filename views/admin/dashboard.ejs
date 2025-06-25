@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>BulSU Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/blockchain-management.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/dashboard.css" />
+
+    <!-- Boxicons CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <%- include('header') %>
+
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'dashboard', activeSub: '' }) %>
+      <main class="main">
+        <div id="container-overlay">
+          <div class="title-container">
+            <div class="r">
+              <i class="bx bxs-dashboard"></i>
+              <h1 class="title">Dashboard</h1>
+            </div>
+            <h3 class="top">      
+              <a class="link" href="https://amoy.polygonscan.com/address/0xdd70759c1166a90c30c5115db0188d31b5d331da" target="_blank">
+                View TANIKALA Transactions on the Blockchain <span><i class="fa-solid fa-magnifying-glass"></i></span> 
+              </a>
+            </h3>
+
+          </div>
+          <hr class="title-line" />
+          <div class="quick-actions-container">
+            <!-- Voter Information -->
+  <div class="quick-actions-buttons first">
+    <i class="fa-regular fa-address-card"></i>
+    <p>Voter Information</p>
+    <div class="view-export">
+      <a href="/voter-info">View</a>
+      <span class="separator">|</span>
+      <div class="download-dropdown">
+        <button class="download-btn">Download ▾</button>
+        <div class="dropdown-menu">
+          <a href="/api/export/voter-info/json" target="_blank">JSON</a>
+          <a href="/api/export/voter-info/csv" target="_blank">CSV</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Election Results -->
+  <div class="quick-actions-buttons second">
+    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+    <p>Election Results</p>
+    <div class="view-export">
+      <a href="/results">View</a>
+      <span class="separator">|</span>
+      <div class="download-dropdown">
+        <button class="download-btn">Download ▾</button>
+        <div class="dropdown-menu">
+          <a href="/api/export/results/json" target="_blank">JSON</a>
+          <a href="/api/export/results/csv" target="_blank">CSV</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vote Tally -->
+  <div class="quick-actions-buttons third">
+    <i class="fas fa-list-ol"></i>
+    <p>Vote Tally</p>
+    <div class="view-export">
+      <a href="/vote-tally">View</a>
+      <span class="separator">|</span>
+      <div class="download-dropdown">
+        <button class="download-btn">Download ▾</button>
+        <div class="dropdown-menu">
+          <a href="/api/export/vote-tally/json" target="_blank">JSON</a>
+          <a href="/api/export/vote-tally/csv" target="_blank">CSV</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Candidates -->
+  <div class="quick-actions-buttons fourth">
+    <i class="fa fa-users"></i>
+    <p>Candidates</p>
+    <div class="view-export">
+      <a href="/candidates">View</a>
+      <span class="separator">|</span>
+      <div class="download-dropdown">
+        <button class="download-btn">Download ▾</button>
+        <div class="dropdown-menu">
+          <a href="/api/export/candidates/json" target="_blank">JSON</a>
+          <a href="/api/export/candidates/csv" target="_blank">CSV</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Accounts -->
+  <div class="quick-actions-buttons last fifth">
+    <i class="fa-solid fa-user-tie"></i>
+    <p>Admin Accounts</p>
+    <div class="view-export">
+      <a href="/manage-admins">View</a>
+      <span class="separator">|</span>
+      <div class="download-dropdown">
+        <button class="download-btn">Download ▾</button>
+        <div class="dropdown-menu">
+          <a href="/api/export/admin-accounts/json" target="_blank">JSON</a>
+          <a href="/api/export/admin-accounts/csv" target="_blank">CSV</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+          </div>
+            <div class="first-main">
+              <div class="main-column">
+                <div class="form" id="election-settings">
+                  <p class="box-label">
+                    <b>Current Election Status: </b>
+                  </p>
+                  <br />
+                  <div class="center">
+                    <p class="pre-med2 bold green" id="electionStatusText"><!-- Status text will be updated here dynamically --></p>
+                  </div>
+                  <script>
+                    // Reinitialize configuration variables with new names
+                    const newConfig = <%- JSON.stringify(electionConfig || {}) %>;
+                    const newUseRealTime = !(newConfig.useFakeDate && newConfig.fakeCurrentDate);
+                  
+                    // Pre-calculate time variables with new names
+                    const newRegStart = newConfig.registrationStart ? moment.tz(newConfig.registrationStart, "Asia/Manila") : null;
+                    const newRegEnd = newConfig.registrationEnd ? moment.tz(newConfig.registrationEnd, "Asia/Manila") : null;
+                    const newVoteStart = newConfig.votingStart ? moment.tz(newConfig.votingStart, "Asia/Manila") : null;
+                    const newVoteEnd = newConfig.votingEnd ? moment.tz(newConfig.votingEnd, "Asia/Manila") : null;
+                    let newFakeCurrent = (newConfig.useFakeDate && newConfig.fakeCurrentDate)
+                      ? moment.tz(newConfig.fakeCurrentDate, "Asia/Manila")
+                      : moment.tz(new Date(), "Asia/Manila");
+                  
+                    function updateElectionStatusNew() {
+                      const currentTime = newUseRealTime ? moment.tz(new Date(), "Asia/Manila") : newFakeCurrent;
+                      const baseStatus = newConfig.electionStatus || "";
+                      let appendedText = "";
+                  
+                      // Determine the appended text if status is ELECTION ACTIVE or ELECTION INACTIVE
+                      if (newConfig.electionStatus === "ELECTION ACTIVE" || newConfig.electionStatus === "ELECTION INACTIVE") {
+                        if (newConfig.specialStatus && newConfig.specialStatus !== "None") {
+                          appendedText = newConfig.specialStatus;
+                        } else if (newConfig.electionStatus === "ELECTION ACTIVE") {
+                          if (newRegStart && currentTime.isBefore(newRegStart)) {
+                            appendedText = "Waiting for Registration Period";
+                          } else if (newRegStart && newRegEnd && currentTime.isBetween(newRegStart, newRegEnd, null, '[)')) {
+                            appendedText = "Registration Period";
+                          } else if (newRegEnd && newVoteStart && currentTime.isBetween(newRegEnd, newVoteStart, null, '[)')) {
+                            appendedText = "Waiting for Voting Period";
+                          } else if (newVoteStart && newVoteEnd && currentTime.isBetween(newVoteStart, newVoteEnd, null, '[)')) {
+                            appendedText = "Voting Period";
+                          } else if (newVoteEnd && currentTime.isAfter(newVoteEnd)) {
+                            appendedText = "Results Double Checking Period";
+                          }
+                        }
+                      }
+                  
+                      let finalStatus = baseStatus;
+                      if (appendedText) {
+                        // Use red if appended text is "System Temporarily Closed", otherwise use golden hue.
+                        const color = (appendedText === "System Temporarily Closed") ? "#a60212" : "#956004";
+                        finalStatus += " | " + `<i style="color: ${color};">${appendedText}</i>`;
+                      }
+                      document.getElementById("electionStatusText").innerHTML = finalStatus;
+                    }
+                  
+                    // Initial update and continuous updates
+                    updateElectionStatusNew();
+                    setInterval(() => {
+                      if (!newUseRealTime) {
+                        newFakeCurrent.add(1, 'seconds');
+                      }
+                      updateElectionStatusNew();
+                    }, 1000);
+                  </script>
+                  
+                  
+
+                  <br />
+                  <div class="center">
+                    <% if (electionConfig.specialStatus === "System Temporarily Closed") { %>
+                      <form action="/resume-election" method="POST">
+                        <button type="submit" class="action-buttons resume">Resume Election</button>
+                      </form>
+                    <% } else { %>
+                      <form action="/temporarily-closed" method="POST">
+                        <button type="submit" class="action-buttons reset">Temporarily Close Election</button>
+                      </form>
+                    <% } %>
+                  
+                    <% 
+                      // Determine which date to use: the fake date or the real current date
+                      const currentDate = electionConfig.useFakeDate 
+                        ? new Date(electionConfig.fakeCurrentDate) 
+                        : new Date();
+                      const votingEnd = new Date(electionConfig.votingEnd);
+                    %>
+                  
+                    <% if (currentDate > votingEnd && electionConfig.specialStatus !== "System Temporarily Closed") { %>
+                      <% if (!electionConfig.currentlyResultsAreOut) { %>
+                        <form action="/set-to-results-are-out" method="POST">
+                          <button type="submit" class="action-buttons results">Set Results Are Out</button>
+                        </form>
+                      <% } else { %>
+                        <form action="/set-to-double-checking" method="POST">
+                          <button type="submit" class="action-buttons double-check">Set Back to Double Checking</button>
+                        </form>
+                      <% } %>
+                    <% } %>
+                  </div>
+                  
+                  
+                </div>
+
+                <div class="form" id="election-configuration">
+                  <h3 class="center box-label blue pre-med2"><b>Election Configuration</b></h3>
+                  <br />
+                  <% if (electionConfig.electionName) { %>
+                  <p>
+                    <b>Election Name:</b>
+                    <span><%= electionConfig.electionName %></span>
+                  </p>
+                  <% } else { %>
+                  <p><b>Election Name:</b> <span>Not set</span></p>
+                  <% } %>
+                  <br />
+
+                  <p><b>Registration Period:</b></p>
+                  <% if (electionConfig.registrationStart && electionConfig.registrationEnd) { %>
+                  <p>
+                    &nbsp;&nbsp;Start Date:
+                    <span><%= new Date(electionConfig.registrationStart).toLocaleString() %></span>
+                  </p>
+                  <p>
+                    &nbsp;&nbsp;End Date:
+                    <span><%= new Date(electionConfig.registrationEnd).toLocaleString() %></span>
+                  </p>
+                  <% } else { %>
+                  <p>Registration dates not set.</p>
+                  <% } %>
+                  <br />
+
+                  <p><b>Voting Period:</b></p>
+                  <% if (electionConfig.votingStart && electionConfig.votingEnd) { %>
+                  <p>
+                    &nbsp;&nbsp;Start Date:
+                    <span><%= new Date(electionConfig.votingStart).toLocaleString() %></span>
+                  </p>
+                  <p>
+                    &nbsp;&nbsp;End Date:
+                    <span><%= new Date(electionConfig.votingEnd).toLocaleString() %></span>
+                  </p>
+                  <% } else { %>
+                  <p>Voting dates not set.</p>
+                  <% } %>
+                  <br />
+
+                  <% if (electionConfig.totalElections) { %>
+                  <p><b>Total Number of Elections:</b> <span><%= electionConfig.totalElections %></span></p>
+                  <% } %>
+                  <br />
+
+                  <% if (electionConfig.totalPartylists) { %>
+                  <p><b>Total Number of Participating Parties:</b> <span><%= electionConfig.totalPartylists %></span></p>
+                  <% } else { %>
+                  <p><b>Total Number of Participating Parties:</b> <span><%= electionConfig.partylists ? electionConfig.partylists.length : 0 %></span></p>
+
+                  <% } %> <% if (electionConfig.partylists && electionConfig.partylists.length > 0) { %>
+                  <ul class="election-configuration">
+                    <% electionConfig.partylists.forEach(function(party) { %>
+                    <li><%= party %></li>
+                    <% }); %>
+                  </ul>
+                  <% } else { %>
+                  <p>No participating parties available.</p>
+                  <% } %>
+                  <br />
+
+                  <% if (electionConfig.totalCandidates) { %>
+                    <p><b>Total Number of Candidates:</b> <span><%= electionConfig.totalCandidates %></span></p>
+
+                  <% } else { %>
+                  <p><b>Total Number of Candidates:</b> <span>0</span></p>
+                  <% } %>
+                  <br />
+
+                  <% if (electionConfig.totalNumberOfStudents) { %>
+                  <p><b>Total Number of Voters:</b> <span><%= electionConfig.totalNumberOfStudents %></span></p>
+                  <% } else { %>
+                  <p><b>Total Number of Voters:</b> <span>0</span></p>
+                  <% } %>
+                  <br />
+
+                  <% if (electionConfig.colleges && electionConfig.colleges.length > 0) { %>
+                    <p><b>List of Colleges and Their Number of Students (Voters):</b></p>
+                    <br />
+                    <ol class="election-configuration">
+                      <% 
+                        let totalCollegeVoters = 0;
+                        electionConfig.colleges.forEach(function(college) { 
+                          totalCollegeVoters += college.numberOfStudents;
+                      %>
+                        <li>
+                          <p>
+                            <b><%= college.name %>:</b>
+                            <span><%= college.numberOfStudents %> </span>
+                          </p>
+                        </li>
+                      <% }); %>
+                    </ol>
+                    
+                  <% } else { %>
+                    <p>No college data available.</p>
+                  <% } %>
+                  
+                  <br />
+                  <br />
+                  <div class="center">
+                    <a href="/configuration">Go to Election Configuration Settings</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="right-side">
+                <% 
+                  // Determine candidate submission status based on the boolean value.
+                  let candidateStatus = electionConfig.candidatesSubmitted ? "Submitted" : "Not Submitted";
+                  
+                  // Calculate the total number of registered voters from not voted and voted.
+                  let registeredVotersCount = electionConfig.totalRegisteredNotVoted + electionConfig.totalRegisteredVoted;
+                  // Calculate the percentage of registered voters relative to the total number of students.
+                  let registeredVotersPercentage = electionConfig.totalNumberOfStudents > 0 ? 
+                    (registeredVotersCount / electionConfig.totalNumberOfStudents * 100) : 0;
+                  
+                  // Calculate voter turnout percentage: voted students out of the total number of students.
+                  let voterTurnoutPercentage = electionConfig.totalNumberOfStudents > 0 ? 
+                    (electionConfig.totalRegisteredVoted / electionConfig.totalNumberOfStudents * 100) : 0;
+                %>
+              
+                <div class="beside">
+                  <div class="form" id="candidate-submission">
+                    <h4 class="center box-label">Candidate Submission Status on Blockchain:</h4>
+                    <br />
+                    <p class="center pre-med bold purple"><%= candidateStatus %></p>
+                  </div>
+                  <div class="form" id="registered-students">
+                    <h4 class="center box-label">Registered Voters</h4>
+                    
+                    <p class="center big orange bold"><%= registeredVotersPercentage.toFixed(2) %>%</p> 
+                    
+                    <p class="center"><%= registeredVotersCount %> registered voters out of <%= electionConfig.totalNumberOfStudents %> total students</p>
+                  </div>
+                </div>
+              
+                <div class="beside">
+                  <div class="form" id="vote-queue">
+                    <h4 class="center box-label">Current Vote Transactions Queue on Blockchain:</h4>
+                    <p class="center big bold purple" id="queue-number">0</p>
+                  </div>
+                  
+                  <script src="/socket.io/socket.io.js"></script>
+                  <script>
+                    // Connect to the Socket.IO server.
+                    const socket = io();
+                  
+                    // Listen for real-time updates to the vote queue.
+                    socket.on('voteQueueUpdate', (data) => {
+                      // Update the element with the new queue number.
+                      document.getElementById('queue-number').innerText = data.queueNumber;
+                    });
+                  </script>
+                  
+                  <div class="form" id="voter-turnout">
+                    <h4 class="center box-label">Voter Turnout</h4>
+                   
+                    <p class="center big orange bold"><%= voterTurnoutPercentage.toFixed(2) %>%</p>
+                   
+                    <p class="center"><%= electionConfig.totalRegisteredVoted %> voted students out of <%= electionConfig.totalNumberOfStudents %> total students</p>
+                  </div>
+                </div>
+              
+                <div class="form" id="blockchain-dashboard">
+  <%
+  // Compute Average Candidate Submission Cost per Unit
+  let avgCandidateCostPOL = 0, avgCandidateCostUSD = 0, avgCandidateCostPHP = 0;
+  if (blockchainMgmt && blockchainMgmt.SubmitCandidatesCount > 0) {
+    avgCandidateCostPOL = blockchainMgmt.totalCostInPol / blockchainMgmt.SubmitCandidatesCount;
+    avgCandidateCostUSD = blockchainMgmt.totalCostInUSD / blockchainMgmt.SubmitCandidatesCount;
+    avgCandidateCostPHP = blockchainMgmt.totalCostInPHP / blockchainMgmt.SubmitCandidatesCount;
+  }
+
+  // Compute Live Vote Transaction Estimate per Unit
+  let liveVoteEstimatePOL = 0, liveVoteEstimateUSD = 0, liveVoteEstimatePHP = 0;
+  if (blockchainMgmt && blockchainMgmt.voteCount > 0) {
+    liveVoteEstimatePOL = blockchainMgmt.currentElectionVoteCostInPol / blockchainMgmt.voteCount;
+    liveVoteEstimateUSD = blockchainMgmt.currentElectionVoteCostInUSD / blockchainMgmt.voteCount;
+    liveVoteEstimatePHP = blockchainMgmt.currentElectionVoteCostInPHP / blockchainMgmt.voteCount;
+  } else if (blockchainMgmt) {
+    // fallback when no votes yet
+    liveVoteEstimatePOL = blockchainMgmt.latestVoteCostInPol || 0;
+    liveVoteEstimateUSD = blockchainMgmt.latestVoteCostInUSD || 0;
+    liveVoteEstimatePHP = blockchainMgmt.latestVoteCostInPHP || 0;
+  }
+
+  // Compute Live Recommended Fund Estimate using the new formula:
+  // (avgCandidateCost * 3) + (registered voters * liveVoteEstimate)
+  let recommendedFundPOL = 0, recommendedFundUSD = 0, recommendedFundPHP = 0;
+  if (electionConfig && blockchainMgmt) {
+    recommendedFundPOL = (avgCandidateCostPOL * 3)
+                       + (electionConfig.totalRegisteredNotVoted * liveVoteEstimatePOL);
+    recommendedFundUSD = (avgCandidateCostUSD * 3)
+                       + (electionConfig.totalRegisteredNotVoted * liveVoteEstimateUSD);
+    recommendedFundPHP = (avgCandidateCostPHP * 3)
+                       + (electionConfig.totalRegisteredNotVoted * liveVoteEstimatePHP);
+  }
+
+  // Determine the current balance status based on walletInfo.balancePOL relative to recommendedFundPOL.
+  let balanceStatus = "";
+  let balanceDescription = "";
+  if (walletInfo) {
+    if (walletInfo.balancePOL > recommendedFundPOL * 1.5) {
+      balanceStatus = "Excellent";
+      balanceStatusClass = "balance-excellent";
+      balanceDescription = "The admin wallet balance is well above the recommended fund estimate. You have more than enough funds to execute the blockchain voting operation confidently.";
+    } else if (walletInfo.balancePOL >= recommendedFundPOL) {
+      balanceStatus = "Good";
+      balanceStatusClass = "balance-good";
+      balanceDescription = "The admin wallet balance matches the recommended fund estimate. You are in a stable position to proceed with the blockchain voting operation.";
+    } else {
+      balanceStatus = "Warning";
+      balanceStatusClass = "balance-warning";
+      balanceDescription = "The admin wallet balance is below the recommended fund estimate. Consider adding more funds to avoid potential issues during the blockchain voting operation.";
+    }
+  }
+  %>
+  <h4 class="center box-label purple pre-med2"><b>Admin Wallet Information</b></h4>
+  
+      
+       <br />
+          <p>
+            <b>Wallet Address:</b>
+            <%= walletInfo ? walletInfo.address : "N/A" %>
+          </p>
+        
+        <br />
+        
+          <p>
+            <b>Current Balance:</b>
+            <span class="<%= balanceStatusClass %>"><b><%= balanceStatus %></b></span>
+          </p>
+          <p class="small-text <%= balanceStatusClass %>"><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= balanceDescription %></em></p>
+        
+        <br />
+        <table class="currency">
+          <tr>
+            <th>Polygon (POL)</th>
+            <th>United States Dollar (USD)</th>
+            <th>Philippine Peso (PHP)</th>
+          </tr>
+          <tr>
+            <td><%= walletInfo ? walletInfo.balancePOL.toFixed(4) : "N/A" %> POL</td>
+            <td><%= walletInfo && walletInfo.balanceUSD ? walletInfo.balanceUSD.toFixed(2) : "N/A" %> USD</td>
+            <td><span class="highlight"><%= walletInfo && walletInfo.balancePHP ? walletInfo.balancePHP.toFixed(2) : "N/A" %> PHP</span></td>
+          </tr>
+        </table>
+        <br />
+
+       
+        <p>
+          <strong>Live Fee Estimate per Vote Transaction:</strong>
+          <span>
+            <%= liveVoteEstimatePOL.toFixed(4) %> POL |
+            <%= liveVoteEstimateUSD.toFixed(2) %> USD |
+           <span class="sub-highlight"> <%= liveVoteEstimatePHP.toFixed(2) %> PHP</span>
+          </span>
+        </p>
+   
+      <br />
+     
+      <p>
+          <strong>Live Recommended Fund Estimate:</strong>
+          <span>
+            <%= recommendedFundPOL.toFixed(4) %> POL |
+            <%= recommendedFundUSD.toFixed(2) %> USD |
+            <span class="highlight"><%= recommendedFundPHP.toFixed(2) %> PHP</span>
+          </span>
+        </p>
+      <br />
+       
+          
+       
+    
+
+  <hr />
+  <br />
+  <h4 class="center grow purple large"><b>Blockchain Transactions</b></h4>
+ 
+    <br />
+    <p>
+        <strong>Candidate Submission Count: </strong>
+        <span><%= blockchainMgmt ? blockchainMgmt.SubmitCandidatesCount : "N/A" %></span>
+      </p>
+      <br />
+     
+        <p>
+          <b>Vote Transactions Count: </b>
+          <span><%= blockchainMgmt ? blockchainMgmt.voteCount : "N/A" %></span>
+        </p>
+      
+      <br />
+     
+         <p>
+          <b>Total Blockchain Transactions: </b>
+          <span>
+            <%= blockchainMgmt ? (blockchainMgmt.voteCount + blockchainMgmt.SubmitCandidatesCount) : "N/A" %>
+          </span>
+        </p> 
+       <!-- <div class="indent-ish"> -->
+          <!-- <p>
+            <strong>Total Gas Used:</strong>
+            <%= blockchainMgmt ? blockchainMgmt.totalCostInGas : "N/A" %> Gas
+          </p>
+          <p>
+            <strong>Total Amount Spent (Wei):</strong>
+          <%= blockchainMgmt ? blockchainMgmt.totalCostInWei : "N/A" %> Wei
+          </p> -->
+          <br />
+          <p><b>Total Amount Spent:</b></p>
+       <!-- </div> -->
+      
+      <br />
+      <table class="currency">
+      <tr>
+        <th>Polygon (POL)</th>
+        <th>United States Dollar (USD)</th>
+        <th>Philippine Peso (PHP)</th>
+      </tr>
+      <tr>
+        <td>
+          <%= blockchainMgmt && blockchainMgmt.totalCostInPol !== undefined
+            ? blockchainMgmt.totalCostInPol.toFixed(6)
+            : "N/A" %> POL
+        </td>
+        <td>
+          <%= blockchainMgmt && blockchainMgmt.totalCostInUSD !== undefined
+            ? blockchainMgmt.totalCostInUSD.toFixed(2)
+            : "N/A" %> USD
+        </td>
+        <td>
+          <span class="highlight"><%= blockchainMgmt && blockchainMgmt.totalCostInPHP !== undefined
+            ? blockchainMgmt.totalCostInPHP.toFixed(2)
+            : "N/A" %> PHP </span>
+        </td>
+      </tr>
+    </table>  
+      <br />
+   
+ 
+</div>
+
+              </div>
+              
+              
+              
+            </div>
+        </div>
+      </main>
+    </div>
+
+    <%- include('footer') %>
+
+    <script src="admin/js/sidebar.js"></script>
+    <script src="admin/js/index-admin.js"></script>
+    <!-- <script>
+      // Ensure currentPeriod exists to avoid errors
+      if (!electionConfig.currentPeriod) {
+        electionConfig.currentPeriod = { name: "N/A", duration: "N/A", waitingFor: null };
+      }
+      // Set current phase info in header
+      document.getElementById("currentPeriodDisplay").innerText = electionConfig.currentPeriod.name;
+      document.getElementById("currentPeriodDuration").innerText = electionConfig.currentPeriod.duration;
+    </script> -->
+    <script src="admin/js/index-admin.js"></script>
+    <script src="js/dropdown.js"></script>
+
+    <script>
+  document.addEventListener('click', function (e) {
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+      if (!menu.parentElement.contains(e.target)) {
+        menu.style.display = 'none';
+      }
+    });
+
+    if (e.target.classList.contains('download-btn')) {
+      const menu = e.target.nextElementSibling;
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+  });
+</script>
+  </body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TANIKALA Voting System</title>
+
+    <!-- Admin CSS from ejs1 -->
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" /> -->
+    <link rel="stylesheet" type="text/css" href="admin/css/candidates.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/vote-tally.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/index-election.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/voter-id-form.css" />
+
+    <!-- ejs2 own CSS -->
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/home.css" />
+    <link rel="stylesheet" type="text/css" href="css/rvs.css" />
+
+    <!-- Admin dependency CSS -->
+
+    <link rel="stylesheet" type="text/css" href="admin/dependencies/progress-bar.css" />
+
+    <!-- External fonts and icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="css/mobile-votes-per-candidate.css" />
+
+    <style>
+      .progress-bar {
+        background-color: #e0e0e0;
+        border-radius: 10px;
+        width: 100%;
+        height: 20px;
+        overflow: hidden;
+        margin: 5px 0;
+      }
+
+      .progress {
+        background-color: #4caf50;
+        height: 100%;
+        width: 0; /* this value is set inline from the EJS variable */
+        transition: width 0.5s ease-in-out;
+      }
+
+      .main h3 {
+        color: black;
+      }
+
+      .modal {
+        color: black;
+        position: fixed;
+        z-index: 10000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .modal h3 {
+        color: black;
+      }
+
+      .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 90%;
+        height: 70%;
+        /* max-width: 700px; */
+        border-radius: 5px;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .voteHashList {
+        font-size: 8 px;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-logo">
+        <img src="img/logo_tanikala.png" alt="Tanikala Voting System" />
+      </div>
+      <nav class="header-nav">
+        <h2 id="active-link">Results Verification Portal</h2>
+      </nav>
+      <div class="header-bottom-line"></div>
+    </header>
+
+    <div class="content">
+      <div class="content-title">
+        <h3 class="h3" style="text-transform: uppercase">Welcome to the Bulacan State University Student Government Elections - Results Verification Portal!</h3>
+      </div>
+
+      <div class="content-main">
+        
+        <div class="main-first">
+          <div class="election-title">
+            <p class="title">
+              <%= electionConfig.electionName %>
+            </p>
+          </div>
+          <ul class="header-nav-content">
+            <li><a href="/rvs-about">About</a></li>
+            <li><a href="/rvs-voter-turnout">Voter Turnout</a></li>
+            <li><a href="/rvs-votes-per-candidate" id="active-link2">Votes per Candidate</a></li>
+            <li><a href="/rvs-election-results">Election Results</a></li>
+          </ul>
+          
+        </div>
+
+        <div class="beside">
+          <i class="fa-solid fa-house"></i>
+          <a href="/index-results-are-out-period">Go Back to Homepage.</a>
+        </div>
+
+        <div class="main-container">
+          <p>
+            This page displays the total vote counts for each candidate in the Supreme Student Council and Local Student Councils (LSCs).  </p> <br />
+           
+           <p>To verify your vote:</p> 
+            <br />
+            <ol>
+              <li>Click "View List of Voter IDs" to see the list of votes for each candidate.</li>
+              <li>Search for your voter ID, which can be found on your voting receipt.</li>
+              <li>If your voter ID appears, your vote was successfully recorded for that candidate.</li>
+              <li>To confirm that your vote was not recorded for a candidate you did not vote for, search again—your voter ID should not appear under that candidate.</li>
+            </ol>
+            <br />
+            <p>This process ensures that your vote is accurately counted while keeping your identity private. With hashing technology, your voter ID cannot be traced back to you, as hashes are impossible to decode. This guarantees vote integrity while protecting voter privacy and security.</p>
+         
+          <br />
+          <br />
+          <h2 class="rvs-title"><u>Votes per Candidate</u></h2>
+          <br />
+          <br />
+          <div class="rvs-container"><%- include('../admin/shared-vote-tally') %></div>
+        </div>
+      </div>
+    </div>
+
+     <%- include('../voter/footer') %>
+    
+    <script src="js/index.js"></script>
+  </body>
+</html>

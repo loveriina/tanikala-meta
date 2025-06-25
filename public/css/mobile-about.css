@@ -1,0 +1,11 @@
+@media (max-width: 1000px) {
+  .main-container {
+    padding: 0 !important;
+  }
+  .main-container .dark-yellow {
+    font-size: 1.5rem !important;
+  }
+  .main-container li {
+    font-size: 0.75rem;
+  }
+}

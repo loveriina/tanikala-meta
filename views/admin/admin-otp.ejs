@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TANIKALA Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/admin-login.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/admin-otp.css" />
+    <link rel="stylesheet" type="text/css" href="/css/otp-verification.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="components/notification.css" />
+    
+    <script type="module" src="components/notification.js"></script>
+
+    <style>
+      .card {
+        background-color: #f8e7c7;
+        padding: 30px 40px;
+        border-radius: 15px;
+        text-align: center;
+        width: 400px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        margin: 50px auto;
+      }
+      .card img {
+        width: 50px;
+        margin-bottom: 20px;
+      }
+      .otp-inputs {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+      }
+      .otp-inputs input {
+        width: 40px;
+        height: 50px;
+        font-size: 24px;
+        text-align: center;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+      }
+      h2 {
+        font-weight: 700;
+        font-size: 24px;
+        color: #333;
+        margin-top: 10px;
+      }
+      .text {
+        color: #444;
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+      .btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .verify-btn {
+        background-color: #4CAF50;
+        color: white;
+        margin-bottom: 10px;
+      }
+      .resend-btn {
+        background-color: transparent;
+        border: 2px solid #4CAF50;
+        color: #4CAF50;
+      }
+      .resend-btn:disabled {
+        color: gray;
+        border-color: gray;
+        cursor: not-allowed;
+      }
+      .email-highlight {
+        font-weight: 600;
+      }
+      /* new inline messages */
+      .error-text {
+        color: #c00;
+        margin-bottom: 10px;
+      }
+      .message-text {
+        color: #080;
+        margin-bottom: 10px;
+      }
+
+      .otp-instructions p {
+        color: #444 !important;
+        font-size: 2rem !important;
+        /* margin-bottom: 20px; */
+      }
+
+      .otp-instructions {
+        color:  #444 !important;
+        font-size: 1rem !important;
+
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .otp-container {
+        height:27rem;
+      }
+
+    .card {
+      width: 90%;
+      padding: 20px;
+    }
+
+    .otp-inputs {
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .otp-inputs input {
+      width: 36px;
+      height: 46px;
+      font-size: 20px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    .otp-instructions p {
+      font-size: 1.3rem !important;
+    }
+
+    .otp-instructions {
+      font-size: 0.95rem !important;
+    }
+
+    .btn {
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    .otp-container {
+      margin: 1rem;
+      height: auto;
+      width: 22rem;
+    }
+  
+    @media (max-width: 500px) {
+    .card {
+      width: 90%;
+      padding: 20px;
+    }
+
+    .otp-inputs {
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .otp-inputs input {
+      width: 36px;
+      height: 46px;
+      font-size: 20px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    .otp-instructions p {
+      font-size: 1.3rem !important;
+    }
+
+    .otp-instructions {
+      font-size: 0.95rem !important;
+    }
+
+    .btn {
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    .otp-container {
+      margin: 1rem;
+      height: auto;
+    }
+  }
+    </style>
+
+
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-logo">
+        <img src="img/logo_tanikala.png" alt="TANIKALA Voting System" />
+      </div>
+      <!-- <nav class="header-nav">
+        <ul class="header-nav-content">
+          <li><a href="/">Home</a></li>
+           <li><a href="/home-candidates">Candidates</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav> -->
+      <div class="header-bottom-line"></div>
+    </header>
+
+    <div class="content">
+      <div class="content-title">
+        <h3>BLOCKCHAIN-BASED VOTING SYSTEM FOR THE STUDENT GOVERNMENT ELECTIONS AT BULACAN STATE UNIVERSITY</h3>
+      </div>
+      <div class="content-main">
+          <div class="otp-container">
+    <div class="otp-icon">
+      <img src="img/otp-icon.png" alt="OTP Icon" />
+    </div>
+
+    <form action="/verify-admin-otp" method="POST" class="otp-form">
+      <div class="otp-inputs">
+        <input type="text" name="otp1" maxlength="1" required />
+        <input type="text" name="otp2" maxlength="1" required />
+        <input type="text" name="otp3" maxlength="1" required />
+        <input type="text" name="otp4" maxlength="1" required />
+        <input type="text" name="otp5" maxlength="1" required />
+        <input type="text" name="otp6" maxlength="1" required />
+      </div>
+
+      <h2 class="verify-title">Verification Code</h2>
+      <p class="otp-instructions">
+        Please enter the 6-digit verification code sent to your email.
+      </p>
+      <br />
+      <div class="buttons">
+      <button type="submit" class="confirm-btn">Verify Code</button>
+      <div class="button-wrapper">
+      <button type="button" id="resendOtpBtn" class="resend-btn" disabled>Resend OTP in 60s</button>
+      </div>
+      </div>
+    </form>
+  </div>
+      </div>
+    </div>
+
+    <!-- <footer class="footer">
+      <div class="footer-left">
+        <img src="img/calendar.png" class="footer-img" />
+        <p id="datetime">OCTOBER 23, 2024 - 04:17 AM</p>
+      </div>
+      <div class="footer-center">
+        <img src="img/copyright.png" class="footer-img" id="copyright-img" />
+        <p>2025 - Fourmula 1</p>
+      </div>
+      <div class="footer-right">
+        <img src="img/log-in.png" class="footer-img" id="admin-img" />
+        <p>Admin? Log in&nbsp;</p>
+        <a href="/admin-login"> here.</a>
+      </div>
+    </footer> -->
+    <script src="js/index.js"></script>
+
+    <script type="module">
+      import { createNotification } from "/components/notification.js";
+
+      const urlParams = new URLSearchParams(window.location.search);
+
+      if (urlParams.has("loggedOut")) {
+        createNotification("Logged out successfully", "info", 3000);
+        history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      if (urlParams.has("error")) {
+        let errorMessage = "An unknown error occurred. Please try again.";
+        const errorType = urlParams.get("error");
+
+        if (errorType === "invalid_credentials") {
+          errorMessage = "Invalid username or password. Please try again.";
+        } else if (errorType === "server_error") {
+          errorMessage = "A server error occurred. Please try again later.";
+        }
+
+        createNotification(errorMessage, "error", 3000);
+        history.replaceState({}, document.title, window.location.pathname);
+      }
+    </script>
+
+<script>
+  const emailField = document.getElementById("logusername");
+  const sendOtpButton = document.getElementById("sendOtpButton");
+  const otpField = document.getElementById("otp-code");
+
+  let cooldownTimer = null;
+  let cooldownRemaining = 0;
+
+  function startCooldown(seconds) {
+    cooldownRemaining = seconds;
+    updateSendOtpButton();
+
+    cooldownTimer = setInterval(() => {
+      cooldownRemaining--;
+      updateSendOtpButton();
+
+      if (cooldownRemaining <= 0) {
+        clearInterval(cooldownTimer);
+        sendOtpButton.disabled = false;
+        sendOtpButton.textContent = "Send OTP";
+      }
+    }, 1000);
+  }
+
+  function updateSendOtpButton() {
+    const minutes = Math.floor(cooldownRemaining / 60);
+    const seconds = cooldownRemaining % 60;
+    sendOtpButton.textContent = `Resend OTP in ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  }
+
+  sendOtpButton.addEventListener("click", async function () {
+    const emailValue = emailField.value.trim();
+    if (!emailValue) {
+      alert("Please enter your email first.");
+      return;
+    }
+
+    if (cooldownRemaining > 0) return;
+
+    sendOtpButton.disabled = true;
+
+    try {
+      const response = await fetch('/admin-login/request-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: emailValue })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("OTP sent to your email.");
+        otpField.disabled = false;
+        otpField.focus();
+        startCooldown(300); // 5 minutes
+      } else {
+        alert("Failed to send OTP: " + (data.error || "Unknown error"));
+        sendOtpButton.disabled = false;
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error sending OTP");
+      sendOtpButton.disabled = false;
+    }
+  });
+</script>
+
+
+    <script>
+  function togglePassword() {
+    const passwordInput = document.getElementById("logpass");
+    // Toggle the type attribute
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+    } else {
+      passwordInput.type = "password";
+    }
+  }
+</script>
+ <script>
+    const resendBtn = document.getElementById("resendOtpBtn");
+    let countdown = 60;
+
+    function startResendTimer() {
+      resendBtn.disabled = true;
+      resendBtn.innerText = `Resend OTP in ${countdown}s`;
+
+      const timer = setInterval(() => {
+        countdown--;
+        resendBtn.innerText = `Resend OTP in ${countdown}s`;
+
+        if (countdown <= 0) {
+          clearInterval(timer);
+          resendBtn.disabled = false;
+          resendBtn.innerText = "Resend OTP";
+          countdown = 60;
+        }
+      }, 1000);
+    }
+
+    // Simulate OTP being sent when page loads
+    window.onload = () => {
+      startResendTimer();
+    };
+
+    resendBtn.addEventListener("click", async () => {
+      resendBtn.disabled = true;
+
+      try {
+        const response = await fetch('/admin-login/request-otp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: "admin@example.com" }) // Replace with actual admin email or session
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert("OTP resent successfully.");
+          startResendTimer();
+        } else {
+          alert("Failed to resend OTP: " + (result.error || "Unknown error"));
+          resendBtn.disabled = false;
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Error resending OTP.");
+        resendBtn.disabled = false;
+      }
+    });
+  </script>
+
+     <%- include('../voter/footer') %>
+  </body>
+</html>

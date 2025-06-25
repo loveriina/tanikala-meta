@@ -1,0 +1,325 @@
+<div class="first-main">
+  <div class="main-left">
+    <h1 class="ssc">Supreme Student Council</h1>
+    <% const presidentCandidates = candidates.filter(candidate => candidate.position === 'president' && candidate.name !== 'Abstain'); const abstainCandidate = candidates.find(candidate => candidate.position === 'president' && candidate.name === 'Abstain'); presidentCandidates.sort((a, b) => Number(b.voteCount) - Number(a.voteCount)); let totalVotes = presidentCandidates.reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); const abstainVotes = abstainCandidate ?
+    (Number(abstainCandidate.voteCount) || 0) : 0; let maxVoteCount = 0; presidentCandidates.forEach(candidate => { const votes = Number(candidate.voteCount) || 0; if (votes > maxVoteCount) { maxVoteCount = votes; } }); if (abstainCandidate && abstainVotes <= maxVoteCount) { totalVotes += abstainVotes; } const winners = presidentCandidates.filter(candidate => Number(candidate.voteCount) === maxVoteCount); %>
+    <div class="container-ssc" id="container-president">
+      <div class="container-position">
+        <h1 class="position-ssc">President</h1>
+      </div>
+      <hr />
+      <br />
+      <% winners.forEach(candidate => { const voteCount = Number(candidate.voteCount) || 0; const percentage = totalVotes > 0 ? ((voteCount / totalVotes) * 100).toFixed(2) : 0; %>
+      <div class="candidate">
+        <div class="img-container">
+          <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+        </div>
+        <div class="candidate-info">
+          <h2><%= candidate.name %></h2>
+          <p><%= candidate.party %></p>
+          <div class="row">
+            <div class="progress-bar">
+              <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+      <h3 class="right"><span class="green"><%= maxVoteCount %></span> votes out of <span class="green"><%= totalVotes %></span> total votes</h3>
+    </div>
+    <script>
+      window.addEventListener("load", function () {
+        const progressElements = document.querySelectorAll(".progress");
+        progressElements.forEach((el) => {
+          const targetWidth = el.getAttribute("data-target");
+          el.style.width = targetWidth;
+        });
+      });
+    </script>
+
+    <% const viceCandidatesNoAbstain = candidates.filter(candidate => candidate.position === 'vice president' && candidate.name !== 'Abstain'); const abstainCandidateVice = candidates.find(candidate => candidate.position === 'vice president' && candidate.name === 'Abstain'); viceCandidatesNoAbstain.sort((a, b) => Number(b.voteCount) - Number(a.voteCount)); let totalVotesVice = viceCandidatesNoAbstain.reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); const abstainVotesVice
+    = abstainCandidateVice ? (Number(abstainCandidateVice.voteCount) || 0) : 0; let maxVoteCountVice = 0; viceCandidatesNoAbstain.forEach(candidate => { const votes = Number(candidate.voteCount) || 0; if (votes > maxVoteCountVice) { maxVoteCountVice = votes; } }); if (abstainCandidateVice && abstainVotesVice <= maxVoteCountVice) { totalVotesVice += abstainVotesVice; } const winnersVice = viceCandidatesNoAbstain.filter(candidate => Number(candidate.voteCount) === maxVoteCountVice); %>
+    <div class="container-ssc" id="container-vice-president">
+      <div class="container-position">
+        <h1 class="position-ssc">Vice President</h1>
+      </div>
+      <hr />
+      <br />
+      <% winnersVice.forEach(candidate => { const voteCount = Number(candidate.voteCount) || 0; const percentage = totalVotesVice > 0 ? ((voteCount / totalVotesVice) * 100).toFixed(2) : 0; %>
+      <div class="candidate">
+        <div class="img-container">
+          <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+        </div>
+        <div class="candidate-info">
+          <h2><%= candidate.name %></h2>
+          <p><%= candidate.party %></p>
+          <div class="row">
+            <div class="progress-bar">
+              <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+      <h3 class="right"><span class="green"><%= maxVoteCountVice %></span> votes out of <span class="green"><%= totalVotesVice %></span> total votes</h3>
+    </div>
+    <script>
+      window.addEventListener("load", function () {
+        const progressElements = document.querySelectorAll(".progress");
+        progressElements.forEach((el) => {
+          const targetWidth = el.getAttribute("data-target");
+          el.style.width = targetWidth;
+        });
+      });
+    </script>
+
+    <% const senatorCandidates = candidates.filter(candidate => candidate.position === 'senator' && candidate.name !== 'Abstain'); senatorCandidates.sort((a, b) => Number(b.voteCount) - Number(a.voteCount)); const maxVote = senatorCandidates.reduce((max, candidate) => Math.max(max, Number(candidate.voteCount) || 0), 0); const totalVotesSenator = senatorCandidates.reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); let winnersSenator = []; if (senatorCandidates.length <= 7) {
+    winnersSenator = senatorCandidates; } else { const threshold = Number(senatorCandidates[6].voteCount) || 0; winnersSenator = senatorCandidates.filter(candidate => (Number(candidate.voteCount) || 0) >= threshold); } let calculatedTotalVotesSenator = winnersSenator.reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); let rank = 0, lastVote = null, count = 0; %>
+    <div class="container-ssc" id="container-senator">
+      <div class="container-position">
+        <h1 class="position-ssc">Senators</h1>
+      </div>
+      <hr />
+      <br />
+      <% winnersSenator.forEach(candidate => { const voteCount = Number(candidate.voteCount) || 0; count++; if (lastVote === null || voteCount < lastVote) { rank = count; } lastVote = voteCount; const percentage = calculatedTotalVotesSenator > 0 ? ((voteCount / calculatedTotalVotesSenator) * 100).toFixed(2) : 0; %>
+      <div class="candidate">
+        <div class="img-container">
+          <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+        </div>
+        <div class="candidate-info">
+          <p>Top <%= rank %></p>
+          <h2><%= candidate.name %></h2>
+          <p><%= candidate.party %></p>
+          <div class="row">
+            <div class="progress-bar">
+              <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+          </div>
+        </div>
+      </div>
+      <h3 class="right"><span class="green"><%= voteCount %></span> votes out of <span class="green"><%= calculatedTotalVotesSenator %></span> total votes</h3>
+      <% }); %>
+     
+    </div>
+    <script>
+      window.addEventListener("load", function () {
+        const progressElements = document.querySelectorAll(".progress");
+        progressElements.forEach((el) => {
+          const targetWidth = el.getAttribute("data-target");
+          el.style.width = targetWidth;
+        });
+      });
+    </script>
+  </div>
+  <div class="main-right">
+    <div class="main-right-header">
+      <h1 class="lsc">Local Student Council</h1>
+      <br />
+      <select name="college" id="college-selector">
+        <option value="CS">College of Science (CS)</option>
+        <option value="CAL">College of Arts and Letters (CAL)</option>
+        <option value="CBEA">College of Business Education and Accountancy (CBEA)</option>
+        <option value="CCJE">College of Criminal Justice Education (CCJE)</option>
+        <option value="CHTM">College of Hospitality and Tourism Management (CHTM)</option>
+        <option value="CICT">College of Information and Communications Technology (CICT)</option>
+        <option value="CIT">College of Industrial Technology (CIT)</option>
+        <option value="CN">College of Nursing (CN)</option>
+        <option value="COE">College of Engineering (COE)</option>
+        <option value="COED">College of Education (COED)</option>
+        
+        <option value="CAFA" selected>College of Architecture and Fine Arts (CAFA)</option>
+        <option value="CSER">College of Sports, Exercise, and Recreation (CSER)</option>
+        <option value="CSSP">College of Social Sciences and Philosophy (CSSP)</option>
+      </select>
+    </div>
+    <br />
+    <div id="lsc-container">
+      <% const governorCandidatesNoAbstain = candidates.filter(candidate => candidate.position === 'governor' && candidate.college && candidate.name !== 'Abstain'); const abstainCandidateGovernor = candidates.find(candidate => candidate.position === 'governor' && candidate.college && candidate.name === 'Abstain'); const colleges = ["CAFA", "CAL", "CBEA", "CCJE", "CHTM", "CICT", "CIT", "CN", "COE", "COED", "CS", "CSER", "CSSP"]; %>
+      <div class="container-lsc" id="container-lsc-governor">
+        <div class="container-position">
+          <h1 class="position-lsc">Governor</h1>
+        </div>
+        <hr />
+        <br />
+        <% colleges.forEach(college => { let collegeCandidates = governorCandidatesNoAbstain.filter(candidate => candidate.college === college); if (collegeCandidates.length) { collegeCandidates.sort((a, b) => Number(b.voteCount) - Number(a.voteCount)); let collegeTotalVotes = collegeCandidates.reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); let abstainVotes = 0; if (abstainCandidateGovernor && abstainCandidateGovernor.college === college) { abstainVotes =
+        Number(abstainCandidateGovernor.voteCount) || 0; if (collegeCandidates[0] && abstainVotes <= Number(collegeCandidates[0].voteCount)) { collegeTotalVotes += abstainVotes; } } let maxVoteCount = 0; collegeCandidates.forEach(candidate => { const votes = Number(candidate.voteCount) || 0; if (votes > maxVoteCount) { maxVoteCount = votes; } }); const winners = collegeCandidates.filter(candidate => Number(candidate.voteCount) === maxVoteCount); winners.forEach(candidate => { const voteCount =
+        Number(candidate.voteCount) || 0; const percentage = collegeTotalVotes > 0 ? ((voteCount / collegeTotalVotes) * 100).toFixed(2) : 0; %>
+        <div class="candidate lsc-candidate" data-college="<%= college %>">
+          <div class="candidate">
+            <div class="img-container">
+              <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+            </div>
+            <div class="candidate-info">
+              <h2><%= candidate.name %></h2>
+              <p><%= candidate.party %></p>
+              <div class="row">
+                <div class="progress-bar">
+                  <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+                </div>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+              </div>
+            </div>
+          </div>
+          <h3 class="right"><span class="green"><%= voteCount %></span> votes out of <span class="green"><%= collegeTotalVotes %></span> total votes</h3>
+        </div>
+
+        <% }); } }); %>
+      </div>
+
+      <script>
+        window.addEventListener("load", function () {
+          const progressElements = document.querySelectorAll(".progress");
+          progressElements.forEach((el) => {
+            const targetWidth = el.getAttribute("data-target");
+            el.style.width = targetWidth;
+          });
+        });
+      </script>
+
+      <% const viceGovernorCandidatesNoAbstain = candidates.filter(candidate => candidate.position === 'vice governor' && candidate.college && candidate.name !== 'Abstain'); const abstainCandidateViceGovernor = candidates.find(candidate => candidate.position === 'vice governor' && candidate.college && candidate.name === 'Abstain'); %>
+      <div class="container-lsc" id="container-lsc-vice-governor">
+        <div class="container-position">
+          <h1 class="position-lsc">Vice Governor</h1>
+        </div>
+        <hr />
+        <br />
+        <% colleges.forEach(college => { let collegeCandidates = viceGovernorCandidatesNoAbstain.filter(candidate => candidate.college === college); if (collegeCandidates.length) { collegeCandidates.sort((a, b) => Number(b.voteCount) - Number(a.voteCount)); let collegeTotalVotes = collegeCandidates.reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); let abstainVotes = 0; if (abstainCandidateViceGovernor && abstainCandidateViceGovernor.college === college) { abstainVotes =
+        Number(abstainCandidateViceGovernor.voteCount) || 0; if (collegeCandidates[0] && abstainVotes <= Number(collegeCandidates[0].voteCount)) { collegeTotalVotes += abstainVotes; } } let maxVoteCount = 0; collegeCandidates.forEach(candidate => { const votes = Number(candidate.voteCount) || 0; if (votes > maxVoteCount) { maxVoteCount = votes; } }); const winners = collegeCandidates.filter(candidate => Number(candidate.voteCount) === maxVoteCount); winners.forEach(candidate => { const voteCount
+        = Number(candidate.voteCount) || 0; const percentage = collegeTotalVotes > 0 ? ((voteCount / collegeTotalVotes) * 100).toFixed(2) : 0; %>
+        <div class="candidate lsc-candidate" data-college="<%= college %>">
+          <div class="candidate">
+            <div class="img-container">
+              <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+            </div>
+            <div class="candidate-info">
+              <h2><%= candidate.name %></h2>
+              <p><%= candidate.party %></p>
+              <div class="row">
+                <div class="progress-bar">
+                  <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+                </div>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+              </div>
+            </div>
+          </div>
+          <h3 class="right"><span class="green"><%= voteCount %></span> votes out of <span class="green"><%= collegeTotalVotes %></span> total votes</h3>
+        </div>
+        <% }); } }); %>
+      </div>
+
+      <script>
+        window.addEventListener("load", function () {
+          const progressElements = document.querySelectorAll(".progress");
+          progressElements.forEach((el) => {
+            const targetWidth = el.getAttribute("data-target");
+            el.style.width = targetWidth;
+          });
+        });
+      </script>
+
+      <% const boardMembersAll = candidates.filter(candidate => candidate.position === 'board member' && candidate.college && candidate.program); const boardMembersNonAbstain = boardMembersAll.filter(candidate => candidate.name !== 'Abstain'); const boardMembersAbstain = boardMembersAll.filter(candidate => candidate.name === 'Abstain'); let allCandidatesByProgram = {}; boardMembersNonAbstain.forEach(candidate => { if (!allCandidatesByProgram[candidate.program]) {
+      allCandidatesByProgram[candidate.program] = []; } allCandidatesByProgram[candidate.program].push(candidate); }); let boardMembersByProgram = {}; boardMembersNonAbstain.forEach(candidate => { if (!boardMembersByProgram[candidate.program]) { boardMembersByProgram[candidate.program] = []; } boardMembersByProgram[candidate.program].push(candidate); }); Object.keys(boardMembersByProgram).forEach(program => { boardMembersByProgram[program].sort((a, b) => Number(b.voteCount) -
+      Number(a.voteCount)); const highestVoteCount = boardMembersByProgram[program][0]?.voteCount || 0; boardMembersByProgram[program] = boardMembersByProgram[program].filter(candidate => candidate.voteCount == highestVoteCount); }); let abstainByProgram = {}; boardMembersAbstain.forEach(candidate => { if (!abstainByProgram[candidate.program]) { abstainByProgram[candidate.program] = []; } abstainByProgram[candidate.program].push(candidate); }); %>
+      <div class="container-lsc" id="container-lsc-board-member">
+        <div class="container-position">
+          <h1 class="position-lsc">Board Member</h1>
+        </div>
+        <hr />
+        <% Object.keys(boardMembersByProgram).forEach(program => { let programTotalVotes = allCandidatesByProgram[program].reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); if (abstainByProgram[program]) { programTotalVotes += abstainByProgram[program].reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); } %>
+        <div class="program-group" id="college-<%= boardMembersByProgram[program][0].college %>">
+          <h2 class="program-header">
+            <ul>
+              <%= program %>
+            </ul>
+          </h2>
+          <br />
+          <% boardMembersByProgram[program].forEach(candidate => { const voteCount = Number(candidate.voteCount) || 0; const percentage = programTotalVotes > 0 ? ((voteCount / programTotalVotes) * 100).toFixed(2) : 0; %>
+          <div class="candidate lsc-candidate" data-college="<%= candidate.college %>" data-program="<%= candidate.program %>">
+            <div class="candidate">
+              <div class="img-container">
+                <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+              </div>
+              <div class="candidate-info">
+                <h2><%= candidate.name %></h2>
+                <p><%= candidate.party %></p>
+                <div class="row">
+                  <div class="progress-bar">
+                    <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+                  </div>
+                  <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+                </div>
+              </div>
+            </div>
+            <h3 class="right"><span class="green"><%= voteCount %></span> votes out of <span class="green"><%= programTotalVotes %></span> total votes</h3>
+          </div>
+          <% }); %>
+        </div>
+        <% }); %>
+      </div>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const selector = document.getElementById("college-selector");
+          function filterLSCCandidates() {
+            const selectedCollege = selector.value;
+            const candidateCards = document.querySelectorAll(".lsc-candidate");
+            candidateCards.forEach((card) => {
+              const candidateCollege = card.getAttribute("data-college");
+              if (!selectedCollege || candidateCollege === selectedCollege) {
+                card.style.display = "block";
+              } else {
+                card.style.display = "none";
+              }
+            });
+            const programGroups = document.querySelectorAll(".program-group");
+            programGroups.forEach((group) => {
+              if (group.id === "college-" + selectedCollege) {
+                group.style.display = "block";
+              } else {
+                group.style.display = "none";
+              }
+            });
+            recalcTotals();
+          }
+          function recalcTotals() {
+            const governorContainer = document.getElementById("container-lsc-governor");
+            let governorTotal = 0;
+            const governorCards = governorContainer.querySelectorAll(".lsc-candidate");
+            governorCards.forEach((card) => {
+              if (card.style.display !== "none") {
+                const progressEl = card.querySelector(".progress");
+                if (progressEl) {
+                  const text = progressEl.textContent || "";
+                  const votes = parseInt(text.split(" ")[0], 10);
+                  if (!isNaN(votes)) governorTotal += votes;
+                }
+              }
+            });
+            const governorTotalEl = document.getElementById("governor-total").querySelector("span u");
+            governorTotalEl.textContent = governorTotal;
+            const viceContainer = document.getElementById("container-lsc-vice-governor");
+            let viceTotal = 0;
+            const viceCards = viceContainer.querySelectorAll(".lsc-candidate");
+            viceCards.forEach((card) => {
+              if (card.style.display !== "none") {
+                const progressEl = card.querySelector(".progress");
+                if (progressEl) {
+                  const text = progressEl.textContent || "";
+                  const votes = parseInt(text.split(" ")[0], 10);
+                  if (!isNaN(votes)) viceTotal += votes;
+                }
+              }
+            });
+            const viceTotalEl = document.getElementById("vice-governor-total").querySelector("span u");
+            viceTotalEl.textContent = viceTotal;
+          }
+          selector.addEventListener("change", filterLSCCandidates);
+          filterLSCCandidates();
+        });
+      </script>
+    </div>
+  </div>
+</div>

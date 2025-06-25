@@ -1,0 +1,32 @@
+th {
+  background: #364150;
+}
+
+table {
+  outline: 2px solid #323847;
+}
+
+.select-log {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: flex-end;
+  padding-right: 2rem;
+}
+
+.select-log input {
+  margin-right: 0.3rem;
+}
+
+th {
+  padding: 0.4rem;
+}
+
+td {
+  padding: 0.2rem 0.15rem;
+}
+
+/* .textie-left {
+  text-align: left;
+  padding: 0.2rem 5rem;
+} */

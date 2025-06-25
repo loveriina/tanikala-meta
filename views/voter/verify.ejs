@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Voting Receipt</title>
+    <link rel="stylesheet" type="text/css" href="/css/index.css" />
+    <link rel="stylesheet" type="text/css" href="voter/css/index-voter.css" />
+    <link rel="stylesheet" type="text/css" href="/voter/css/verify.css" />
+
+    <link rel="stylesheet" type="text/css" href="/components/popup-vote.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- <style>
+      /* Ensure long hashes break properly */
+      .hash-break {
+        word-break: break-all;
+      }
+    </style> -->
+    <link rel="stylesheet" type="text/css" href="/components/popup-vote.css" />
+  </head>
+  <body>
+
+    <!-- Header (unchanged) -->
+    <header class="header">
+      <div class="header-logo">
+        <img src="img/logo_tanikala.png" alt="Tanikala Voting System" />
+      </div>
+      <nav class="header-nav">
+        <ul class="header-nav-content">
+          <div id="links">
+            <li>Vote</li>
+            <p class="line">|</p>
+            <li>Review</li>
+            <p class="line">|</p>
+            <li id="active-link">Verify</li>
+          </div>
+          <div class="settings">
+            <i class="fa-solid fa-user"></i>
+
+            <div class="dropdown" onclick="toggleDropdownVoter()"></div>
+            <div class="dropdown-menu">
+              <p>
+                Logged in as <br />
+                <strong><%= email %></strong>
+              </p>
+              <hr class="dropdown-line" />
+              <a href="/voter/logout">Log Out</a>
+            </div>
+          </div>
+        </ul>
+      </nav>
+
+      <div class="header-bottom-line"></div>
+    </header>
+
+
+
+    <!-- Content Section -->
+    <div class="content">
+      <div class="main-first">
+        <img src="img/logo_bulsu.png" class="main-first-logo no-mobile" alt="BulSU Logo" />
+        <div class="first-text">
+          <h2 class="title"><%= electionConfig.electionName %></h2>
+        </div>
+        <!-- <div class="content-mobile logos">
+          <div class="content-main-left">
+            <img src="img/logo_bulsu.png" alt="BulSU Logo" class="logo-opacity" />
+          </div>
+
+          <div class="content-main-right">
+            <img src="img/logo_bulsu_ucse.png" alt="BulSU UCSE Logo" class="logo-opacity" />
+          </div>
+        </div> -->
+        <img src="img/logo_bulsu_ucse.png" class="main-first-logo no-mobile" alt="BulSU UCSE Logo" />
+      </div>
+
+      <!-- <div class="receipt">
+        <div class="receipt-header"> yes</div>
+          <div class="receipt-subheader">no</div>
+            <div class="receipt-content">
+                hi
+            </div>
+          <div class="footer">maybe</div>
+      </div> -->
+
+      <!-- Receipt Container -->
+      <div id="receiptContainer" class="content-main receipt-container">
+        <div class="verify">
+          <div class="row">
+            <div class="column box-shadow">
+              <% if (waiting) { %>
+                <div style="text-align: center; margin-bottom: 20px;">
+                  <br>
+                  <h2 style="color: #d9534f;">Voting in Queue...</h2>
+                  <p style="color: #555;">Your vote is being recorded on the blockchain.<br>This page will automatically refresh once completed.</p>
+                </div>
+              <% } %>
+              <div class="receipt-header">
+                <img src="/img/logo_tanikala.png" />
+                <div class="voting-receipt">VOTING RECEIPT</div>
+              </div>
+
+              <div class="receipt-subheader">
+                <br />
+              </div>
+
+              <br />
+
+              <hr />
+
+              <div class="left">
+                <p class="long"><strong>Voter ID:</strong> <%= voterHash %></p>
+                <p><strong>College:</strong> <%= voterCollege %></p>
+                <p><strong>Program:</strong> <%= voterProgram %></p>
+              </div>
+
+              <hr />
+              <br />
+              <div class="election-title"><%= electionConfig.electionName %></div>
+
+              <!-- Candidate Selections Table -->
+              <div class="table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col left">Position</th>
+                      <th scope="col right" colspan="2">Candidate(s)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if (candidates && candidates.president) { %>
+                    <tr>
+                      <td data-label="Position">President</td>
+                      <td data-label="Candidate" colspan="2"><% if (Array.isArray(candidates.president)) { %> <%= candidates.president.map(c => c.name).join(', ') %> <% } else { %> <%= candidates.president.name %> <% } %></td>
+                    </tr>
+                    <% } %> <% if (candidates && candidates.vicePresident) { %>
+                    <tr>
+                      <td data-label="Position">Vice President</td>
+                      <td data-label="Candidate" colspan="2"><% if (Array.isArray(candidates.vicePresident)) { %> <%= candidates.vicePresident.map(c => c.name).join(', ') %> <% } else { %> <%= candidates.vicePresident.name %> <% } %></td>
+                    </tr>
+                    <% } %> <% if (candidates && candidates.senator) { %>
+                    <tr>
+                      <td data-label="Position">Senator(s)</td>
+                      <td data-label="Candidate" colspan="2"><% if (Array.isArray(candidates.senator)) { %> <%= candidates.senator.map(c => c.name).join(', ') %> <% } else { %> <%= candidates.senator.name %> <% } %></td>
+                    </tr>
+                    <% } %> <% if (candidates && candidates.governor) { %>
+                    <tr>
+                      <td data-label="Position">Governor</td>
+                      <td data-label="Candidate" colspan="2"><% if (Array.isArray(candidates.governor)) { %> <%= candidates.governor.map(c => c.name).join(', ') %> <% } else { %> <%= candidates.governor.name %> <% } %></td>
+                    </tr>
+                    <% } %> <% if (candidates && candidates.viceGovernor) { %>
+                    <tr>
+                      <td data-label="Position">Vice Governor</td>
+                      <td data-label="Candidate" colspan="2"><% if (Array.isArray(candidates.viceGovernor)) { %> <%= candidates.viceGovernor.map(c => c.name).join(', ') %> <% } else { %> <%= candidates.viceGovernor.name %> <% } %></td>
+                    </tr>
+                    <% } %> <% if (candidates && candidates.boardMember) { %>
+                    <tr>
+                      <td data-label="Position">Board Member</td>
+                      <td data-label="Candidate" colspan="2"><% if (Array.isArray(candidates.boardMember)) { %> <%= candidates.boardMember.map(c => c.name).join(', ') %> <% } else { %> <%= candidates.boardMember.name %> <% } %></td>
+                    </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+
+              <br />
+              <hr />
+              <div class="left">
+                <p><strong>Voting Date and Time:</strong> <%= new Date().toLocaleString() %></p>
+                <p class="long"><strong>Transaction Hash:</strong> <%= txHash %></p>
+                <!-- <p><strong>Status:</strong> Vote successfully recorded on blockchain.</p> -->
+                <p><strong>Status:</strong>
+                <% if (waiting) { %>
+                  Voting in Queue (Your position: <%= queueNumber %>)
+                <% } else { %>
+                  Vote successfully recorded on blockchain.
+                <% } %>
+              </div>
+              <hr />
+              <br />
+              <div class="receipt-footer"><p>Thank you for using TANIKALA. With our blockchain technology, your vote stays secure, anonymous, and is counted accurately.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin: 20px">
+        <button id="exportBtn" style="border-radius: 6px; padding: 10px 20px; font-size: 16px" class="button-save">Export Receipt as Image</button>
+      </div>
+    </div>
+    
+    <script src="js/index.js"></script>
+
+    <script>
+      // Use registration dates from server configuration.
+      const registrationStart = new Date("<%= electionConfig.registrationStart %>").getTime();
+      const registrationEnd = new Date("<%= electionConfig.registrationEnd %>").getTime();
+
+      // Get fakeCurrentDate from EJS template if provided.
+      // Use fakeCurrentDate if provided; otherwise use the real current time.
+      const fakeCurrentDateStr = "<%= electionConfig.fakeCurrentDate ? electionConfig.fakeCurrentDate : '' %>";
+      const baseNow = fakeCurrentDateStr ? new Date(fakeCurrentDateStr).getTime() : new Date().getTime();
+      let elapsed = 0;
+      function getCurrentTime() {
+        return baseNow + elapsed;
+      }
+
+      // // Update the date range display.
+      // const datePeriodElem = document.querySelector(".date-period");
+      // datePeriodElem.textContent = new Date(registrationStart).toLocaleDateString() + " - " + new Date(registrationEnd).toLocaleDateString();
+
+      // Update the date range display with the desired format (Month Day, Year).
+      const datePeriodElem = document.querySelector(".date-period");
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      datePeriodElem.textContent = new Date(registrationStart).toLocaleDateString("en-US", options) + " - " + new Date(registrationEnd).toLocaleDateString("en-US", options);
+
+      // Grab elements by id.
+      const electionPeriodElem = document.getElementById("election-period");
+      // const countdownElem = document.getElementById("countdown");
+      const daysElem = document.getElementById("days");
+      const hoursElem = document.getElementById("hours");
+      const minutesElem = document.getElementById("minutes");
+      const secondsElem = document.getElementById("seconds");
+      const timeLeftElem = document.getElementById("time-left");
+      const getReadyToRegisterElem = document.getElementById("get-ready-to-register");
+      const getReadyToRegisterContainer = document.getElementById("get-ready-container");
+      const registerButton = document.getElementById("register-button");
+
+      function updatePhase() {
+        const now = baseNow + elapsed;
+        let distance = 0;
+        if (now < registrationStart) {
+          electionPeriodElem.textContent = "Registration Period:";
+          timeLeftElem.textContent = "Time Until Registration Opens";
+          getReadyToRegisterElem.textContent = "Get Ready to Register!";
+          distance = registrationStart - now;
+          registerButton.style.display = "none";
+        } else if (now >= registrationStart && now <= registrationEnd) {
+          electionPeriodElem.textContent = "Registration Period:";
+          timeLeftElem.textContent = "Left to Register";
+          getReadyToRegisterContainer.textContent = "";
+          distance = registrationEnd - now;
+          registerButton.style.display = "block";
+        } else {
+          electionPeriodElem.textContent = "Registration Ended";
+          timeLeftElem.textContent = "";
+          distance = 0;
+          registerButton.style.display = "none";
+        }
+        return distance;
+      }
+
+      const interval = setInterval(() => {
+        const distance = updatePhase();
+        // Simulate time progression if using fakeCurrentDate:
+        if (fakeCurrentDateStr) {
+          elapsed += 1000;
+        }
+        if (distance <= 0) {
+          clearInterval(interval);
+          // countdownElem.textContent = "00 00 00 00";
+          daysElem.textContent = "00";
+          hoursElem.textContent = "00";
+          minutesElem.textContent = "00";
+          secondsElem.textContent = "00";
+        } else {
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          // countdownElem.textContent = (days < 10 ? "0" + days : days) + " " + (hours < 10 ? "0" + hours : hours) + " " + (minutes < 10 ? "0" + minutes : minutes) + " " + (seconds < 10 ? "0" + seconds : seconds);
+          daysElem.textContent = days < 10 ? "0" + days : days;
+          hoursElem.textContent = hours < 10 ? "0" + hours : hours;
+          minutesElem.textContent = minutes < 10 ? "0" + minutes : minutes;
+          secondsElem.textContent = seconds < 10 ? "0" + seconds : seconds;
+        }
+      }, 1000);
+    </script>
+
+    <!-- Include Socket.IO client library (optional if you want real-time updates) -->
+    <script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const voteId = "<%= voteId %>";
+  socket.emit("joinVoteRoom", { voteId });
+
+  socket.on("voteConfirmed", () => {
+    window.location.reload();
+  });
+</script>
+
+    <!-- Additional client-side scripts (export functionality, datetime update, etc.) -->
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.10.3/dist/html-to-image.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var collegeMap = {
+          CAFA: "College of Architecture and Fine Arts",
+          CAL: "College of Arts and Letters",
+          CBEA: "College of Business Education and Accountancy",
+          CCJE: "College of Criminal Justice Education",
+          COE: "College of Engineering",
+          COED: "College of Education",
+          CHTM: "College of Hospitality and Tourism Management",
+          CIT: "College of Industrial Technology",
+          CICT: "College of Information and Communications Technology",
+          CON: "College of Nursing",
+          CS: "College of Science",
+          CSSP: "College of Social Sciences and Philosophy",
+          CSER: "College of Sports, Exercise, and Recreation",
+        };
+        var collegeElem = document.getElementById("collegeDisplay");
+        if (collegeElem) {
+          var acronym = collegeElem.textContent.trim();
+          collegeElem.textContent = collegeMap[acronym] || acronym;
+        }
+        document.getElementById("exportBtn").addEventListener("click", function () {
+          htmlToImage
+            .toPng(document.querySelector(".receipt-container"))
+            .then(function (dataUrl) {
+              var link = document.createElement("a");
+              link.download = "BulSU Student Government Elections - Voting Receipt.png";
+              link.href = dataUrl;
+              link.click();
+            })
+            .catch(function (error) {
+              console.error("Oops, something went wrong!", error);
+            });
+        });
+      });
+    </script>
+
+    <script src="js/index.js"></script>
+    <script src="js/dropdown.js"></script>
+
+        <script src="/components/popup.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      // join the room for this voteId
+      const socket = io();
+      socket.emit("joinVoteRoom", { voteId: "<%= voteId %>" });
+
+      // when backend emits voteConfirmed, reload the page
+      socket.on("voteConfirmed", () => {
+        window.location.reload();
+      });
+    </script>
+
+    <% if (!waiting) { %>
+      <script>
+        bigPopup(          "VOTE SUBMISSION<br />SUCCESSFUL",          "Thank you for casting your vote! Your vote has been successfully recorded on the blockchain. Click 'Next' to view your voting receipt.",          {            imageSrc: "/components/popup-checkmark.png",            buttonText: "Next",
+            timeout: 7000
+          }
+        );
+      </script>
+    <% } %>
+    <%- include('footer') %> 
+  </body>
+</html>

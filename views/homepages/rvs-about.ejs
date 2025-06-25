@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TANIKALA Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    
+    <link rel="stylesheet" type="text/css" href="css/home.css" />
+     <link rel="stylesheet" type="text/css" href="css/rvs.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="css/index_election.css" /> -->
+    <link rel="stylesheet" type="text/css" href="css/mobile-about.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-logo">
+        <img src="img/logo_tanikala.png" alt="Tanikala Voting System" />
+      </div>
+      <nav class="header-nav">
+        <h2 id="active-link">Results Verification Portal</h2>
+      </nav>
+      <div class="header-bottom-line"></div>
+    </header>
+
+    <div class="content">
+      <div class="content-title">
+        <h3 class="h3" style="text-transform: uppercase">Welcome to the Bulacan State University Student Government Elections - Results Verification Portal!</h3>
+      </div>
+
+      <div class="content-main">
+        <div class="main-first">
+          <div class="election-title">
+            <p class="title">
+              <%= electionConfig.electionName %>
+            </p>
+          </div>
+          <ul class="header-nav-content">
+            <li><a href="/rvs-about" id="active-link2">About</a></li>
+            <li><a href="/rvs-voter-turnout">Voter Turnout</a></li>
+            <li><a href="/rvs-votes-per-candidate">Votes per Candidate</a></li>
+            <li><a href="/rvs-election-results">Election Results</a></li>
+          </ul>
+          
+        </div>
+
+        <div class="beside">
+          <i class="fa-solid fa-house"></i>
+          <a href="/index-results-are-out-period">Go Back to Homepage.</a>
+        </div>
+
+        <div class="main-container">
+          <p>
+            This platform allows you to view and verify the results of the Bulacan State University Student Government Elections. Powered by blockchain technology, we ensure a secure, reliable, and transparent election process. Every vote is securely recorded and cannot be altered, while your
+            identity remains private.
+
+            <br />
+            <br />
+            <h3><span class="dark-yellow">Why You Can Trust the TANIKALA Voting System</span></h3>
+          </p>
+          
+          <br />
+          <ul>
+            <li><span class="light-yellow">Secure and Tamper-Proof Votes:</span> Every vote is stored on a blockchain, a secure digital ledger where data cannot be changed or deleted. This ensures the election results are accurate and reliable.</li>
+            <br />
+            <li><span class="light-yellow">Your Privacy is Protected:</span> Your identity stays private. No one, not even system administrators, can see who you voted for. Each vote is hashed—a process that secures your vote without revealing your identity—and cannot be traced back to you.</li>
+            <br />
+            <li>
+              <span class="light-yellow">Transparent and Verifiable Results:</span> You can check the total votes for each candidate and verify your vote using your unique voting receipt. This receipt contains a summary of your vote and your voter ID, allowing you to confirm it was
+              recorded correctly on the blockchain.
+            </li>
+          </ul>
+          <br />
+
+          <p>By combining security, privacy, and transparency, this platform ensures the election is fair and tamper-proof, with every vote counting as it should.</p>
+        </div>
+      </div>
+    </div>
+
+     <%- include('../voter/footer') %>
+    
+    <script src="js/index.js"></script>
+  </body>
+</html>

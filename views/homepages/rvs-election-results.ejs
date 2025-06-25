@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TANIKALA Voting System</title>
+
+    <!-- Admin CSS from ejs1 -->
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" /> -->
+    <link rel="stylesheet" type="text/css" href="admin/css/candidates.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/vote-tally.css" />
+   
+    <link rel="stylesheet" type="text/css" href="admin/css/index-election.css" />
+
+    <!-- Admin Dependencies -->
+    <link rel="stylesheet" type="text/css" href="admin/dependencies/progress-bar.css" />
+
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+
+    <!-- ejs2 Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/home.css" />
+    <link rel="stylesheet" type="text/css" href="css/rvs.css" />
+
+    <link rel="stylesheet" type="text/css" href="css/mobile-votes-per-candidate.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-logo">
+        <img src="img/logo_tanikala.png" alt="Tanikala Voting System" />
+      </div>
+      <nav class="header-nav">
+        <h2 id="active-link">Results Verification Portal</h2>
+      </nav>
+      <div class="header-bottom-line"></div>
+    </header>
+
+    <div class="content">
+      <div class="content-title">
+        <h3 class="h3 why" style="text-transform: uppercase">Welcome to the Bulacan State University Student Government Elections - Results Verification Portal!</h3>
+      </div>
+
+      <div class="content-main">
+        <div class="main-first">
+          <div class="election-title">
+            <p class="title">
+              <%= electionConfig.electionName %>
+            </p>
+          </div>
+          <ul class="header-nav-content">
+            <li><a href="/rvs-about">About</a></li>
+            <li><a href="/rvs-voter-turnout">Voter Turnout</a></li>
+            <li><a href="/rvs-votes-per-candidate">Votes per Candidate</a></li>
+            <li><a href="/rvs-election-results" id="active-link2">Election Results</a></li>
+          </ul>
+          
+        </div>
+
+        <div class="beside">
+          <i class="fa-solid fa-house"></i>
+          <a href="/index-results-are-out-period">Go Back to Homepage.</a>
+        </div>
+
+        <div class="main-container">
+          <p>
+           This page displays the final election results, showing the winning candidates and their total vote counts for the Supreme Student Council and Local Student Councils (LSCs).
+<br /> <br />
+The results are secured through blockchain technology, ensuring accuracy and transparency while maintaining voter privacy.
+</p>
+<br />
+<br />
+<h2 class="rvs-title"><u>Election Results</u></h2>
+          <br />
+          <br />
+<div class="rvs-container"> <%- include('../admin/shared-results') %></div>
+         
+        </div>
+      </div>
+    </div>
+
+    <%- include('../voter/footer') %>
+    
+    <script src="js/index.js"></script>
+  </body>
+</html>

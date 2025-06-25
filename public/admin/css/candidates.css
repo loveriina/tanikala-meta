@@ -1,0 +1,405 @@
+:root {
+  --background-light-yellow: #f2ddb4;
+  --background-lighter-yellow: #faf2db;
+  --background-yellow: #e1ae5b;
+  --background-green: #57ac4f;
+  --background-brown: #370606;
+  --background-form: #e2be84;
+  --field-color: white;
+  --background-red: #a60212;
+}
+
+.main {
+  flex-direction: column;
+}
+
+.main-content {
+  display: flex;
+  width: 100%;
+  gap: 2%;
+}
+
+.container,
+.form-container {
+  border: 0.1rem solid rgba(14, 13, 13, 0.5);
+}
+
+hr {
+  border: 0.1rem solid rgba(14, 13, 13, 0.5);
+}
+
+.container img {
+  width: 5em;
+  height: auto;
+  border-radius: 0.5em;
+}
+
+.button {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: white;
+  padding: 1em 2em;
+  border-radius: 5em;
+  border: none;
+}
+
+/* #form-edit {
+    position: relative;
+  }
+  
+  #form-buttons {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  } */
+
+.container-position {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.position {
+  /* float: left; */
+}
+
+.button-edit {
+  background-color: #0024e4;
+}
+
+.button-add {
+  background-color: #550c0a;
+  /* width: 100%; */
+  /* text-align: right; */
+  /* float: right; */
+}
+
+.button-save {
+  background-color: var(--background-green);
+}
+
+#button-delete,
+#button-remove,
+#button-delete-edit-lsc,
+#button-remove-edit-lsc {
+  background-color: var(--background-red);
+}
+
+#button-close,
+#button-close-edit-lsc {
+  color: black;
+}
+
+.main {
+  position: relative;
+}
+
+#form-add,
+#form-add-lsc {
+  display: none;
+  min-height: 60dvh;
+  min-width: 60vw;
+  position: absolute;
+  z-index: 9999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--background-form);
+  border-radius: 1em;
+  /* padding: 2%; */
+}
+
+form img {
+  width: 5em;
+  height: auto;
+}
+
+.container-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.candidate {
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 2rem;
+}
+
+.candidate .candidate-content {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+}
+
+.candidate .img-container {
+  /* background-color: white; */
+  display: inline-block; /* Ensure it only takes up as much space as needed */
+  display: flex; /* Align the content */
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+  overflow: hidden;
+  width: 30%;
+}
+
+.candidate img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.candidate .button-edit {
+  align-self: flex-end;
+}
+
+.container-position {
+  padding-bottom: 2rem;
+}
+/* 
+.position-ssc {
+  color: ;
+} */
+
+.blockchain {
+  /* border: 3px solid black; */
+  width: 100%;
+  text-align: center;
+}
+
+.action-button {
+  padding: 0.6rem;
+  margin: 1rem;
+  border-radius: 1rem;
+  border: none;
+  color: white;
+  font-weight: bold;
+}
+
+#submitBtn {
+  background-color: #4b368f;
+}
+
+#resetCandidatesBtn {
+  background-color: #8271b7;
+}
+
+.purple {
+  color: #511e77;
+}
+
+.smart-contract-status.submitted {
+  font-weight: 600;
+  color: green;
+  font-style: italic;
+}
+
+.smart-contract-status.not-submitted,
+.smart-contract-status {
+  font-weight: 500;
+  color: #85211d;
+}
+
+.button-close {
+  background-color: #c11515;
+}
+
+.x-button {
+  padding: 0;
+  margin: 0;
+  color: #c11515;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.my-text {
+  text-transform: capitalize;
+}
+
+.right {
+  text-align: right;
+  padding: 0;
+  margin: 0;
+  margin-top: -1.5rem !important;
+  margin-right: -1rem !important;
+}
+
+.center {
+  text-align: center;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+.image-form {
+}
+
+.form-container {
+  background-color: black;
+  padding: 0;
+  margin: 0;
+  max-width: 60vw;
+  max-height: 70vh;
+}
+
+.form-buttons {
+}
+
+#form-edit-lsc {
+  /* border: 3px solid black; */
+  padding: 0;
+  margin: 0;
+}
+
+.form-container form {
+  padding: 2rem;
+}
+
+.circle-img {
+  width: 8rem !important; /* match your desired max width */
+  height: 8rem !important; /* match your desired max height */
+  object-fit: cover; /* ensures the image fills the circle without distortion */
+  border-radius: 50%; /* creates the circular shape */
+  display: block;
+
+  border: 0.15rem solid rgba(58, 27, 5, 0.677);
+}
+
+.left-content,
+.center-content,
+.right-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 3px solid black; */
+}
+
+.center-content {
+  width: 30%;
+}
+
+.right-content {
+  width: 40%;
+}
+
+.left-content {
+  width: 22%;
+}
+
+.form-details {
+  /* padding: 1rem; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2%;
+  height: 100%;
+}
+
+.fill {
+  width: 15rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.info {
+  width: 20rem;
+  height: 10rem;
+  padding: 1rem;
+}
+
+.beside-button-left {
+  margin-right: 0.5rem;
+}
+
+.form-details label {
+  font-weight: 500;
+}
+
+.position-title-container {
+  padding: 0 3rem;
+}
+
+.position-program {
+  color: #bb7e15;
+}
+
+.form-container {
+  display: none;
+  min-height: 60dvh;
+  min-width: 60vw;
+  position: absolute;
+  z-index: 9999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--background-form);
+  border-radius: 1em;
+  padding: 2%;
+}
+
+#form-add-lsc,
+#form-add,
+#form-edit,
+#form-edit-lsc {
+  padding: 0;
+  margin: 0;
+}
+
+/* #clearCandidates {
+  background-color: #a01321;
+} */
+
+.middle {
+  text-align: center;
+  /* padding-right: 3rem; */
+}
+
+.field {
+  border-radius: 0.8rem;
+  background: var(--field-color);
+  border: 0.1rem solid rgba(58, 27, 5, 0.677);
+  outline: none;
+}
+
+.field:hover,
+.field:focus {
+  border: 2px solid #85211d;
+  /* box-shadow: 0px 0px 0px 7px rgba(236, 101, 74, 0.2); */
+}
+
+.button-save {
+  background: #008000;
+}
+
+#button-remove {
+  background: #503a96;
+}
+
+/* form > * {
+  border: 1px solid black;
+} */
+
+.select:hover,
+.select:focus {
+  /* border: 2px solid green; */
+  box-shadow: 0px 0px 0px 7px rgba(74, 236, 136, 0.2);
+}
+
+.container {
+  border-radius: 1.5em !important;
+}
+
+.x-button:hover {
+  color: red;
+}
+
+#collegeSelect {
+  border: 0.3rem solid #008000;
+}
+
+option:hover {
+  background: pink;
+}

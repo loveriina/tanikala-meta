@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BulSU Voting System</title>
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/system-edit-account.css" />
+    <!-- Boxicons CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="components/notification.css" />
+
+    <link rel="stylesheet" href="/components/popup-vote.css" />
+  </head>
+  <body>
+    <%- include('header') %>
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'system', activeSub: "edit-account" }) %>
+      <main class="main">
+        <div class="title-container">
+          <div class="r">
+            <i class="fa-solid fa-user-gear"></i>
+            <h1 class="title">Edit Account</h1>
+          </div>
+        </div>
+        <hr class="title-line" />
+        <div class="first-main">
+          <div class="container">
+            <h1 class="details">Account Details</h1>
+            <br />
+            <!-- The form now submits via AJAX -->
+              <div class="main-details">
+                <div class="main-details-info">
+                  <form id="form-details">
+                    <div class="form-details-container">
+                      <label for="role">Role:</label>
+                      <input class="input" type="text" id="role" placeholder="Role" value="<%= loggedInAdmin.role %>" disabled readonly />
+                    </div>
+                    <div class="form-details-container">
+                      <label for="name">Name:</label>
+                      <input class="input" type="text" id="name" name="name" placeholder="Name" value="<%= loggedInAdmin.name %>" disabled />
+                    </div>
+                    <div class="form-details-container">
+                      <label for="admin-email">Email: </label>
+                      <input class="input" type="text" id="admin-email" name="email" placeholder="Email" value="<%= loggedInAdmin.email %>" disabled />
+                    </div>
+                    <!-- New Password Section (Updated) -->
+                    <div id="new-password-section" style="display: none;">
+                      <!-- Old Password Field -->
+                      <div class="form-details-container">
+                        <label for="old-password">Old Password:</label>
+                        <div class="div-input" style="position: relative;">
+                          <input class="input-in-div" type="password" id="old-password" name="oldPassword" placeholder="Old Password" disabled style="width: 100%; padding-right: 2rem;" />
+                          <span class="toggle-password" onclick="togglePassword('old-password')" style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                            <%- include('../partials/svg-toggle-password') %>
+                          </span>
+                        </div>
+                      </div>
+
+                      <!-- New Password Field -->
+                      <div class="form-details-container">
+                        <label for="new-password">New Password:</label>
+                        <div class="div-input" style="position: relative;">
+                          <input class="input-in-div" type="password" id="new-password" name="newPassword" placeholder="New Password" disabled style="width: 100%; padding-right: 2rem;" />
+                          <span class="toggle-password" onclick="togglePassword('new-password')" style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                            <%- include('../partials/svg-toggle-password') %>
+                          </span>
+                        </div>
+                      </div>
+
+                      <!-- Confirm New Password Field -->
+                      <div class="form-details-container">
+                        <label for="confirm-new-password">Confirm New Password:</label>
+                        <div class="div-input" style="position: relative;">
+                          <input class="input-in-div" type="password" id="confirm-new-password" placeholder="Confirm New Password" disabled style="width: 100%; padding-right: 2rem;" />
+                          <span class="toggle-password" onclick="togglePassword('confirm-new-password')" style="position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                            <%- include('../partials/svg-toggle-password') %>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Hidden input to store the base64 encoded profile image -->
+                    <input type="hidden" name="img" id="img-hidden" value="<%= loggedInAdmin.img %>" />
+                    <br /> <br />
+                    <div class="buttons">
+                      <button type="button" id="button-edit">Edit</button>
+                      <button type="button" id="button-close" style="display: none">Close</button>
+                      <button type="submit" id="button-save" style="display: none">Save</button>
+
+                    </div>
+                  </form>
+                </div>
+                <div class="main-details-profile">
+                  <img class="circle-img" id="img-admin" src="<%= loggedInAdmin.img %>" alt="Admin Profile" />
+                  <br />
+                  <p class="bold"><span><%= loggedInAdmin.name %></span></p>
+                  <p><i><%= loggedInAdmin.role %></i></p>
+                  <br />
+                  <button id="change-image" style="display: none">Change Profile Image</button>
+                  <!-- Hidden file input for image upload -->
+                  <input type="file" class="input-file" id="input-file" style="display:none" />
+                </div>
+              </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <%- include('footer') %>   
+
+    <script>
+      // Image upload using base64 conversion
+      const profileImage = document.getElementById("img-admin");
+      const changeImageButton = document.getElementById("change-image");
+      const fileInput = document.getElementById("input-file");
+      const imgHidden = document.getElementById("img-hidden");
+
+      changeImageButton.addEventListener("click", () => {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            profileImage.src = e.target.result;
+            imgHidden.value = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Account edit functionality
+      const formDetails = document.getElementById("form-details");
+      const editButton = document.getElementById("button-edit");
+      const saveButton = document.getElementById("button-save");
+      const closeButton = document.getElementById("button-close");
+      const changeImage = document.getElementById("change-image");
+      // Select all inputs except those with the readonly attribute
+      const inputs = formDetails.querySelectorAll("input:not([readonly])");
+
+      // Enable editing on clicking "Edit"
+      editButton.addEventListener("click", () => {
+        inputs.forEach((input) => (input.disabled = false));
+        saveButton.style.display = "inline-block";
+        closeButton.style.display ="inline-block";
+        editButton.style.display = "none";
+        changeImage.style.display = "inline-block";
+      });
+
+closeButton.addEventListener("click", () => {
+  // Disable editing for all inputs
+  inputs.forEach((input) => (input.disabled = true));
+  // Hide the Save and Close buttons
+  saveButton.style.display = "none";
+  closeButton.style.display = "none";
+  // Show the Edit button and hide the Change Image button
+  editButton.style.display = "inline-block";
+  changeImage.style.display = "none";
+});
+
+      // Client-side form validation and AJAX submission
+      formDetails.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("admin-email").value.trim();
+
+        if (!name || !email) {
+          notify("Name and Email are required.", "error", 3000);
+          return;
+        }
+
+        // If attempting a password change, ensure fields are filled and match
+        const newPassword = document.getElementById("new-password").value;
+        const confirmNewPassword = document.getElementById("confirm-new-password").value;
+        if (newPassword || confirmNewPassword) {
+          const oldPassword = document.getElementById("old-password").value;
+          if (!oldPassword) {
+            notify("Please enter your old password to change your password.", "error", 3000);
+            return;
+          }
+          if (newPassword !== confirmNewPassword) {
+            notify("New passwords do not match!", "error", 3000);
+            return;
+          }
+        }
+
+        // Gather form data
+        const formData = {
+          name,
+          email,
+          oldPassword: document.getElementById("old-password").value,
+          newPassword: newPassword,
+          img: imgHidden.value,
+        };
+
+        try {
+          const response = await fetch("/update-account", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
+          });
+          const result = await response.json();
+
+          if (result.success) {
+            // Store a flag in localStorage before reloading
+            localStorage.setItem("profileUpdated", "true");
+            location.reload(); // Reload the page
+          } else {
+            notify(result.error || "An error occurred while saving.", "error", 3000);
+          }
+        } catch (err) {
+          console.error("Error updating profile:", err);
+          notify("A server error occurred. Please try again later.", "error", 3000);
+        }
+
+      });
+    </script>
+
+    <script src="admin/js/sidebar.js"></script>
+    <script src="admin/js/index-admin.js"></script>
+    <script type="module" src="components/notificationHandler.js"></script>
+<script src="/components/popup.js"></script>
+    <!-- Check localStorage for the flag and display notification on page load -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("Checking localStorage for profileUpdated...");
+        if (localStorage.getItem("profileUpdated") === "true") {
+          console.log("Profile update flag found. Showing notification...");
+          notify("Profile saved successfully!", "success", 2000);
+          localStorage.removeItem("profileUpdated"); // Remove flag after showing notification
+        }
+      });
+    </script>
+    
+<script>
+  // Get the elements
+  const editBtn = document.getElementById("button-edit");
+  const closeBtn = document.getElementById("button-close");
+  const saveBtn = document.getElementById("button-save");
+  const changeImageBtn = document.getElementById("change-image");
+  const newPasswordSection = document.getElementById("new-password-section");
+
+  // All form inputs (except hidden ones)
+  const formInputs = document.querySelectorAll("#form-details input:not([type='hidden'])");
+
+  // Edit button: Enable inputs and show the new password fields
+  editBtn.addEventListener("click", () => {
+    formInputs.forEach(input => input.disabled = false);
+    newPasswordSection.style.display = "block";
+    closeBtn.style.display = "inline-block";
+    saveBtn.style.display = "inline-block"; 
+    editBtn.style.display = "none";
+    changeImageBtn.style.display = "inline-block";
+  });
+
+  // Close button: Disable inputs, hide the new password fields, and reset password fields
+  closeBtn.addEventListener("click", () => { 
+    formInputs.forEach(input => input.disabled = true);
+    newPasswordSection.style.display = "none";
+    closeBtn.style.display = "none";
+    saveBtn.style.display = "none";
+    editBtn.style.display = "inline-block";
+    changeImageBtn.style.display = "none";
+    
+    // Reset password fields
+    document.getElementById("old-password").value = "";
+    document.getElementById("new-password").value = "";
+    document.getElementById("confirm-new-password").value = "";
+  });
+</script>
+
+<script>
+  function togglePassword(fieldId) {
+    const passwordInput = document.getElementById(fieldId);
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+    } else {
+      passwordInput.type = "password";
+    }
+  }
+</script>
+
+  
+
+  </body>
+</html>

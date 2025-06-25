@@ -1,0 +1,1081 @@
+<style>
+        .close {
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .main-overlay {
+        position: absolute; /* Make it position relative to the parent <main> */
+          display: none;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(90, 90, 90, 0.7); /* Adjust opacity of the overlay */
+        height: 100%; /* Full height of the parent */
+        width: 100%; /* Full width of the parent */
+        /* display: flex; */
+        align-items: center; /* Center content vertically */
+        justify-content: center; /* Center content horizontally */
+        z-index: 999; /* Ensure it appears on top of other elements */
+      }
+      .main {
+        position: relative; /* Ensures children with absolute position are relative to <main> */
+      }
+
+      .hashes-container {
+        position: absolute;
+        z-index: 1001;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        display: none;
+      }
+</style>
+
+<div class="main-overlay"></div>
+<div class="first-main">
+  
+
+  <div class="main-left">
+    <h1 class="ssc">Supreme Student Council</h1>
+    <% const presidentCandidates = candidates.filter(candidate => candidate.position === 'president' && candidate.name !== 'Abstain'); const abstainCandidate = candidates.find(candidate => candidate.position === 'president' && candidate.name === 'Abstain'); presidentCandidates.sort((a, b) => Number(b.voteCount) - Number(a.voteCount)); let totalVotes = presidentCandidates.reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); %>
+    <% 
+      const candidateSum  = presidentCandidates
+                              .reduce((acc,c)=> acc + Number(c.voteCount), 0);
+      const abstainCount  = Number(abstainCandidate?.voteCount) || 0;
+      totalVotes    = candidateSum + abstainCount;
+    %>
+
+    <div class="container-ssc" id="container-president">
+      <div class="container-position">
+        <h1 class="position-ssc">President</h1>
+      </div>
+      <hr />
+      <br />
+      <% let calculatedTotalVotes = 0; %> <% presidentCandidates.forEach(candidate => { const voteCount = Number(candidate.voteCount) || 0; calculatedTotalVotes += voteCount; const percentage = totalVotes > 0 ? ((voteCount / totalVotes) * 100).toFixed(2) : 0; %>
+      <div class="candidate">
+        <div class="img-container">
+          <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+        </div>
+        <div class="candidate-info">
+          <h2><%= candidate.name %></h2>
+          <p><%= candidate.party %></p>
+          <div class="row">
+            <div class="progress-bar">
+              <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+          </div>
+        </div>
+      </div>
+      
+      <a href="#" class="votes" data-uniqueid="<%= candidate.uniqueId %>" data-name="<%= candidate.name %>">View List of Voter IDs</a>
+
+      <% }); %> <% if (abstainCandidate) { const voteCount = Number(abstainCandidate.voteCount) || 0; calculatedTotalVotes += voteCount; const percentage = totalVotes > 0 ? ((voteCount / totalVotes) * 100).toFixed(2) : 0; %>
+      <div class="candidate abstain">
+        <div class="img-container">
+          <h2><%= abstainCandidate.name %></h2>
+        </div>
+        <div class="candidate-info">
+          <div class="row">
+            <div class="progress-bar">
+              <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+          </div>
+        </div>
+      </div>
+      <a href="#" class="votes votes-abstain" data-uniqueid="<%= abstainCandidate.uniqueId %>" data-name="<%= abstainCandidate.name %>">View List of Voter IDs</a>
+      <% } %>
+      <h3 id="basis"class="right">
+        <span id="" class="green"><u><%= calculatedTotalVotes %></u></span> total votes cast
+      </h3>
+    </div>
+    <script>
+      window.addEventListener("load", function () {
+        const progressElements = document.querySelectorAll(".progress");
+        progressElements.forEach((el) => {
+          const targetWidth = el.getAttribute("data-target");
+          el.style.width = targetWidth;
+        });
+      });
+    </script>
+
+    <% const viceCandidates = candidates.filter(candidate => candidate.position === 'vice president' && candidate.name !== 'Abstain'); const abstainCandidateVice = candidates.find(candidate => candidate.position === 'vice president' && candidate.name === 'Abstain'); viceCandidates.sort((a, b) => Number(b.voteCount) - Number(a.voteCount)); let totalVotesVice = viceCandidates.reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); %>
+    <% 
+      const CandidateSumvice  = viceCandidates
+                              .reduce((acc,c)=> acc + Number(c.voteCount), 0);
+      const abstainCountVice  = Number(abstainCandidateVice?.voteCount) || 0;
+      totalVotesVice = CandidateSumvice + abstainCountVice;
+    %>
+    <div class="container-ssc" id="container-vice-president">
+      <div class="container-position">
+        <h1 class="position-ssc">Vice President</h1>
+      </div>
+      <hr />
+      <br />
+      <% let calculatedTotalVotesVice = 0; %> <% viceCandidates.forEach(candidate => { const voteCount = Number(candidate.voteCount) || 0; calculatedTotalVotesVice += voteCount; const percentage = totalVotesVice > 0 ? ((voteCount / totalVotesVice) * 100).toFixed(2) : 0; %>
+      <div class="candidate">
+        <div class="img-container">
+          <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+        </div>
+        <div class="candidate-info">
+          <h2><%= candidate.name %></h2>
+          <p><%= candidate.party %></p>
+          <div class="row">
+            <div class="progress-bar">
+              <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+          </div>
+        </div>
+      </div>
+      <a href="#" class="votes" data-uniqueid="<%= candidate.uniqueId %>" data-name="<%= candidate.name %>">View List of Voter IDs</a>
+      <% }); %> <% if (abstainCandidateVice) { const voteCount = Number(abstainCandidateVice.voteCount) || 0; calculatedTotalVotesVice += voteCount; const percentage = totalVotesVice > 0 ? ((voteCount / totalVotesVice) * 100).toFixed(2) : 0; %>
+      <div class="candidate">
+        <div class="img-container">
+          <h2><%= abstainCandidateVice.name %></h2>
+        </div>
+        <div class="candidate-info">
+          <div class="row">
+            <div class="progress-bar">
+              <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+          </div>
+        </div>
+      </div>
+      <a href="#" class="votes" data-uniqueid="<%= abstainCandidateVice.uniqueId %>" data-name="<%= abstainCandidateVice.name %>">View List of Voter IDs</a>
+      <% } %>
+      <h3 class="right">
+        <span class="green"><u><%= calculatedTotalVotesVice %></u></span> total votes cast
+      </h3>
+    </div>
+    <script>
+      window.addEventListener("load", function () {
+        const progressElements = document.querySelectorAll(".progress");
+        progressElements.forEach((el) => {
+          const targetWidth = el.getAttribute("data-target");
+          el.style.width = targetWidth;
+        });
+      });
+    </script>
+
+    <% const senatorCandidates = candidates.filter(candidate => candidate.position === 'senator' && candidate.name !== 'Abstain'); senatorCandidates.sort((a, b) => Number(b.voteCount) - Number(a.voteCount)); const totalVotesSenator = senatorCandidates.reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); %>
+    <div class="container-ssc" id="container-senator">
+      <div class="container-position">
+        <h1 class="position-ssc">Senators</h1>
+      </div>
+      <hr />
+      <br />
+      <% let calculatedTotalVotesSenator = 0; %> <% senatorCandidates.forEach(candidate => { const voteCount = Number(candidate.voteCount) || 0; calculatedTotalVotesSenator += voteCount; const percentage = totalVotesSenator > 0 ? ((voteCount / totalVotesSenator) * 100).toFixed(2) : 0; %>
+      <div class="candidate">
+        <div class="img-container">
+          <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+        </div>
+        <div class="candidate-info">
+          <h2><%= candidate.name %></h2>
+          <p><%= candidate.party %></p>
+          <div class="row">
+            <div class="progress-bar">
+              <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+            </div>
+            <!-- <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p> -->
+          </div>
+        </div>
+      </div>
+      <a href="#" class="votes" data-uniqueid="<%= candidate.uniqueId %>" data-name="<%= candidate.name %>">View List of Voter IDs</a>
+      <% }); %>
+      <br />
+      <h3 class="right">
+        <span class="green"><u><%= calculatedTotalVotesSenator %></u></span> total votes cast
+      </h3>
+    </div>
+    <script>
+      window.addEventListener("load", function () {
+        const progressElements = document.querySelectorAll(".progress");
+        progressElements.forEach((el) => {
+          const targetWidth = el.getAttribute("data-target");
+          el.style.width = targetWidth;
+        });
+      });
+    </script>
+  </div>
+  <div class="main-right">
+    <div class="main-right-header">
+      <h1 class="lsc">Local Student Council</h1>
+      <br />
+      <select name="college" id="college-selector">
+        <option value="CS" selected>College of Science (CS)</option>
+        
+        <option value="CAL">College of Arts and Letters (CAL)</option>
+        <option value="CBEA">College of Business Education and Accountancy (CBEA)</option>
+        <option value="CCJE">College of Criminal Justice Education (CCJE)</option>
+        <option value="CHTM">College of Hospitality and Tourism Management (CHTM)</option>
+        <option value="CICT">College of Information and Communications Technology (CICT)</option>
+        <option value="CIT">College of Industrial Technology (CIT)</option>
+        <option value="CN">College of Nursing (CN)</option>
+        <option value="COE">College of Engineering (COE)</option>
+        <option value="COED">College of Education (COED)</option>
+        <option value="CAFA" >College of Architecture and Fine Arts (CAFA)</option>
+        <option value="CSER">College of Sports, Exercise, and Recreation (CSER)</option>
+        <option value="CSSP">College of Social Sciences and Philosophy (CSSP)</option>
+      </select>
+    </div>
+    <br />
+    <div id="lsc-container">
+      <%
+  // 1) Only real candidates in the main list:
+  const governorCandidates = candidates
+    .filter(c =>
+      c.position === 'governor' &&
+      c.college &&
+      c.name !== 'Abstain'
+    );
+
+  // 2) Find the single Abstain entry that actually has votes:
+  const abstainCandidateGovernor = candidates.find(c =>
+    c.position === 'governor' &&
+    c.name === 'Abstain' &&
+    Number(c.voteCount) > 0
+  );
+
+  // 3) Sort & compute totals (including that one Abstain if found)
+  governorCandidates.sort((a, b) =>
+    Number(b.voteCount) - Number(a.voteCount)
+  );
+
+  // **This** variable must live here so the <h3> below can see it:
+  const governorTotalVotes = governorCandidates
+    .reduce((sum, c) => sum + (Number(c.voteCount) || 0), 0)
+    + (Number(abstainCandidateGovernor?.voteCount) || 0);
+%>
+
+<div class="container-lsc" id="container-lsc-governor">
+  <div class="container-position">
+    <h1 class="position-lsc">Governor</h1>
+  </div>
+  <hr />
+  <br />
+
+  <% governorCandidates.forEach(candidate => {
+       const voteCount = Number(candidate.voteCount) || 0;
+       const percentage = governorTotalVotes > 0
+         ? ((voteCount / governorTotalVotes) * 100).toFixed(2)
+         : '0.00';
+  %>
+    <div class="candidate lsc-candidate" data-college="<%= candidate.college %>">
+      <div class="candidate">
+        <div class="img-container">
+          <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+        </div>
+        <div class="candidate-info">
+          <h2><%= candidate.name %></h2>
+          <p><%= candidate.party %></p>
+          <div class="row">
+            <div class="progress-bar">
+              <div class="progress"
+                   data-target="<%= percentage %>%"
+                   style="width: 0">
+                <%= voteCount %> votes
+              </div>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+          </div>
+        </div>
+      </div>
+      <a href="#"
+         class="votes"
+         data-uniqueid="<%= candidate.uniqueId %>"
+         data-name="<%= candidate.name %>">
+        View List of Voter IDs
+      </a>
+    </div>
+  <% }); %>
+
+  <% if (abstainCandidateGovernor) {
+       const voteCount = Number(abstainCandidateGovernor.voteCount) || 0;
+       const percentage = governorTotalVotes > 0
+         ? ((voteCount / governorTotalVotes) * 100).toFixed(2)
+         : '0.00';
+  %>
+    <div class="candidate lsc-candidate abstain"
+         data-college="<%= abstainCandidateGovernor.college %>">
+      <div class="candidate">
+        <div class="img-container">
+          <!-- no <img> for Abstain, just the name -->
+          <h2><%= abstainCandidateGovernor.name %></h2>
+        </div>
+        <div class="candidate-info">
+          <div class="row">
+            <div class="progress-bar">
+              <div class="progress"
+                   data-target="<%= percentage %>%"
+                   style="width: 0">
+                <%= voteCount %> votes
+              </div>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+          </div>
+        </div>
+      </div>
+      <a href="#"
+         class="votes"
+         data-uniqueid="<%= abstainCandidateGovernor.uniqueId %>"
+         data-name="<%= abstainCandidateGovernor.name %>">
+        View List of Voter IDs
+      </a>
+    </div>
+  <% } %>
+
+  <h3 class="right" id="governor-total">
+  <span class="green">
+    <u>
+      <%= governorCandidates.reduce((s,c) => s + Number(c.voteCount||0), 0)
+          + (Number(abstainCandidateGovernor?.voteCount)||0) %>
+    </u>
+  </span>
+  total votes cast
+</h3>
+</div>
+<%
+  // 1) Only real candidates in the main list:
+  const viceGovernorCandidates = candidates
+    .filter(c =>
+      c.position === 'vice governor' &&
+      c.college &&
+      c.name !== 'Abstain'
+    );
+
+  // 2) Find the single Abstain entry that actually has votes:
+  const abstainCandidateViceGovernor = candidates.find(c =>
+    c.position === 'vice governor' &&
+    c.name === 'Abstain' &&
+    Number(c.voteCount) > 0
+  );
+
+  // 3) Sort & compute totals (including that one Abstain if found)
+  viceGovernorCandidates.sort((a, b) =>
+    Number(b.voteCount) - Number(a.voteCount)
+  );
+
+  // **This** variable must live here so the <h3> below can see it:
+  const viceGovernorTotalVotes = viceGovernorCandidates
+    .reduce((sum, c) => sum + (Number(c.voteCount) || 0), 0)
+    + (Number(abstainCandidateViceGovernor?.voteCount) || 0);
+%>
+
+<div class="container-lsc" id="container-lsc-vice-governor">
+  <div class="container-position">
+    <h1 class="position-lsc">Governor</h1>
+  </div>
+  <hr />
+  <br />
+
+  <% viceGovernorCandidates.forEach(candidate => {
+       const voteCount = Number(candidate.voteCount) || 0;
+       const percentage = viceGovernorTotalVotes > 0
+         ? ((voteCount / viceGovernorTotalVotes) * 100).toFixed(2)
+         : '0.00';
+  %>
+    <div class="candidate lsc-candidate" data-college="<%= candidate.college %>">
+      <div class="candidate">
+        <div class="img-container">
+          <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+        </div>
+        <div class="candidate-info">
+          <h2><%= candidate.name %></h2>
+          <p><%= candidate.party %></p>
+          <div class="row">
+            <div class="progress-bar">
+              <div class="progress"
+                   data-target="<%= percentage %>%"
+                   style="width: 0">
+                <%= voteCount %> votes
+              </div>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+          </div>
+        </div>
+      </div>
+      <a href="#"
+         class="votes"
+         data-uniqueid="<%= candidate.uniqueId %>"
+         data-name="<%= candidate.name %>">
+        View List of Voter IDs
+      </a>
+    </div>
+  <% }); %>
+
+  <% if (abstainCandidateViceGovernor) {
+       const voteCount = Number(abstainCandidateViceGovernor.voteCount) || 0;
+       const percentage = viceGovernorTotalVotes > 0
+         ? ((voteCount / viceGovernorTotalVotes) * 100).toFixed(2)
+         : '0.00';
+  %>
+    <div class="candidate lsc-candidate abstain"
+         data-college="<%= abstainCandidateViceGovernor.college %>">
+      <div class="candidate">
+        <div class="img-container">
+          <!-- no <img> for Abstain, just the name -->
+          <h2><%= abstainCandidateGovernor.name %></h2>
+        </div>
+        <div class="candidate-info">
+          <div class="row">
+            <div class="progress-bar">
+              <div class="progress"
+                   data-target="<%= percentage %>%"
+                   style="width: 0">
+                <%= voteCount %> votes
+              </div>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+          </div>
+        </div>
+      </div>
+      <a href="#"
+         class="votes"
+         data-uniqueid="<%= abstainCandidateViceGovernor.uniqueId %>"
+         data-name="<%= abstainCandidateViceGovernor.name %>">
+        View List of Voter IDs
+      </a>
+    </div>
+  <% } %>
+
+  <h3 class="right" id="vice-governor-total">
+    <span class="green"><u><%= calculatedTotalVotesVice   %></u></span> total votes cast
+  </h3>
+</div>
+
+      
+      <% const boardMembersAll = candidates.filter(candidate => candidate.position === 'board member' && candidate.college && candidate.program); const boardMembersNonAbstain = boardMembersAll.filter(candidate => candidate.name !== 'Abstain'); const boardMembersAbstain = boardMembersAll.filter(candidate => candidate.name === 'Abstain'); const totalVotesBoardMember = boardMembersNonAbstain.reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); let boardMembersByProgram = {};
+      boardMembersNonAbstain.forEach(candidate => { if (!boardMembersByProgram[candidate.program]) { boardMembersByProgram[candidate.program] = []; } boardMembersByProgram[candidate.program].push(candidate); }); Object.keys(boardMembersByProgram).forEach(program => { boardMembersByProgram[program].sort((a, b) => Number(b.voteCount) - Number(a.voteCount)); }); let abstainByProgram = {}; boardMembersAbstain.forEach(candidate => { if (!abstainByProgram[candidate.program]) {
+      abstainByProgram[candidate.program] = []; } abstainByProgram[candidate.program].push(candidate); }); %>
+      <div class="container-lsc" id="container-lsc-board-member">
+        <div class="container-position">
+          <h1 class="position-lsc">Board Members</h1>
+        </div>
+        <hr />
+        <% Object.keys(boardMembersByProgram).forEach(program => { let programTotalVotes = boardMembersByProgram[program].reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); if (abstainByProgram[program]) { programTotalVotes += abstainByProgram[program].reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); } %>
+        <div class="program-group" id="college-<%= boardMembersByProgram[program][0].college %>">
+          <h2 class="program-header">
+            <ul>
+              <%= program %>
+            </ul>
+          </h2>
+          <br />
+          <% boardMembersByProgram[program].forEach(candidate => { const voteCount = Number(candidate.voteCount) || 0; const percentage = programTotalVotes > 0 ? ((voteCount / programTotalVotes) * 100).toFixed(2) : 0; %>
+          <div class="candidate lsc-candidate" data-college="<%= candidate.college %>" data-program="<%= candidate.program %>">
+            <div class="candidate">
+              <div class="img-container">
+                <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+              </div>
+              <div class="candidate-info">
+                <h2><%= candidate.name %></h2>
+                <p><%= candidate.party %></p>
+                <div class="row">
+                  <div class="progress-bar">
+                    <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+                  </div>
+                  <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+                </div>
+              </div>
+            </div>
+            <a href="#" class="votes" data-uniqueid="<%= candidate.uniqueId %>" data-name="<%= candidate.name %>">View List of Voter IDs</a>
+          </div>
+
+          <% }); %> <% if (abstainByProgram[program]) { abstainByProgram[program].forEach(candidate => { const voteCount = Number(candidate.voteCount) || 0; const percentage = programTotalVotes > 0 ? ((voteCount / programTotalVotes) * 100).toFixed(2) : 0; %>
+          <div class="candidate lsc-candidate" data-college="<%= candidate.college %>" data-program="<%= candidate.program %>">
+            <div class="candidate">
+              <div class="img-container">
+                <h2><%= candidate.name %></h2>
+              </div>
+              <div class="candidate-info">
+                <div class="row">
+                  <div class="progress-bar">
+                    <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+                  </div>
+                  <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+                </div>
+              </div>
+            </div>
+            <a href="#" class="votes" data-uniqueid="<%= candidate.uniqueId %>" data-name="<%= candidate.name %>">View List of Voter IDs</a>
+          </div>
+
+          <% }); } %>
+          <h3 class="right basis">
+            <span class="green"><u class="basis number"><%= programTotalVotes %></u></span> total votes cast
+          </h3>
+        </div>
+        <% }); %>
+      </div>
+      <script>
+        
+document.addEventListener("DOMContentLoaded", function () {
+  function injectManualViceGovernorSum() {
+  console.log("[injectManualViceGovernorSum] Running...");
+
+  const vice = document.getElementById("container-lsc-vice-governor");
+  if (!vice) {
+    console.log("[injectManualViceGovernorSum] Vice Governor container not found.");
+    return;
+  }
+
+  let sum = 0;
+  vice.querySelectorAll(".progress").forEach((el) => {
+    const card = el.closest(".lsc-candidate"); // assume .progress is inside .lsc-candidate
+    if (card && card.style.display === "none") {
+      return; // skip hidden cards
+    }
+
+    const raw = el.textContent || "";
+    const cleaned = raw.trim().replace(/\s+/g, ' ');
+    const match = cleaned.match(/^(\d+)/);
+    const v = match ? parseInt(match[1], 10) : NaN;
+    console.log(`[injectManualViceGovernorSum] Found text: "${cleaned}", parsed: ${v}`);
+    if (!isNaN(v)) sum += v;
+  });
+
+  console.log(`[injectManualViceGovernorSum] Total vice governor votes computed: ${sum}`);
+
+  const u = document.querySelector("#vice-governor-total span u");
+  if (u) {
+    u.textContent = sum;
+    console.log("[injectManualViceGovernorSum] Updated #vice-governor-total <u> element.");
+  } else {
+    const totalBox = document.getElementById("vice-governor-total");
+    if (totalBox) {
+      totalBox.textContent = `${sum} total votes cast`;
+      console.log("[injectManualViceGovernorSum] Updated #vice-governor-total as plain text.");
+    } else {
+      console.log("[injectManualViceGovernorSum] #vice-governor-total not found at all.");
+    }
+  }
+}
+
+function runInjectManualViceGovernorSumPeriodically() {
+  injectManualViceGovernorSum(); // run once immediately (optional)
+  setInterval(() => {
+    injectManualViceGovernorSum();
+  }, 5000);
+}
+  function runInjectManualGovernorSumPeriodically() {
+  injectManualGovernorSum(); // run once immediately (optional)
+  setInterval(() => {
+    injectManualGovernorSum();
+  }, 2500);
+}
+  const selector = document.getElementById("college-selector");
+
+  // ── ORIGINAL FILTER FUNCTION ──
+  function filterLSCCandidates() {
+    const selectedCollege = selector.value;
+    const candidateCards = document.querySelectorAll(".lsc-candidate");
+    candidateCards.forEach((card) => {
+      const candidateCollege = card.getAttribute("data-college");
+
+      const candidateName = card.querySelector("h2")?.textContent.trim() || "(no name)";
+
+    // log each card’s college vs. selected
+    console.log(
+      `Card: ${candidateName} → data-college="${candidateCollege}"`
+    );
+      
+      card.style.display =
+        !selectedCollege || candidateCollege === selectedCollege
+          ? "block"
+          : "none";
+    });
+
+    const programGroups = document.querySelectorAll(".program-group");
+    programGroups.forEach((group) => {
+      group.style.display =
+        group.id === "college-" + selectedCollege ? "block" : "none";
+    });
+
+    recalcTotals();
+    injectManualGovernorSum(); 
+  }
+
+  // ── ORIGINAL TOTALS FUNCTION ──
+  function recalcTotals() {
+    // Governor total
+    const governorContainer = document.getElementById("container-lsc-governor");
+    let governorTotal = 0;
+    governorContainer
+      .querySelectorAll(".lsc-candidate")
+      .forEach((card) => {
+        if (card.style.display !== "none") {
+          const text = card.querySelector(".progress")?.textContent || "";
+          const votes = parseInt(text.split(" ")[0], 10);
+          if (!isNaN(votes)) governorTotal += votes;
+        }
+      });
+    document
+      .getElementById("governor-total")
+      .querySelector("span u").textContent = governorTotal;
+
+    // Vice‑Governor total
+    const viceContainer = document.getElementById("container-lsc-vice-governor");
+    let viceTotal = 0;
+    viceContainer
+      .querySelectorAll(".lsc-candidate")
+      .forEach((card) => {
+        if (card.style.display !== "none") {
+          const text = card.querySelector(".progress")?.textContent || "";
+          const votes = parseInt(text.split(" ")[0], 10);
+          if (!isNaN(votes)) viceTotal += votes;
+        }
+      });
+    document
+      .getElementById("vice-governor-total")
+      .querySelector("span u").textContent = viceTotal;
+
+    // Mirror the per‑group basis sum into both summary boxes
+    const basisEls = document.querySelectorAll(".right.basis");
+    let total = 0;
+    basisEls.forEach((el) => {
+      const n = parseInt(el.textContent.trim(), 10);
+      if (!isNaN(n)) total += n;
+    });
+    const basisText = `${total} total votes cast`;
+    document.getElementById("governor-total").textContent = basisText;
+    document.getElementById("vice-governor-total").textContent = basisText;
+  }
+
+  // ── NEW HELPERS ──
+  function updateGroupBasisNumbers() {
+    document.querySelectorAll(".program-group").forEach((group) => {
+      if (group.style.display === "block") {
+        let sum = 0;
+        group.querySelectorAll(".lsc-candidate").forEach((card) => {
+          if (card.style.display !== "none") {
+            const txt = card.querySelector(".progress")?.textContent || "";
+            const v = parseInt(txt.split(" ")[0], 10);
+            if (!isNaN(v)) sum += v;
+          }
+        });
+        const basisEl = group.querySelector(".basis.number");
+        if (basisEl) basisEl.textContent = sum;
+      }
+    });
+  }
+  // ── HELPER TO PICK THE HIGHEST VISIBLE GROUP BASIS ──
+function updateHighestVisibleBasis() {
+  let max = 0;
+  // loop each program‐group that’s currently shown
+  document.querySelectorAll('.program-group').forEach(group => {
+    if (group.style.display === 'block') {
+      const basisEl = group.querySelector('.basis.number');
+      const n = parseInt(basisEl?.textContent.trim() || '0', 10);
+      if (!isNaN(n) && n > max) max = n;
+    }
+  });
+  // build your display string
+  const highestText = `${max} total votes cast`;
+  // write it into your two summary boxes
+  document.getElementById('governor-total').textContent     = highestText;
+  document.getElementById('vice-governor-total').textContent = highestText;
+}
+
+// ── MINIMAL ADDITION: Just this new helper ──
+ function injectManualGovernorSum() {
+  console.log("[injectManualGovernorSum] Running...");
+
+  const gov = document.getElementById("container-lsc-governor");
+  if (!gov) {
+    console.log("[injectManualGovernorSum] Governor container not found.");
+    return;
+  }
+
+  let sum = 0;
+  gov.querySelectorAll(".progress").forEach((el) => {
+    const card = el.closest(".lsc-candidate"); // assume .progress is inside .lsc-candidate
+    if (card && card.style.display === "none") {
+      return; // skip hidden cards
+    }
+
+    const raw = el.textContent || "";
+    const cleaned = raw.trim().replace(/\s+/g, ' ');
+    const match = cleaned.match(/^(\d+)/);
+    const v = match ? parseInt(match[1], 10) : NaN;
+    console.log(`[injectManualGovernorSum] Found text: "${cleaned}", parsed: ${v}`);
+    if (!isNaN(v)) sum += v;
+  });
+
+  console.log(`[injectManualGovernorSum] Total governor votes computed: ${sum}`);
+
+  const u = document.querySelector("#governor-total span u");
+  if (u) {
+    u.textContent = sum;
+    console.log("[injectManualGovernorSum] Updated #governor-total <u> element.");
+  } else {
+    const totalBox = document.getElementById("governor-total");
+    if (totalBox) {
+      totalBox.textContent = `${sum} total votes cast`;
+      console.log("[injectManualGovernorSum] Updated #governor-total as plain text.");
+    } else {
+      console.log("[injectManualGovernorSum] #governor-total not found at all.");
+    }
+  }
+}
+
+  // ── WIRING IT UP ──
+  selector.addEventListener("change", () => {
+    filterLSCCandidates();
+    updateGroupBasisNumbers();
+    updateHighestVisibleBasis();
+    setTimeout(injectManualGovernorSum, 1000);
+  });
+
+  // initial run
+  filterLSCCandidates();
+  updateGroupBasisNumbers();
+  updateHighestVisibleBasis();
+  injectManualGovernorSum(); 
+
+   runInjectManualGovernorSumPeriodically();
+   runInjectManualViceGovernorSumPeriodically();
+});
+</script>
+
+    </div>
+  </div>
+
+  
+</div>
+
+<!-- sample voter ids form -->
+<div class="hashes-container modal">
+  <div classs="modal-content">
+
+    <span class="close-modal">&times;</span>
+    <h2 class="hashes-title">List of Transaction Hashes for "John Doe"</h2>
+    <div class="top-bar">
+      <strong>
+        <h3 class="total-votes">Total Votes: <span id="totalVotes"></span></h3>
+      </strong>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search..." />
+        <button id="searchBtn">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="grid-wrapper">
+      <div class="hashes-grid" id="hashesGrid">
+        <div class="id"><!-- The 3-column listing of transaction hashes goes here --></div>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <button id="prevBtn">&lt;</button>
+      <span id="pageInfo">Page 1 of 1</span>
+      <button id="nextBtn">&gt;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll(".votes").forEach((button) => {
+    button.addEventListener("click", async function (event) {
+      event.preventDefault();
+      const uniqueId = this.dataset.uniqueid;
+      const candidateName = this.dataset.name;
+      console.log("Unique ID clicked:", uniqueId); // Debug log
+      if (!uniqueId) {
+        console.error("Unique ID not found for candidate");
+        return;
+      }
+      try {
+        const response = await fetch(`/api/voter-ids/${uniqueId}`);
+        console.log("API response status:", response.status); // Debug log
+        const data = await response.json();
+        console.log("Data fetched:", data); // Debug log
+
+        // Set the title to include candidate name
+        document.querySelector(".hashes-title").textContent = `List of Voter IDs for ${candidateName}`;
+
+        // If candidate is not found, display an empty list in the modal
+        if (data.error) {
+          allHashes.length = 0;
+          render(); // Re-render the hashes grid (will be empty)
+          document.querySelector("#totalVotes").textContent = allHashes.length;
+          return;
+        }
+
+        // Update allHashes with real voter IDs and re-render the modal
+        allHashes.length = 0;
+        allHashes.push(...data.emails);
+        render(); // Re-render the hashes grid
+        document.querySelector("#totalVotes").textContent = allHashes.length;
+      } catch (error) {
+        console.error("Error fetching voter IDs:", error);
+      }
+    });
+  });
+</script>
+
+
+
+
+<script>
+  /***************************************************
+   * 1. SAMPLE DATA
+   ***************************************************/
+  const allHashes = [];
+  // for (let i = 1; i <= 390; i++) {
+  //   // Example hash text
+  //   const randomHash = Math.random().toString(36).substring(2, 15);
+  //   allHashes.push(`${i}. ${randomHash}${randomHash}`);
+  // }
+
+  // For demonstration, let's say total votes is 1500:
+  const totalVotes = 1500;
+
+  /***************************************************
+   * 2. PAGINATION & STATE
+   ***************************************************/
+  // We want 90 items per page (30 items per column * 3 columns).
+  const itemsPerPage = 90;
+  let currentPage = 1;
+  let searchQuery = ""; // We'll store the user query, for highlighting
+
+  // We'll keep all items visible (in the sense that we don't remove them),
+  // but we only show 90 items per "page".
+  function getTotalPages() {
+    return Math.ceil(allHashes.length / itemsPerPage);
+  }
+
+  /***************************************************
+   * 3. RENDER FUNCTION
+   ***************************************************/
+  function render() {
+    // Update total votes display
+    document.getElementById("totalVotes").textContent = totalVotes.toLocaleString();
+
+    // Calculate start and end for pagination
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const pageItems = allHashes.slice(startIndex, endIndex);
+
+    // We'll split these pageItems into 3 columns of 30 each
+    const columnCount = 3;
+    const itemsPerColumn = 30;
+    const hashesGrid = document.getElementById("hashesGrid");
+    hashesGrid.innerHTML = ""; // clear old content
+
+    for (let col = 0; col < columnCount; col++) {
+      const columnStart = col * itemsPerColumn;
+      const columnEnd = columnStart + itemsPerColumn;
+      const columnItems = pageItems.slice(columnStart, columnEnd);
+
+      // Create a div for each column
+      const colDiv = document.createElement("div");
+      colDiv.className = "hash-column";
+
+      // Build lines for each item in this column, highlighting if needed
+      const linesHtml = columnItems
+        .map((item, idx) => {
+          const globalIndex = startIndex + columnStart + idx + 1;
+          const highlighted = highlightText(item, searchQuery);
+          // Remove the wrapping <div> from highlightText so we can wrap our own
+          const innerText = highlighted.replace(/^<div>/, "").replace(/<\/div>$/, "");
+          return `<div><span>${globalIndex}. </span><span>${innerText}</span></div>`;
+        })
+        .join("");
+      colDiv.innerHTML = linesHtml;
+
+      hashesGrid.appendChild(colDiv);
+    }
+
+    // Update pagination text
+    const pageInfo = document.getElementById("pageInfo");
+    pageInfo.textContent = `Page ${currentPage} of ${getTotalPages()}`;
+
+    // Disable/enable buttons as needed
+    document.getElementById("prevBtn").disabled = currentPage === 1;
+    document.getElementById("nextBtn").disabled = currentPage === getTotalPages();
+  }
+
+  /***************************************************
+   * 4. HIGHLIGHT FUNCTION
+   * Wrap matching parts of 'text' with <span class="highlight">.
+   ***************************************************/
+  function highlightText(text, query) {
+    if (!query) return `<div>${text}</div>`; // no highlight if query is empty
+
+    // Escape special regex chars in query
+    const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(safeQuery, "gi");
+
+    // Replace matches with <span class="highlight">
+    const highlighted = text.replace(regex, (match) => `<span class="highlight">${match}</span>`);
+    return `<div>${highlighted}</div>`;
+  }
+
+  /***************************************************
+   * 5. SEARCH + SCROLL TO MATCH
+   ***************************************************/
+  function performSearch() {
+    searchQuery = document.getElementById("searchInput").value.trim();
+    if (!searchQuery) {
+      // If empty, just reset to page 1
+      currentPage = 1;
+      render();
+      return;
+    }
+
+    // We highlight across all items, but also find the index of the first match
+    let firstMatchIndex = -1;
+    for (let i = 0; i < allHashes.length; i++) {
+      if (allHashes[i].toLowerCase().includes(searchQuery.toLowerCase())) {
+        firstMatchIndex = i;
+        break;
+      }
+    }
+
+    if (firstMatchIndex === -1) {
+      // No match found, no highlight
+      alert("No matches found.");
+      searchQuery = ""; // clear the query so we don't highlight anything
+      render();
+      return;
+    }
+
+    // Found a match at firstMatchIndex. Figure out what page it's on:
+    currentPage = Math.floor(firstMatchIndex / itemsPerPage) + 1;
+
+    // Re-render so that page is loaded and matches are highlighted
+    render();
+  }
+
+  /***************************************************
+   * 6. EVENT HANDLERS
+   ***************************************************/
+  // Next / Prev Buttons
+  document.getElementById("prevBtn").addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      render();
+    }
+  });
+  document.getElementById("nextBtn").addEventListener("click", () => {
+    if (currentPage < getTotalPages()) {
+      currentPage++;
+      render();
+    }
+  });
+
+  // Search
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    performSearch();
+  });
+  document.getElementById("searchInput").addEventListener("keyup", (event) => {
+    if (event.key === "Enter") {
+      performSearch();
+    }
+  });
+
+  /***************************************************
+   * 7. INITIAL RENDER
+   ***************************************************/
+  render();
+</script>
+
+<script>
+  // Get references to the main container and overlay
+  const mainOverlay = document.querySelector('.main-overlay');
+  const main = document.querySelector('main');
+
+  // Listen for the scroll event on the <main> element
+main.addEventListener('scroll', function () {
+  // Get the current scroll position of <main>
+  const scrollY = main.scrollTop;  // Use scrollTop for the scroll within the <main> container
+  console.log('Scroll Position (main.scrollTop):', scrollY);
+
+  // Calculate the distance of the main element from the top of the viewport
+  // const overlayOffsetTop = main.offsetTop;
+  const overlayOffsetTop = 0;
+  console.log('Main offsetTop:', overlayOffsetTop);
+
+  // Calculate the new position for the main-overlay
+  const newTop = overlayOffsetTop + scrollY;
+  console.log('New Top Value for Overlay:', newTop);
+
+  // Update the position of the overlay
+  mainOverlay.style.top = `${newTop}px`;
+
+  // Debugging the final computed styles (optional)
+  const computedStyle = window.getComputedStyle(mainOverlay);
+  console.log('Current Position of Overlay:', computedStyle.top);
+});
+
+    </script>
+
+<script>
+  
+</script>
+<script>
+
+  // Get <main> and both modal elements
+    const mainElement = document.querySelector('main');
+
+
+  // Helper: update the modal’s position based on current scroll and visible height
+  function updateModalPosition(modal) {
+    const scroll = mainElement.scrollTop; // Get current scroll position directly from <main>
+    const modalTop = scroll + mainElement.clientHeight / 2;
+    modal.style.top = modalTop + "px";
+  }
+
+
+  // Get the modal element (which is now the .hashes-container)
+  const modal = document.querySelector(".hashes-container.modal");
+  // Get the close button inside the modal
+  const closeBtn = document.querySelector(".close-modal");
+
+  // Toggle modal display when any .votes button is clicked
+  document.querySelectorAll(".votes").forEach((button) => {
+    button.addEventListener("click", function (event) {
+      event.preventDefault();
+      // You can call your fetch function here if needed.
+      // For popup functionality, we just toggle the modal.
+      modal.style.display = "block";
+
+    mainOverlay.style.display = "block"; 
+    mainElement.style.overflow = "hidden";
+    });
+  });
+
+  // Close the modal when the close button is clicked
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+    mainOverlay.style.display = "none"; 
+    mainElement.style.overflow = "auto";
+  });
+
+  // Optional: Close modal when clicking outside modal content (if needed)
+  // Note: if the entire .hashes-container is the modal, clicking anywhere inside will close it.
+  // You might want to add an inner wrapper if that behavior isn't desired.
+  window.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+      mainOverlay.style.display = "none"; 
+    mainElement.style.overflow = "auto";
+    }
+  });
+  
+  // Optional: update modal position on scroll (if modal is open)
+  mainElement.addEventListener('scroll', () => {
+    if (modal.style.display === "block") {
+      updateModalPosition(modal);
+    }
+  });
+
+</script>
+
+

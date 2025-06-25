@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>BulSU Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/blockchain-management.css" />
+
+    <!-- Boxicons CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  </head>
+
+  <body>
+    <%- include('header') %>
+
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'blockchain', activeSub: 'blockchain-management' }) %>
+      <main class="main">
+        <div id="container-overlay">
+          <div class="title-container">
+            <div class="r">
+              <i class="fa fa-link"></i>
+              <h1 class="title">Blockchain Management</h1>
+            </div>
+            <h3 class="top">      
+              <a class="link" href="https://amoy.polygonscan.com/address/0xdd70759c1166a90c30c5115db0188d31b5d331da" target="_blank">
+                View TANIKALA Transactions on the Blockchain <span><i class="fa-solid fa-magnifying-glass"></i></span> 
+              </a>
+            </h3>
+          </div>
+          <hr class="title-line" />
+
+          <div class="column-main box-shadow">
+            <div class="first-main">
+
+              <div class="left">
+                <!-- Zari -->
+                <!-- <% if (electionConfig.electionStatus === "ELECTION INACTIVE") { %>
+                  <h2>No Current Election</h2>
+                <% } else { %>
+                  <h2>Election #<%= electionConfig.electionNumber + 1 %></h2>
+                <% } %> -->
+                
+                <h2><span><i class="fa fa-info-circle" aria-hidden="true"></i></span> Blockchain Information</h2>
+                <br />
+                <div class="indent">
+                  <ul>
+                    <li>
+                      <p><strong>Blockchain Network: </strong>Polygon</p>
+                    </li>
+                    <li>
+                      <p><strong>Consensus Mechanism: </strong>Proof-of-stake (POS)</p>
+                    </li>
+                    <li>
+                      <p><strong>Average Transaction Speed: </strong>2000 -4000 Transaction per Second</p>
+                    </li>
+                    <li>
+                      <p><strong>Maximum Capacity: </strong>7000 Transaction per Second</p>
+                    </li>
+                  </ul>
+                </div>
+                <br />
+                <%
+                  // Use new schema fields
+                  let avgCandidateCostPOL = 0, avgCandidateCostUSD = 0, avgCandidateCostPHP = 0;
+                  let avgVoteCostPOL = 0, avgVoteCostUSD = 0, avgVoteCostPHP = 0;
+                  let latestResetPOL = 0, latestResetUSD = 0, latestResetPHP = 0;
+
+                  // Compute average candidate cost per unit
+                  if (blockchainMgmt && blockchainMgmt.SubmitCandidatesCount > 0) {
+                    avgCandidateCostPOL = blockchainMgmt.totalCostInPol / blockchainMgmt.SubmitCandidatesCount;
+                    avgCandidateCostUSD = blockchainMgmt.totalCostInUSD / blockchainMgmt.SubmitCandidatesCount;
+                    avgCandidateCostPHP = blockchainMgmt.totalCostInPHP / blockchainMgmt.SubmitCandidatesCount;
+                  }
+
+                  // Compute average vote cost per unit, or fallback to latest if no votes yet
+                  if (blockchainMgmt) {
+                    if (electionConfig.totalRegisteredVoted > 0) {
+                      avgVoteCostPOL = blockchainMgmt.currentElectionVoteCostInPol
+                        / electionConfig.totalRegisteredVoted;
+                      avgVoteCostUSD = blockchainMgmt.currentElectionVoteCostInUSD
+                        / electionConfig.totalRegisteredVoted;
+                      avgVoteCostPHP = blockchainMgmt.currentElectionVoteCostInPHP
+                        / electionConfig.totalRegisteredVoted;
+                    } else {
+                      // No one’s voted yet – use the latest single-vote cost
+                      avgVoteCostPOL = blockchainMgmt.latestVoteCostInPol || 0;
+                      avgVoteCostUSD = blockchainMgmt.latestVoteCostInUSD || 0;
+                      avgVoteCostPHP = blockchainMgmt.latestVoteCostInPHP || 0;
+                    }
+                  }
+
+
+                  // Get latest reset cost
+                  if (blockchainMgmt) {
+                    latestResetPOL = blockchainMgmt.latestResetCostInPol || 0;
+                    latestResetUSD = blockchainMgmt.latestResetCostInUSD || 0;
+                    latestResetPHP = blockchainMgmt.latestResetCostInPHP || 0;
+                  }
+
+                  // Recommended fund formula
+                  let recommendedFundPOL = 0, recommendedFundUSD = 0, recommendedFundPHP = 0;
+                  if (electionConfig) {
+                    recommendedFundPOL = (avgCandidateCostPOL + (latestResetPOL * 3)) + (electionConfig.totalRegisteredNotVoted * avgVoteCostPOL);
+                    recommendedFundUSD = (avgCandidateCostUSD + (latestResetUSD * 3)) + (electionConfig.totalRegisteredNotVoted * avgVoteCostUSD);
+                    recommendedFundPHP = (avgCandidateCostPHP + (latestResetPHP * 3)) + (electionConfig.totalRegisteredNotVoted * avgVoteCostPHP);
+                  }
+
+                  // Determine balance status
+                  let balanceStatus = "", balanceDescription = "", balanceStatusClass = "";
+                  if (walletInfo) {
+                    if (walletInfo.balancePOL > recommendedFundPOL * 1.5) {
+                      balanceStatus = "Excellent";
+                      balanceStatusClass = "balance-excellent";
+                      balanceDescription = "The admin wallet balance is well above the recommended fund estimate. You have more than enough funds to execute the blockchain voting operation confidently.";
+                    } else if (walletInfo.balancePOL >= recommendedFundPOL) {
+                      balanceStatus = "Good";
+                      balanceStatusClass = "balance-good";
+                      balanceDescription = "The admin wallet balance matches the recommended fund estimate. You are in a stable position to proceed with the blockchain voting operation.";
+                    } else {
+                      balanceStatus = "Warning";
+                      balanceStatusClass = "balance-warning";
+                      balanceDescription = "The admin wallet balance is below the recommended fund estimate. To prevent potential issues during blockchain voting operations, please add more funds.";
+                    }
+                  }
+                %>
+
+
+                <h2><span><i class="fa-solid fa-wallet"></i></span> Admin Wallet Information</h2>
+                <br />
+                <!-- Wallet Address -->
+                <% if (loggedInAdmin.role === "Developer" || loggedInAdmin.role === "Electoral Board Member" || loggedInAdmin.role === "Technical Team Member") { %>
+                <div class="indent">
+                  <ul>
+                    <li>
+                      <p>
+                        <strong>Wallet Address:</strong>
+                        <%= walletInfo ? walletInfo.address : "N/A" %>
+                      </p>
+                    </li>
+                    <br />
+                    <li>
+                      <p>
+                        <strong>Current Balance:</strong>
+                        <span class="<%= balanceStatusClass %>"><b><%= balanceStatus %></b></span>
+                      </p>
+                      <p class="small-text <%= balanceStatusClass %>"><em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= balanceDescription %></em></p>
+                    </li>
+                    <br />
+                    <table class="currency">
+                      <tr>
+                        <th>Polygon (POL)</th>
+                        <th>United States Dollar (USD)</th>
+                        <th>Philippine Peso (PHP)</th>
+                      </tr>
+                      <tr>
+                        <td><%= walletInfo ? walletInfo.balancePOL.toFixed(4) : "N/A" %> POL</td>
+                        <td><%= walletInfo && walletInfo.balanceUSD ? walletInfo.balanceUSD.toFixed(2) : "N/A" %> USD</td>
+                        <td><span class="highlight"><%= walletInfo && walletInfo.balancePHP ? walletInfo.balancePHP.toFixed(2) : "N/A" %> PHP</span></td>
+                      </tr>
+                    </table>
+                    <br />
+                    <li>
+                      <p>
+                        <strong>Live Fee Estimate per Vote Transaction:</strong>
+                        <span>
+                          <%= blockchainMgmt && blockchainMgmt.voteCount > 0 ? avgVoteCostPOL.toFixed(4) : "0" %> POL |
+                          <%= blockchainMgmt && blockchainMgmt.voteCount > 0 ? avgVoteCostUSD.toFixed(2) : "0" %> USD |
+                          <span class="sub-highlight"><%= blockchainMgmt && blockchainMgmt.voteCount > 0 ? avgVoteCostPHP.toFixed(2) : "0" %> PHP</span>
+                        </span>
+                      </p>
+                    </li>
+                    <br />
+                    <li>
+                      <p>
+                        <strong>Live Recommended Fund Estimate:</strong>
+                        <span>
+                          <%= electionConfig && blockchainMgmt ? recommendedFundPOL.toFixed(4) : "0" %> POL |
+                          <%= electionConfig && blockchainMgmt ? recommendedFundUSD.toFixed(2) : "0" %> USD |
+                          <span class="highlight"><%= electionConfig && blockchainMgmt ? recommendedFundPHP.toFixed(2) : "0" %> PHP</span>
+                        </span>
+                      </p>
+                    </li>
+                    
+                   <!-- <li>
+                      <p>
+                        <strong>Blockchain Link:</strong>
+                        <% if (blockchainMgmt && blockchainMgmt.candidateSubmissionHash) { %>
+                          <a href="https://amoy.polygonscan.com/tx/<%= blockchainMgmt.candidateSubmissionHash %>#eventlog" target="_blank">
+                            View Transaction
+                          </a>
+                        <% } else { %>
+                          N/A
+                        <% } %>
+                      </p>
+                    </li> -->
+                  </ul>
+                </div>
+                <% } else { %>
+                  <p class="error-message">You do not have permission to view this information.</p>
+                  <% } %>
+
+              </div>
+
+              <div class="right">
+                <h2><i class="fa fa-link"></i> Blockchain Transactions (Current Election)</h2>
+                <br />
+                <% if (loggedInAdmin.role === "Developer" || loggedInAdmin.role === "Electoral Board Member" || loggedInAdmin.role === "Technical Team Member") { %>
+                <div class="indent">
+                  <ul>
+                    <li>
+                      <p><strong>Candidate Submission Count:</strong>
+                        <span><%= blockchainMgmt ? blockchainMgmt.currentElectionSubmitCandidatesCount : "N/A" %></span>
+                      </p>
+                      <div class="indent-ish">
+                        <% if (blockchainMgmt && blockchainMgmt.recentlyResetCandidatesNotSubmitted) { %>
+                          <p><strong>Latest Transaction Hash:</strong> None</p>
+                          <p><strong>Latest Submission Date:</strong> None</p>
+                        <% } else { %>
+                          <p><strong>Latest Transaction Hash:</strong></p>
+                          <% if (blockchainMgmt && Array.isArray(blockchainMgmt.latestSubmitCandidatesHash)) { %>
+                            <ol>
+                              <% blockchainMgmt.latestSubmitCandidatesHash.forEach((hash) => { %>
+                                <li><%= hash %></li>
+                              <% }); %>
+                            </ol>
+                          <% } else { %>
+                            <%= blockchainMgmt && blockchainMgmt.latestSubmitCandidatesHash ? blockchainMgmt.latestSubmitCandidatesHash : "N/A" %>
+                          <% } %>
+                          <p><strong>Latest Submission Date:</strong>
+                            <%= blockchainMgmt && blockchainMgmt.latestSubmitCandidatesTimeStamp ? moment(blockchainMgmt.latestSubmitCandidatesTimeStamp).format("MMMM DD, YYYY [at] hh:mm A") : "N/A" %>
+                          </p>
+                        <% } %>
+                      </div>
+                    </li>
+                    
+                    <br />
+                    <li>
+                      <p><strong>Candidate Removal Count:</strong>
+                        <span><%= blockchainMgmt ? blockchainMgmt.currentElectionResetCount : "N/A" %></span>
+                      </p>
+                      <div class="indent-ish">
+                        <% if (blockchainMgmt && blockchainMgmt.recentlyReset) { %>
+                          <p><strong>Latest Transaction Hash:</strong> None</p>
+                          <p><strong>Latest Removal Date:</strong> None</p>
+                        <% } else { %>
+                          <p><strong>Latest Transaction Hash:</strong>
+                            <%= blockchainMgmt && blockchainMgmt.latestResetHash ? blockchainMgmt.latestResetHash : "N/A" %>
+                          </p>
+                          <p><strong>Latest Removal Date:</strong>
+                            <%= blockchainMgmt && blockchainMgmt.latestResetTimeStamp ? moment(blockchainMgmt.latestResetTimeStamp).format("MMMM DD, YYYY [at] hh:mm A") : "N/A" %>
+                          </p>
+                        <% } %>
+                      </div>
+                    </li>
+                    <br />
+                    <li>
+                      <p><strong>Vote Transactions Count:</strong>
+                        <span><%= blockchainMgmt ? blockchainMgmt.currentElectionVoteCount : "N/A" %></span>
+                      </p>
+                    </li>
+                    <br />
+                    <li>
+                      <p><strong>Total Blockchain Transactions:</strong>
+                        <span>
+                          <%= blockchainMgmt ? (
+                            (blockchainMgmt.currentElectionVoteCount || 0) +
+                            (blockchainMgmt.currentElectionSubmitCandidatesCount || 0) +
+                            (blockchainMgmt.currentElectionResetCount || 0)
+                          ) : "N/A" %>
+                        </span>
+                      </p>
+                      <div class="indent-ish">
+                        <p><strong>Total Gas Used:</strong>
+                          <%= blockchainMgmt ? (
+                            (blockchainMgmt.currentElectionVoteCostInGas || 0) +
+                            (blockchainMgmt.currentElectionSubmitCandidatesCostInGas || 0) +
+                            (blockchainMgmt.currentElectionResetCostInGas || 0)
+                          ) : "N/A" %> Gas
+                        </p>
+                        <br />
+                        <p><strong>Total Amount Spent:</strong></p>
+                      </div>
+                    </li>
+                    <br />
+                    <table class="currency">
+                      <tr>
+                        <th>Polygon (POL)</th>
+                        <th>United States Dollar (USD)</th>
+                        <th>Philippine Peso (PHP)</th>
+                      </tr>
+                      <tr>
+                        <td>
+                          <%= blockchainMgmt ? (
+                            (blockchainMgmt.currentElectionVoteCostInPol || 0) +
+                            (blockchainMgmt.currentElectionSubmitCandidatesCostInPol || 0) +
+                            (blockchainMgmt.currentElectionResetCostInPol || 0)
+                          ).toFixed(6) : "N/A" %> POL
+                        </td>
+                        <td>
+                          <%= blockchainMgmt ? (
+                            (blockchainMgmt.currentElectionVoteCostInUSD || 0) +
+                            (blockchainMgmt.currentElectionSubmitCandidatesCostInUSD || 0) +
+                            (blockchainMgmt.currentElectionResetCostInUSD || 0)
+                          ).toFixed(2) : "N/A" %> USD
+                        </td>
+                        <td>
+                          <span class="highlight">
+                            <%= blockchainMgmt ? (
+                              (blockchainMgmt.currentElectionVoteCostInPHP || 0) +
+                              (blockchainMgmt.currentElectionSubmitCandidatesCostInPHP || 0) +
+                              (blockchainMgmt.currentElectionResetCostInPHP || 0)
+                            ).toFixed(2) : "N/A" %> PHP
+                          </span>
+                        </td>
+                      </tr>
+                    </table>
+                    <br />
+                  </ul>
+                </div>
+                <% } else { %>
+                  <p class="error-message">You do not have permission to view this information.</p>
+                  <% } %>
+              </div>
+              
+              
+              
+            </div>
+            <div class="update-date">
+              <p>All data last updated on <span class="update"> <%= walletInfo ? moment(walletInfo.updatedAt).format("MMMM DD, YYYY [at] hh:mm A") : "N/A" %></span></p>
+            </div>
+          </div>
+
+          <div class="total box-shadow">
+            <span class="middle"><h2>All Blockchain Transactions</h2></span>
+            <br />
+            <% if (loggedInAdmin.role === "Developer" || loggedInAdmin.role === "Electoral Board Member" || loggedInAdmin.role === "Technical Team Member") { %>
+            <div class="indent">
+              <ul>
+                <li>
+                  <p><strong>Candidate Submission Count: </strong>
+                    <span><%= blockchainMgmt ? blockchainMgmt.SubmitCandidatesCount : "N/A" %></span>
+                  </p>
+                  <div class="indent-ish">
+                    <p><strong>Latest Transaction Hash:</strong></p>
+                    <% if (blockchainMgmt && Array.isArray(blockchainMgmt.latestSubmitCandidatesHash)) { %>
+                      <ol>
+                        <% blockchainMgmt.latestSubmitCandidatesHash.forEach((hash) => { %>
+                          <li><%= hash %></li>
+                        <% }); %>
+                      </ol>
+                    <% } else { %>
+                      <%= blockchainMgmt && blockchainMgmt.latestSubmitCandidatesHash ? blockchainMgmt.latestSubmitCandidatesHash : "N/A" %>
+                    <% } %>
+                    <p><strong>Latest Submission Date:</strong>
+                      <%= blockchainMgmt && blockchainMgmt.latestSubmitCandidatesTimeStamp ? moment(blockchainMgmt.latestSubmitCandidatesTimeStamp).format("MMMM DD, YYYY [at] hh:mm A") : "N/A" %>
+                    </p>
+                  </div>
+                </li>
+                <br /> 
+                <li>
+                  <p><strong>Candidate Removal Count: </strong>
+                    <span><%= blockchainMgmt ? blockchainMgmt.ResetCount : "N/A" %></span>
+                  </p>
+                  <div class="indent-ish">
+                    <p><strong>Latest Transaction Hash:</strong>
+                      <%= blockchainMgmt && blockchainMgmt.latestResetHash ? blockchainMgmt.latestResetHash : "N/A" %>
+                    </p>
+                    <p><strong>Latest Removal Date:</strong>
+                      <%= blockchainMgmt && blockchainMgmt.latestResetTimeStamp ? moment(blockchainMgmt.latestResetTimeStamp).format("MMMM DD, YYYY [at] hh:mm A") : "N/A" %>
+                    </p>
+                  </div>
+                </li>
+                <br />
+                <li>
+                  <p><strong>Vote Transactions Count: </strong>
+                    <span><%= blockchainMgmt ? blockchainMgmt.voteCount : "N/A" %></span>
+                  </p>
+                </li>
+                <br />
+                <li>
+                  <p><strong>Total Blockchain Transactions: </strong>
+                    <span>
+                      <%= blockchainMgmt ? (
+                        (blockchainMgmt.voteCount || 0) +
+                        (blockchainMgmt.SubmitCandidatesCount || 0) +
+                        (blockchainMgmt.ResetCount || 0)
+                      ) : "N/A" %>
+                    </span>
+                  </p>
+                  <div class="indent-ish">
+                    <p><strong>Total Gas Used:</strong>
+                      <%= blockchainMgmt ? blockchainMgmt.totalCostInGas : "N/A" %> Gas
+                    </p>
+                    <br />
+                    <p><strong>Total Amount Spent:</strong></p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            
+          
+            <br />
+            <table class="currency total-currency">
+              <tr>
+                <th>Polygon (POL)</th>
+                <th>United States Dollar (USD)</th>
+                <th>Philippine Peso (PHP)</th>
+              </tr>
+              <tr>
+                <td>
+                  <%= blockchainMgmt && blockchainMgmt.totalCostInPol !== undefined
+                    ? blockchainMgmt.totalCostInPol.toFixed(6)
+                    : "N/A" %> POL
+                </td>
+                <td>
+                  <%= blockchainMgmt && blockchainMgmt.totalCostInUSD !== undefined
+                    ? blockchainMgmt.totalCostInUSD.toFixed(2)
+                    : "N/A" %> USD
+                </td>
+                <td>
+                  <span class="highlight">
+                    <%= blockchainMgmt && blockchainMgmt.totalCostInPHP !== undefined
+                      ? blockchainMgmt.totalCostInPHP.toFixed(2)
+                      : "N/A" %> PHP
+                  </span>
+                </td>
+              </tr>
+            </table>
+            <br />
+            <div class="update-date">
+              <p>All data last updated on
+                <span class="update">
+                  <%= walletInfo ? moment(walletInfo.updatedAt).format("MMMM DD, YYYY [at] hh:mm A") : "N/A" %>
+                </span>
+              </p>
+            </div>
+            <% } else { %>
+              <p class="error-message" style="text-align: center;">You do not have permission to view this information.</p>
+              <% } %>
+          </div>
+          
+        </div>
+      </main>
+    </div>
+
+
+    <%- include('footer') %>
+
+    <script src="admin/js/sidebar.js"></script>
+    <script src="admin/js/index-admin.js"></script>
+    <script src="js/dropdown.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      // Connect to Socket.IO, passing the logged-in admin's email
+      const socket = io("/", { query: { email: "<%= loggedInAdmin.email %>" } });
+    </script>
+  </body>
+</html>

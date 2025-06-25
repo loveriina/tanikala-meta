@@ -1,0 +1,61 @@
+/* Container for each candidate row */
+.progress-element {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5em;
+}
+
+/* Candidate name / label */
+.progress-label {
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0 1em 0.5em 0; /* top right bottom left */
+}
+
+/* The progress bar itself */
+progress {
+  width: 100%;
+  height: 1.25em;
+  appearance: none;
+  -webkit-appearance: none; /* for Chrome/Safari */
+  margin-right: 1em; /* space before vote count */
+}
+
+/* Unfilled portion of the bar (Chrome/Safari) */
+progress::-webkit-progress-bar {
+  background-color: #f4f4f4;
+  border-radius: 0.625em;
+  overflow: hidden; /* ensures rounded corners are visible */
+}
+
+/* Filled portion of the bar (Chrome/Safari) */
+progress::-webkit-progress-value {
+  background-color: #4a0707; /* change to suit your design */
+  border-radius: 0.625em;
+}
+
+/* Filled portion of the bar (Firefox) */
+progress::-moz-progress-bar {
+  background-color: #4a0707;
+  border-radius: 0.625em;
+}
+
+.progress-bar {
+  background-color: #faf2db;
+  border-radius: 10px;
+  width: 100%;
+  height: 1.7rem;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.progress {
+  background-color: #4caf50;
+  color: white;
+  height: 100%;
+  width: 0; /* this value is set inline from the EJS variable */
+  transition: width 0.5s ease-in-out;
+  padding: 0.15rem;
+  padding-left: 0.5rem;
+  font-size: 0.9rem;
+}

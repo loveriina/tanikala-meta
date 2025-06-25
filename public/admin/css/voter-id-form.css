@@ -1,0 +1,236 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* border: 1px solid black; */
+}
+
+/* Main container with light background and rounded corners */
+.hashes-container {
+  background-color: #f7f7f7;
+  border-radius: 2rem; /* 8px -> 0.5rem */
+  padding: 2rem; /* 20px -> 1.25rem */
+  max-width: 80vw; /* 1000px -> 62.5rem */
+  margin: 0 auto;
+  box-shadow: 0 8px 24px 0 rgb(16 39 112 / 20%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Title styling */
+.hashes-title {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #4caf50; /* Example green color for heading */
+  margin-bottom: 1.25rem; /* 20px -> 1.25rem */
+}
+
+/* Top bar (Total votes + search bar) */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.9375rem; /* 15px -> 0.9375rem */
+}
+
+/* Total votes text */
+.total-votes {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Search bar container */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem; /* 5px -> 0.3125rem */
+}
+
+/* Search input and button */
+/* #searchInput {
+  padding: 0.375rem 0.625rem; 
+  border: 0.0625rem solid #ccc; 
+  border-radius: 0.25rem; 
+} */
+#searchBtn {
+  padding: 0.375rem 0.625rem; /* 6px 10px -> 0.375rem 0.625rem */
+  background-color: #ccc;
+  border: none;
+  border-radius: 0.25rem; /* 4px -> 0.25rem */
+  cursor: pointer;
+}
+#searchBtn:hover {
+  background-color: #bbb;
+}
+
+/* Grid of transaction hashes */
+.hashes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 3 columns */
+  gap: 0.625rem; /* 10px -> 0.625rem */
+  margin-bottom: 1.25rem; /* 20px -> 1.25rem */
+}
+
+/* Each column is just a <div> of lines of text */
+.hash-column {
+  background-color: #fff;
+  padding: 0.625rem; /* 10px -> 0.625rem */
+  border-radius: 0.25rem; /* 4px -> 0.25rem */
+  /* border: 0.0625rem solid #ccc; */
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Highlight class */
+.highlight {
+  background-color: #66d85c; /* or any highlight color */
+  font-weight: bold;
+}
+
+/* Pagination area */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem; /* 10px -> 0.625rem */
+  font-size: 1rem;
+  margin-top: auto !important;
+}
+.pagination button {
+  background-color: #ccc;
+  border: none;
+  padding: 0.375rem 0.625rem; /* 6px 10px -> 0.375rem 0.625rem */
+  border-radius: 0.25rem; /* 4px -> 0.25rem */
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background-color: #bbb;
+}
+#pageInfo {
+  min-width: 6.25rem; /* 100px -> 6.25rem */
+  text-align: center;
+}
+
+.modal {
+  height: 80vh;
+  width: 90vw;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal p {
+  font-size: 0.8rem;
+}
+
+.hash-column {
+  font-size: 0.8rem;
+}
+
+.id {
+  display: flex;
+  flex-direction: row;
+}
+
+.grid-wrapper {
+  flex: 1; /* Expands to fill the available space */
+  overflow-y: auto; /* Scroll if content exceeds the space */
+  margin-bottom: 1.25rem;
+}
+
+.receipt-container p,
+.table-receipt p {
+  font-size: 0.75em !important;
+}
+
+.table-receipt {
+  border-radius: none;
+}
+
+.table-receipt th,
+td {
+  background-color: white;
+}
+
+.table-receipt {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+.table-receipt tr {
+  /* background-color: #faf2db; */
+  color: black;
+  border: 1px solid #000;
+  padding: 0.35em;
+}
+.table-receipt th,
+.table-receipt td {
+  padding: 0.625em;
+  border: 1px solid #000;
+}
+
+.audit-table tbody tr:nth-child(odd) {
+  background-color: rgb(249, 247, 247);
+}
+
+.audit-table tbody tr:nth-child(even) {
+  background-color: #dfe0e0;
+}
+
+.table-receipt {
+  border-radius: 0;
+}
+
+.table-receipt td p {
+  font-size: 0.75rem;
+}
+
+.table-receipt {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.table-receipt th,
+.table-receipt td {
+  border: 1px solid #000; /* solid black lines */
+  padding: 8px;
+  background-color: transparent !important;
+  color: #000; /* black text */
+  text-align: left;
+}
+
+.table-receipt thead {
+  background-color: transparent !important;
+}
+
+.table-receipt tr {
+  background-color: transparent !important;
+}
+
+.table-panel table tbody tr:nth-child(odd) {
+  background-color: rgb(249, 247, 247);
+}
+
+.table-panel table tbody tr:nth-child(even) {
+  background-color: #dfe0e0;
+}
+
+.receipt-container table {
+  border-radius: 0;
+}
+
+.receipt-container table p {
+  font-size: 0.75rem;
+}
+
+.receipt-container .table-receipt thead {
+  background-color: aqua !important;
+  color: pink !important;
+}

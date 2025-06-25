@@ -1,0 +1,231 @@
+:root {
+  /* colors */
+  --color-darkRed: #310505;
+  --color-mediumRed: #550c0a;
+  --color-medRed: #6e1311;
+  --color-lightRed: #a60212;
+  --color-darkYellow: #f5ab29;
+  --color-mediumYellow: #e1ae5b;
+  --color-lightYellow: #f2ddb4;
+  --color-lighterYellow: #faf2db;
+
+  --color-darkGreen: #245414;
+  --color-lightGreen: #5fb643;
+  --color-darkBlue: #004aad;
+  --color-lightBlue: #2c86fd;
+  --color-gray: #323847;
+
+  --height-main-first: 20%;
+  --height-main-second: 80%;
+
+  --height-main-second: 80%;
+  --width-main-second: 100vw;
+}
+
+.header-nav-content {
+  padding-left: 10rem;
+}
+
+/* .content h1 {
+  font-size: 2.125rem;
+} */
+
+.main-second {
+  display: flex;
+  flex-direction: column;
+  flex-basis: var(--width-main-second);
+  justify-content: center;
+  background: linear-gradient(to bottom, var(--color-mediumYellow), var(--color-lightYellow));
+  border-radius: 1.5rem;
+  padding: 2%;
+  /* margin-bottom: 4%; */
+  width: 40vw;
+  color: var(--color-mediumRed);
+}
+
+#form-registration {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-input-container {
+  display: flex;
+  margin-top: 3%;
+}
+
+.form-input-container label {
+  min-width: 30%;
+  font-weight: bold;
+  text-align: right;
+  margin-right: 1%;
+  margin-left: 1%;
+}
+
+.form-input-container input,
+.form-input-container select {
+  width: 60%;
+  height: 2.5em;
+  padding: 0 3%;
+  margin-left: 4%;
+  border: 0.25em solid var(--color-medRed);
+  background-color: var(--color-lightYellow);
+}
+
+.form-button {
+  width: 100%;
+  justify-content: center;
+}
+
+.form-button input {
+  width: 20%;
+  padding: 2%;
+  margin: 3%;
+  background-color: var(--color-medRed);
+  color: white;
+  font-weight: bold;
+  border-radius: 0.5em;
+  border: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #000000;
+
+  transition: background-color 5000s ease-in-out 0s !important;
+  box-shadow: inset 0 0 20px 20px var(--color-lightYellow);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: #6e1311;
+}
+
+.row img {
+  height: 3.4rem;
+  padding-right: 1rem;
+  width: 5rem;
+}
+
+li {
+  color: #f5ab29;
+}
+
+#submitBtn {
+  cursor: pointer;
+}
+
+.content-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .content-main-left,
+  .content-main-right {
+    display: none;
+  }
+
+  .first-text {
+    padding: 0;
+  }
+
+  h2.title {
+    font-size: 1.6rem;
+    padding: 0;
+  }
+
+  .no-mobile {
+    display: none;
+  }
+
+  .header-nav-content {
+    padding-left: 2rem;
+  }
+
+  .main-second {
+    width: 80vw; /* Increase width for smaller screens */
+    padding: 1rem; /* Reduce padding for more compact layout */
+  }
+
+  .form-input-container {
+    flex-direction: column; /* Stack labels and inputs vertically */
+    align-items: flex-start;
+  }
+
+  .form-input-container label {
+    text-align: left;
+    margin: 0;
+    min-width: auto;
+  }
+
+  .content-mobile {
+    margin-top: 2rem;
+    display: flex;
+    column-gap: 3rem;
+  }
+
+  .content-mobile img {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .content-mobile p {
+    display: none;
+  }
+
+  .form-input-container input,
+  .form-input-container select {
+    width: 100%; /* Full width inputs for better accessibility */
+    margin-left: 0;
+    /* margin-bottom: 1rem; */
+  }
+
+  .form-button input {
+    width: 100%;
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .row img {
+    width: 3rem;
+    height: 3rem;
+    padding-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  h6 {
+    font-size: 1.4rem;
+  }
+
+  button {
+    width: 7rem;
+  }
+
+  .title h2 {
+    font-size: 1rem;
+  }
+}
+
+button:hover {
+  filter: brightness(1.2); /* Lightens the color */
+}
+
+button:active {
+  filter: brightness(0.8); /* Darkens the color */
+  transform: scale(0.95); /* Adds a click effect */
+}
+
+button {
+  background-color: #004aad;
+  color: pink;
+}

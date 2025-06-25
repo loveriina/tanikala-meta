@@ -1,0 +1,178 @@
+:root {
+  --width-main-left: 50%;
+  --width-main-right: var(--width-main-left);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.first-main {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2% !important;
+}
+
+.ssc {
+  color: #a60212;
+}
+
+.lsc {
+  color: #108b05;
+}
+
+#CollegeSelect,
+#college-selector,
+.select {
+  background-color: #fff3c8;
+  color: #bb7e15;
+  font-family: "Montserrat", "Century Gothic";
+  font-weight: 700;
+  padding: 1em 0.8em;
+  border: none;
+  border-radius: 0.8em;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 0.1em #ffffff;
+  border: 0.2rem solid #0b8000;
+}
+
+.container-ssc,
+.container-lsc {
+  margin: 2%;
+  padding: 6%;
+  border-radius: 2em;
+  border: 0.2rem solid rgba(14, 13, 13, 0.5);
+}
+
+.container-lsc {
+  margin: 4% 2%;
+}
+
+.container-ssc,
+#container-president {
+  background-color: #f8cbba;
+}
+
+.lsc-container {
+  background-color: #c9ddb1;
+}
+
+#container-senator,
+#container-lsc-board-member {
+  background-color: #f2ddb4;
+}
+
+.container-position {
+  margin: 2rem;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  padding: 0 !important;
+}
+/* border: 1px solid black; */
+
+.position-ssc {
+  color: #a60212;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.position-lsc {
+  color: #0b8000;
+}
+
+.lsc-candidate {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.img-container,
+.img-container img {
+  height: 6.4rem;
+  width: 6.4rem;
+}
+
+.candidate-info {
+  width: calc((100% - 6.4rem));
+}
+
+.candidate-info p {
+  font-style: italic;
+  color: #525252;
+  font-weight: 600;
+  padding-left: 0.2rem;
+}
+
+.total-votes p {
+  padding-top: 2rem;
+}
+
+.right {
+  font-style: italic;
+  color: #148b09;
+}
+
+#container-lsc-board-member ul,
+.program-name {
+  color: #bb7e15;
+  padding-left: 1rem;
+  font-size: 1.5rem;
+  text-decoration: underline;
+}
+
+.usog-right {
+  text-align: right;
+  padding-right: 1rem;
+  padding-top: 2rem;
+}
+
+.candidate,
+.lsc-candidate {
+  padding: 1rem;
+}
+
+.total-votes {
+  padding-top: 2rem;
+}
+
+.total-votes h3 {
+  font-style: italic;
+  color: #148b09;
+  font-weight: 600;
+  padding-right: 2rem;
+}
+
+.green {
+  color: #148b09;
+  text-decoration: underline;
+}
+
+.votes {
+  padding-left: 9rem;
+}
+
+.votes-abstain {
+  margin-top: -9rem;
+  padding-left: 9rem;
+}
+
+.abstain {
+  padding-bottom: -5rem;
+}
+
+#container-lsc-board-member ul {
+  margin-top: 2rem;
+}
+
+/* .votes-abstain {
+  padding-top: -5rem;
+} */
+
+.election-title {
+  color: #f5ab29;
+}
+
+.position-program {
+  color: ;
+}

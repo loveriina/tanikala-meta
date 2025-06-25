@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TANIKALA Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/admin-login.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="components/notification.css" />
+    <script type="module" src="components/notification.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-logo">
+        <img src="img/logo_tanikala.png" alt="TANIKALA Voting System" />
+      </div>
+      <nav class="header-nav">
+        <ul class="header-nav-content">
+          <li><a href="/">Home</a></li>
+           <li><a href="/home-candidates">Candidates</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-bottom-line"></div>
+    </header>
+
+    <div class="content">
+      <div class="content-title">
+        <h3>BLOCKCHAIN-BASED VOTING SYSTEM FOR THE STUDENT GOVERNMENT ELECTIONS AT BULACAN STATE UNIVERSITY</h3>
+      </div>
+      <div class="content-main">
+        <div class="card box-shadow">
+          <h2 class="red">Admin Login</h2>
+          <br />
+          <form action="/admin-login" method="POST">
+            <div class="field">
+              <%- include('../partials/svg-user') %>
+              <!-- Changed field to use username -->
+              <input autocomplete="off" id="logusername" placeholder="Type your email here..." class="input-field" name="email" type="text" required />
+            </div>    
+            <div class="field">
+              <%- include('../partials/svg-lock') %>
+              <input autocomplete="off" id="logpass" placeholder="Type your password here..." class="input-field" name="password" type="password" required />
+              <span class="toggle-password" onclick="togglePassword()" style="cursor:pointer;">
+                <%- include('../partials/svg-eye') %>
+            </span>
+            </div>
+            <!-- <div class="field">
+          
+            
+              <input type="text" id="otp-code" placeholder="Enter OTP code..." class="input-field" name="otp" disabled required />
+            </div> -->
+            
+            <!-- <button type="button" id="sendOtpButton" class="btn">Send OTP</button> -->
+            
+            <button class="btn" type="submit">Log in</button>
+            <!-- <a href="#" class="btn-link">Forgot your password?</a> -->
+          </form>
+        </div>
+        <br />
+        <br />
+        <div class="logo-beside">
+          <img src="img/logo_bulsu.png" class="logo-container" alt="BulSU Logo" />
+          <img src="img/logo_bulsu_ucse.png" class="logo-container" alt="BulSU UCSE Logo" />
+        </div>
+      </div>
+    </div>
+
+
+    <script src="js/index.js"></script>
+
+    <script type="module">
+      import { createNotification } from "/components/notification.js";
+
+      const urlParams = new URLSearchParams(window.location.search);
+
+      if (urlParams.has("loggedOut")) {
+        createNotification("Logged out successfully", "info", 3000);
+        history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      if (urlParams.has("error")) {
+        let errorMessage = "An unknown error occurred. Please try again.";
+        const errorType = urlParams.get("error");
+
+        if (errorType === "invalid_credentials") {
+          errorMessage = "Invalid username or password. Please try again.";
+        } else if (errorType === "server_error") {
+          errorMessage = "A server error occurred. Please try again later.";
+        }
+
+        createNotification(errorMessage, "error", 3000);
+        history.replaceState({}, document.title, window.location.pathname);
+      }
+    </script>
+
+<script>
+  const emailField = document.getElementById("logusername");
+  const sendOtpButton = document.getElementById("sendOtpButton");
+  const otpField = document.getElementById("otp-code");
+
+  let cooldownTimer = null;
+  let cooldownRemaining = 0;
+
+  function startCooldown(seconds) {
+    cooldownRemaining = seconds;
+    updateSendOtpButton();
+
+    cooldownTimer = setInterval(() => {
+      cooldownRemaining--;
+      updateSendOtpButton();
+
+      if (cooldownRemaining <= 0) {
+        clearInterval(cooldownTimer);
+        sendOtpButton.disabled = false;
+        sendOtpButton.textContent = "Send OTP";
+      }
+    }, 1000);
+  }
+
+  function updateSendOtpButton() {
+    const minutes = Math.floor(cooldownRemaining / 60);
+    const seconds = cooldownRemaining % 60;
+    sendOtpButton.textContent = `Resend OTP in ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  }
+
+  sendOtpButton.addEventListener("click", async function () {
+    const emailValue = emailField.value.trim();
+    if (!emailValue) {
+      alert("Please enter your email first.");
+      return;
+    }
+
+    if (cooldownRemaining > 0) return;
+
+    sendOtpButton.disabled = true;
+
+    try {
+      const response = await fetch('/admin-login/request-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: emailValue })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("OTP sent to your email.");
+        otpField.disabled = false;
+        otpField.focus();
+        startCooldown(300); // 5 minutes
+      } else {
+        alert("Failed to send OTP: " + (data.error || "Unknown error"));
+        sendOtpButton.disabled = false;
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error sending OTP");
+      sendOtpButton.disabled = false;
+    }
+  });
+</script>
+
+
+    <script>
+  function togglePassword() {
+    const passwordInput = document.getElementById("logpass");
+    // Toggle the type attribute
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+    } else {
+      passwordInput.type = "password";
+    }
+  }
+</script>
+     <%- include('../voter/footer') %>
+  </body>
+</html>

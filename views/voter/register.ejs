@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TANIKALA Voting System</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="voter/css/index-voter.css" />
+    <link rel="stylesheet" type="text/css" href="voter/css/register.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="components/notification.css" />
+    <script type="module" src="components/notification.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-logo">
+        <img src="../img/logo_tanikala.png" alt="TANIKALA Voting System" />
+      </div>
+      <nav class="header-nav">
+        <ul class="header-nav-content">
+          <li id="active-link">Voter Registration</li>
+        </ul>
+      </nav>
+      <div class="header-bottom-line"></div>
+    </header>
+
+    <div class="content">
+      <div class="main-first">
+        <img src="img/logo_bulsu.png" class="main-first-logo no-mobile" alt="BulSU Logo" />
+        <div class="first-text">
+          <h2 class="title"><%= electionConfig.electionName %></h2>
+        </div>
+        <img src="img/logo_bulsu_ucse.png" class="main-first-logo no-mobile" alt="BulSU UCSE Logo" />
+      </div>
+      <div class="main-second box-shadow">
+        <form id="form-registration" action="/register" method="POST">
+          <div class="row">
+            <img src="img/voter-registration.png" />
+            <h6>Voter Registration Form</h6>
+          </div>
+          <br />
+
+          <!-- Name Field -->
+          <div class="form-input-container">
+            <label for="full-name" class="form-label">Name: </label>
+            <input type="text" id="full-name" class="form-input" name="fullName" value="<%= user ? user.name : '' %>" placeholder="e.g. Juan Dela Cruz" readonly />
+          </div>
+
+          <!-- BulSU Email Field -->
+          <div class="form-input-container">
+            <label for="bulsu-account" class="form-label">BulSU Email: </label>
+            <input type="email" id="bulsu-account" class="form-input" name="email" value="<%= user ? user.email : '' %>" placeholder="e.g. 2021123456@ms.bulsu.edu.ph" readonly />
+          </div>
+
+          <!-- Student Number Field -->
+          <div class="form-input-container">
+            <label for="student-number" class="form-label">Student Number: </label>
+            <input type="number" id="student-number" class="form-input" name="studentNumber" placeholder="e.g. 2021123456" readonly />
+          </div>
+
+          <!-- Campus Field (Disabled Select + Hidden Input) -->
+          <div class="form-input-container">
+            <label for="campus_display" class="form-label">Campus: </label>
+            <select id="campus_display" disabled>
+              <option value="Malolos (Main) Campus" selected>Malolos (Main) Campus</option>
+            </select>
+            <!-- Hidden input ensures the campus value is submitted -->
+            <input type="hidden" name="campus" id="campus" value="Malolos (Main) Campus" />
+          </div>
+
+          <!-- College Field (Disabled Select + Hidden Input) -->
+          <div class="form-input-container">
+            <label for="college_display" class="form-label">College: </label>
+            <select id="college_display" disabled>
+              <option value="" disabled selected>Select College</option>
+              <option value="College of Architecture and Fine Arts (CAFA)">College of Architecture and Fine Arts (CAFA)</option>
+              <option value="College of Arts and Letters (CAL)">College of Arts and Letters (CAL)</option>
+              <option value="College of Business Education and Accountancy (CBEA)">College of Business Education and Accountancy (CBEA)</option>
+              <option value="College of Criminal Justice Education (CCJE)">College of Criminal Justice Education (CCJE)</option>
+              <option value="College of Hospitality and Tourism Management (CHTM)">College of Hospitality and Tourism Management (CHTM)</option>
+              <option value="College of Information and Communications Technology (CICT)">College of Information and Communications Technology (CICT)</option>
+              <option value="College of Industrial Technology (CIT)">College of Industrial Technology (CIT)</option>
+              <option value="College of Nursing (CN)">College of Nursing (CN)</option>
+              <option value="College of Engineering (COE)">College of Engineering (COE)</option>
+              <option value="College of Education (COED)">College of Education (COED)</option>
+              <option value="College of Science (CS)">College of Science (CS)</option>
+              <option value="College of Sports, Exercise, and Recreation (CSER)">College of Sports, Exercise, and Recreation (CSER)</option>
+              <option value="College of Social Sciences and Philosophy (CSSP)">College of Social Sciences and Philosophy (CSSP)</option>
+            </select>
+            <!-- Hidden input ensures the college value is submitted -->
+            <input type="hidden" name="college" id="college" />
+          </div>
+
+          <!-- Program Field -->
+          <div class="form-input-container">
+            <label for="program" class="form-label">Program: </label>
+            <select name="program" id="program">
+              <option value="" disabled selected>Select a College First</option>
+            </select>
+          </div>
+          <br />
+          <div class="form-button">
+            <!-- Submit button -->
+            <input type="button" class="button" id="submitBtn" value="SUBMIT" />
+          </div>
+        </form>
+      </div>
+      <div class="content-mobile">
+        <div class="content-main-left">
+          <img src="img/logo_bulsu.png" alt="BulSU Logo" class="logo-opacity" /> <br />
+          <p class="montserrat" id="be-heard">Be Heard! Your Vote is Your Power!</p>
+        </div>
+
+        <div class="content-main-right">
+          <img src="img/logo_bulsu_ucse.png" alt="BulSU UCSE Logo" class="logo-opacity" /><br />
+          <p class="montserrat" id="vote-now">Vote Now for the Student Government Elections!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Validation and Submission Script -->
+    <script type="module">
+      import { createNotification } from "/components/notification.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("form-registration");
+        const submitBtn = document.getElementById("submitBtn");
+
+        submitBtn.addEventListener("click", () => {
+          // Use hidden inputs for campus and college values
+          const fullName = document.getElementById("full-name").value.trim();
+          const email = document.getElementById("bulsu-account").value.trim();
+          const studentNumber = document.getElementById("student-number").value.trim();
+          const campus = document.getElementById("campus").value.trim();
+          const college = document.getElementById("college").value.trim();
+          const program = document.getElementById("program").value.trim();
+
+          if (!fullName || !email || !studentNumber || !campus || !college || !program) {
+            createNotification("Please fill in all required fields.", "error", 3000);
+            return;
+          }
+          form.submit();
+        });
+      });
+    </script>
+
+    <!-- Auto-Populate College and Fetch Programs -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const jobTitle = "<%= user ? user.jobTitle : '' %>";
+        const collegeDisplay = document.getElementById("college_display");
+        const collegeHidden = document.getElementById("college");
+
+        if (jobTitle) {
+          // Expecting jobTitle format like "Some Title - CAL"
+          const collegeAcronym = jobTitle.split(" - ")[1];
+          const collegeMap = {
+            CAFA: "College of Architecture and Fine Arts (CAFA)",
+            CAL: "College of Arts and Letters (CAL)",
+            CBEA: "College of Business Education and Accountancy (CBEA)",
+            CCJE: "College of Criminal Justice Education (CCJE)",
+            CHTM: "College of Hospitality and Tourism Management (CHTM)",
+            CICT: "College of Information and Communications Technology (CICT)",
+            CIT: "College of Industrial Technology (CIT)",
+            CN: "College of Nursing (CN)",
+            COE: "College of Engineering (COE)",
+            COED: "College of Education (COED)",
+            CS: "College of Science (CS)",
+            CSER: "College of Sports, Exercise, and Recreation (CSER)",
+            CSSP: "College of Social Sciences and Philosophy (CSSP)",
+          };
+
+          if (collegeAcronym in collegeMap) {
+            const selectedCollege = collegeMap[collegeAcronym];
+            collegeDisplay.value = selectedCollege;
+            collegeHidden.value = selectedCollege;
+            // Fetch the programs based on the selected college.
+            fetchPrograms(selectedCollege);
+          }
+        }
+      });
+    </script>
+
+    <!-- Fetch Programs Based on College -->
+    <script>
+      async function fetchPrograms(college) {
+        const programSelect = document.getElementById("program");
+        programSelect.innerHTML = "<option disabled selected>Loading...</option>";
+        try {
+          const response = await fetch(`/api/programs?college=${encodeURIComponent(college)}`);
+          const data = await response.json();
+          if (data.programs) {
+            programSelect.innerHTML = "<option value='' disabled selected>Select Program</option>";
+            data.programs.forEach((program) => {
+              const option = document.createElement("option");
+              option.value = program;
+              option.textContent = program;
+              programSelect.appendChild(option);
+            });
+          } else {
+            programSelect.innerHTML = "<option disabled>No programs available</option>";
+          }
+        } catch (error) {
+          console.error("Error fetching programs:", error);
+          programSelect.innerHTML = "<option disabled>Error loading programs</option>";
+        }
+      }
+    </script>
+
+    <!-- Format Email Script (if student number is available) -->
+    <script>
+      function formatEmail(event) {
+        const studentNumber = document.getElementById("student-number").value.trim();
+        const emailField = document.getElementById("bulsu-account");
+        if (!emailField.value.trim() && studentNumber) {
+          emailField.value = `${studentNumber}@ms.bulsu.edu.ph`;
+        }
+      }
+    </script>
+
+    <!-- Auto-Fill Student Number from Email -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const emailField = document.getElementById("bulsu-account");
+        const studentNumberField = document.getElementById("student-number");
+        if (emailField.value) {
+          const match = emailField.value.match(/^(\d{10})@ms\.bulsu\.edu\.ph$/);
+          if (match) {
+            studentNumberField.value = match[1];
+          }
+        }
+      });
+    </script>
+
+    <!-- Date and Time Script -->
+    <script>
+      // Use registration dates from server configuration.
+      const registrationStart = new Date("<%= electionConfig.registrationStart %>").getTime();
+      const registrationEnd = new Date("<%= electionConfig.registrationEnd %>").getTime();
+
+      // Get fakeCurrentDate from EJS template if provided.
+      // Use fakeCurrentDate if provided; otherwise use the real current time.
+      const fakeCurrentDateStr = "<%= electionConfig.fakeCurrentDate ? electionConfig.fakeCurrentDate : '' %>";
+      const baseNow = fakeCurrentDateStr ? new Date(fakeCurrentDateStr).getTime() : new Date().getTime();
+      let elapsed = 0;
+      function getCurrentTime() {
+        return baseNow + elapsed;
+      }
+
+      // // Update the date range display.
+      // const datePeriodElem = document.querySelector(".date-period");
+      // datePeriodElem.textContent = new Date(registrationStart).toLocaleDateString() + " - " + new Date(registrationEnd).toLocaleDateString();
+
+      // Update the date range display with the desired format (Month Day, Year).
+      const datePeriodElem = document.querySelector(".date-period");
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      datePeriodElem.textContent = new Date(registrationStart).toLocaleDateString("en-US", options) + " - " + new Date(registrationEnd).toLocaleDateString("en-US", options);
+
+      // Grab elements by id.
+      const electionPeriodElem = document.getElementById("election-period");
+      // const countdownElem = document.getElementById("countdown");
+      const daysElem = document.getElementById("days");
+      const hoursElem = document.getElementById("hours");
+      const minutesElem = document.getElementById("minutes");
+      const secondsElem = document.getElementById("seconds");
+      const timeLeftElem = document.getElementById("time-left");
+      const getReadyToRegisterElem = document.getElementById("get-ready-to-register");
+      const getReadyToRegisterContainer = document.getElementById("get-ready-container");
+      const registerButton = document.getElementById("register-button");
+
+      function updatePhase() {
+        const now = baseNow + elapsed;
+        let distance = 0;
+        if (now < registrationStart) {
+          electionPeriodElem.textContent = "Registration Period:";
+          timeLeftElem.textContent = "Time Until Registration Opens";
+          getReadyToRegisterElem.textContent = "Get Ready to Register!";
+          distance = registrationStart - now;
+          registerButton.style.display = "none";
+        } else if (now >= registrationStart && now <= registrationEnd) {
+          electionPeriodElem.textContent = "Registration Period:";
+          timeLeftElem.textContent = "Left to Register";
+          getReadyToRegisterContainer.textContent = "";
+          distance = registrationEnd - now;
+          registerButton.style.display = "block";
+        } else {
+          electionPeriodElem.textContent = "Registration Ended";
+          timeLeftElem.textContent = "";
+          distance = 0;
+          registerButton.style.display = "none";
+        }
+        return distance;
+      }
+
+      const interval = setInterval(() => {
+        const distance = updatePhase();
+        // Simulate time progression if using fakeCurrentDate:
+        if (fakeCurrentDateStr) {
+          elapsed += 1000;
+        }
+        if (distance <= 0) {
+          clearInterval(interval);
+          // countdownElem.textContent = "00 00 00 00";
+          daysElem.textContent = "00";
+          hoursElem.textContent = "00";
+          minutesElem.textContent = "00";
+          secondsElem.textContent = "00";
+        } else {
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          // countdownElem.textContent = (days < 10 ? "0" + days : days) + " " + (hours < 10 ? "0" + hours : hours) + " " + (minutes < 10 ? "0" + minutes : minutes) + " " + (seconds < 10 ? "0" + seconds : seconds);
+          daysElem.textContent = days < 10 ? "0" + days : days;
+          hoursElem.textContent = hours < 10 ? "0" + hours : hours;
+          minutesElem.textContent = minutes < 10 ? "0" + minutes : minutes;
+          secondsElem.textContent = seconds < 10 ? "0" + seconds : seconds;
+        }
+      }, 1000);
+    </script>
+
+     <%- include('footer') %> 
+  </body>
+</html>

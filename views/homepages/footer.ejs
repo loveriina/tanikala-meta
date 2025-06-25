@@ -1,0 +1,48 @@
+<footer class="footer">
+  <div class="footer-left">
+    <img src="img/calendar.png" class="footer-img" />
+    <p><span id="footerTime"></span></p>
+  </div>
+
+  <div class="footer-center">
+    <img src="img/copyright.png" class="footer-img" id="copyright-img" />
+    <p>2025 - Fourmula 1</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.40/moment-timezone-with-data.min.js"></script>
+
+<script>
+  const config = <%- JSON.stringify(electionConfig) %>;
+
+  function updateFooterTime() {
+    let currentTime;
+    if (typeof config !== 'undefined' && config.useFakeDate && config.fakeCurrentDate) {
+      currentTime = moment.tz(config.fakeCurrentDate.$date || config.fakeCurrentDate, "Asia/Manila");
+    } else {
+      currentTime = moment.tz(new Date(), "Asia/Manila");
+    }
+    const formattedTime = currentTime.format("MMMM DD, YYYY [AT] hh:mm A").toUpperCase();
+    document.getElementById("footerTime").textContent = formattedTime;
+  }
+
+  console.log("Use Fake Date", config.useFakeDate);
+  updateFooterTime();
+  setInterval(updateFooterTime, 30000);
+
+  // 🔐 Secret admin redirect: click copyright image 5 times
+  let clickCount = 0;
+  const copyrightImg = document.getElementById("copyright-img");
+
+  copyrightImg.addEventListener("click", () => {
+    clickCount++;
+    if (clickCount === 5) {
+      window.location.href = "/admin-login";
+    }
+    // Optional: reset after a few seconds
+    setTimeout(() => {
+      clickCount = 0;
+    }, 3000);
+  });
+</script>

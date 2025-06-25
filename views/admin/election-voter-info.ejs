@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BulSU Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/election-voter-info.css" />
+
+    <!-- Boxicons & Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+  
+    <style>
+      tr.even {
+  background-color: #ddd;  /* light color for even rows */
+}
+
+tr.odd {
+  background-color: #ffffff;  /* white or another contrasting color for odd rows */
+}
+
+    </style>
+  </head>
+  <body>
+    <script>
+      // server sent you a single object; wrap it into a one-element array
+      const electionConfig = (function(raw){
+        // `raw` is the object passed from Express
+        return Array.isArray(raw) ? raw : [ raw ];
+      })(<%- JSON.stringify(electionConfig) %>);
+    </script>
+    
+
+    <%- include('header') %>
+
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'election', activeSub: 'voter-info' }) %>
+      <main class="main">
+        <div class="title-container">
+          <div class="r">
+            <i class="fa-regular fa-address-card"></i>
+            <h1 class="title">Voter Information</h1>
+          </div>
+        </div>
+        <hr class="title-line" />
+
+        <div class="main-header">
+          <div class="main-header-title">
+            <h1 class="gray">&nbsp;&nbsp;List of Registered Student Voters</h1>
+          </div>
+          <div>
+           <label for="sortFilter">Sort By: </label>
+          <select id="sortFilter" class="space">
+            <option value="name-asc" selected>Name (A-Z)</option>
+            <option value="name-desc">Name (Z-A)</option>
+            <option value="student-asc">Student Number (Ascending)</option>
+            <option value="student-desc">Student Number (Descending)</option>
+          </select>
+          </div>
+
+          <div class="group">
+            
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+              <g>
+                <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+              </g>
+            </svg>
+            <input placeholder="Search" type="search" class="input" />
+          </div>
+          <div class="main-header-options">
+            <img src="../img/printer.png" class="option-print" />
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-controls" style="margin: 10px 0; padding: 5px;">
+         
+
+          <label for="collegeFilter">College:</label>
+          <select id="collegeFilter" class="space">
+            <option value="all">All Colleges</option>
+            <option value="College of Architecture and Fine Arts">College of Architecture and Fine Arts</option>
+            <option value="College of Arts and Letters">College of Arts and Letters</option>
+            <option value="College of Business Education and Accountancy">College of Business Education and Accountancy</option>
+            <option value="College of Criminal Justice Education">College of Criminal Justice Education</option>
+            <option value="College of Hospitality and Tourism Management">College of Hospitality and Tourism Management</option>
+            <option value="College of Industrial Technology">College of Industrial Technology</option>
+            <option value="College of Information and Communications Technology">College of Information and Communications Technology</option>
+            <option value="College of Engineering">College of Engineering</option>
+            <option value="College of Education">College of Education</option>
+            <option value="College of Nursing">College of Nursing</option>
+            <option value="College of Science">College of Science</option>
+            <option value="College of Sports, Exercise, and Recreation">College of Sports, Exercise, and Recreation</option>
+            <option value="College of Social Sciences and Philosophy">College of Social Sciences and Philosophy</option>
+          </select>
+
+          <label for="programFilter">Program:</label>
+          <select id="programFilter" class="space" disabled>
+            <option value="all">All Programs</option>
+          </select>
+
+          <label for="statusFilter">Status:</label>
+          <select id="statusFilter" class="space">
+            <option value="all">All</option>
+            <option value="Registered">Registered</option>
+            <option value="Voted">Voted</option>
+          </select>
+        </div>
+
+        <!-- Voter Summary Texts -->
+<div id="collegeVoterSummary" style="margin: 10px 0; font-weight: bold;"></div>
+<div id="totalVoterSummary" style="margin: 10px 0; font-weight: bold;"></div>
+
+
+<!-- Registration Summary Texts -->
+<div id="collegeRegistrationSummary" style="margin: 10px 0; font-weight: bold;"></div>
+<div id="totalRegistrationSummary" style="margin: 10px 0; font-weight: bold;"></div>
+        <br />
+
+        <div class="main-content">
+          <table id="studentTable">
+            <thead>
+              <tr>
+                <th class="no">NO.</th>
+                <th>NAME</th>
+                <th>EMAIL</th>
+                <th>STUDENT NO.</th>
+                <th>CAMPUS</th>
+                <th>COLLEGE</th>
+                <th>PROGRAM</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (voters.length > 0) { %>
+                <% voters.forEach((voter, index) => { %>
+                  <tr>
+                    <td class="number"><%= index + 1 %></td>
+                    <td><%= voter.name %></td>
+                    <td><%= voter.email %></td>
+                    <td class="stud-number"><%= voter.student_number %></td>
+                    <td><%= voter.campus %></td>
+                    <td><%= voter.college %></td>
+                    <td><%= voter.program %></td>
+                    <td><%= voter.status %></td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
+                <tr class="no-data-row">
+                  <td colspan="8" style="text-align: center">No registered voters found.</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+          <!-- Pagination controls will be injected here -->
+          <div id="paginationControls"></div>
+        </div>
+      </main>
+    </div>
+
+    <%- include('footer') %>
+
+    <script>
+      // Sorting function
+      function sortTable() {
+        const sortValue = document.getElementById("sortFilter").value;
+        const tbody = table.querySelector("tbody");
+        const rowsArray = Array.from(tbody.querySelectorAll("tr"));
+        
+        rowsArray.sort((a, b) => {
+          let valA, valB;
+        
+          switch (sortValue) {
+            case "name-asc":
+              valA = a.cells[1].textContent.toLowerCase();
+              valB = b.cells[1].textContent.toLowerCase();
+              return valA.localeCompare(valB);
+            case "name-desc":
+              valA = a.cells[1].textContent.toLowerCase();
+              valB = b.cells[1].textContent.toLowerCase();
+              return valB.localeCompare(valA);
+            case "student-asc":
+              valA = parseInt(a.cells[3].textContent) || 0; // Student number column
+              valB = parseInt(b.cells[3].textContent) || 0;
+              return valA - valB;
+            case "student-desc":
+              valA = parseInt(a.cells[3].textContent) || 0;
+              valB = parseInt(b.cells[3].textContent) || 0;
+              return valB - valA;
+          }
+        });
+    
+        // Reattach sorted rows
+        rowsArray.forEach((row) => tbody.appendChild(row));
+    
+        // Reset numbering after sorting
+        resetRowNumbers();
+      }
+    
+      // Function to reset row numbers
+      function resetRowNumbers() {
+  const rows = table.querySelectorAll("tbody tr");
+  let visibleCount = 0;
+  rows.forEach((row) => {
+    if (row.style.display !== "none") {
+      // If it is the no-data row, leave the content as is (or clear it)
+      if (row.classList.contains("no-data-row")) {
+        row.cells[0].textContent = "No registered voters found.";
+      } else {
+        visibleCount++;
+        row.cells[0].textContent = visibleCount;
+      }
+    }
+  });
+}
+
+    
+      // Attach event listener to sorting dropdown
+      document.getElementById("sortFilter").addEventListener("change", sortTable);
+    
+      // Apply default sorting on page load
+      document.addEventListener("DOMContentLoaded", () => {
+        sortTable(); // Sort by Name (A-Z) by default
+      });
+    </script>
+    
+    
+    
+
+    <script>
+      // Mapping for each college to its programs (keys in lowercase)
+      const collegePrograms = {
+        "college of architecture and fine arts": [
+          "Bachelor of Science in Architecture",
+          "Bachelor of Fine Arts Major in Visual Communication",
+          "Bachelor of Landscape Architecture"
+        ],
+        "college of arts and letters": [
+          "Bachelor of Arts in Broadcasting",
+          "Bachelor of Arts in Journalism",
+          "Batsilyer ng Sining sa Malikhaing Pagsulat",
+          "Bachelor of Performing Arts"
+        ],
+        "college of business education and accountancy": [
+          "Bachelor of Science in Accountancy/Accounting Information System",
+          "Bachelor of Science in Business Administration",
+          "Bachelor of Science in Entrepreneurship"
+        ],
+        "college of criminal justice education": [
+          "Bachelor of Science in Criminology",
+          "Bachelor of Arts in Legal Management"
+        ],
+        "college of hospitality and tourism management": [
+          "Bachelor of Science in Hospitality Management",
+          "Bachelor of Science in Tourism Management"
+        ],
+        "college of industrial technology": [
+          "Bachelor of Industrial Technology"
+        ],
+        "college of information and communications technology": [
+          "Bachelor of Science in Information Technology",
+          "Bachelor of Library and Information Science",
+          "Bachelor of Science in Information System"
+        ],
+        "college of engineering": [
+          "Bachelor of Science in Civil Engineering",
+          "Bachelor of Science in Computer Engineering",
+          "Bachelor of Science in Electrical Engineering",
+          "Bachelor of Science in Electronics Engineering",
+          "Bachelor of Science in Industrial Engineering",
+          "Bachelor of Science in Manufacturing Engineering",
+          "Bachelor of Science in Mechanical Engineering",
+          "Bachelor of Science in Mechatronics Engineering"
+        ],
+        "college of education": [
+          "Bachelor of Elementary Education",
+          "Bachelor of Secondary Education",
+          "Bachelor of Early Childhood Education",
+          "Bachelor of Physical Education",
+          "Bachelor of Technical Vocational Teacher Education",
+          "Bachelor of Technology and Livelihood Education"
+        ],
+        "cn": [
+          "Bachelor of Science in Nursing"
+        ],
+        "college of science": [
+          "Bachelor of Science in Biology",
+          "Bachelor of Science in Environmental Science",
+          "Bachelor of Science in Medical Technology",
+          "Bachelor of Science in Food Technology",
+          "Bachelor of Science in Math with Specialization in Applied Statistics",
+          "Bachelor of Science in Math with Specialization in Business Applications",
+          "Bachelor of Science in Math with Specialization in Computer Science"
+        ],
+        "college of sports, exercise and recreation": [
+          "Bachelor of Science in Exercise and Sports Science"
+        ],
+        "college of social sciences and philosophy": [
+          "Bachelor of Science in Psychology",
+          "Bachelor of Public Administration",
+          "Bachelor of Science in Social Work"
+        ]
+      };
+    
+      // Get filter elements and table rows
+      const searchInput = document.querySelector(".input");
+      const collegeFilter = document.getElementById("collegeFilter");
+      const programFilter = document.getElementById("programFilter");
+      const statusFilter = document.getElementById("statusFilter");
+      const table = document.getElementById("studentTable");
+      const rows = table.querySelectorAll("tbody tr");
+    
+      // Function to update the program dropdown based on selected college
+      function updateProgramDropdown() {
+        const selectedCollege = collegeFilter.value; // e.g., "College of Architecture and Fine Arts"
+        // Clear current options
+        programFilter.innerHTML = "";
+    
+        // If "all" is selected, disable the program filter and set default option
+        if (selectedCollege.toLowerCase() === "all") {
+          programFilter.disabled = true;
+          const defaultOption = document.createElement("option");
+          defaultOption.value = "all";
+          defaultOption.textContent = "All Programs";
+          programFilter.appendChild(defaultOption);
+          return;
+        }
+    
+        // Normalize the college name for matching (lowercase)
+        const normalizedCollege = selectedCollege.toLowerCase();
+        const programs = collegePrograms[normalizedCollege] || [];
+    
+        if (programs.length === 0) {
+          programFilter.disabled = true;
+          const defaultOption = document.createElement("option");
+          defaultOption.value = "all";
+          defaultOption.textContent = "All Programs";
+          programFilter.appendChild(defaultOption);
+          return;
+        }
+    
+        // Enable program filter and populate options
+        programFilter.disabled = false;
+        // Add default "All Programs" option
+        const allOption = document.createElement("option");
+        allOption.value = "all";
+        allOption.textContent = "All Programs";
+        programFilter.appendChild(allOption);
+    
+        programs.forEach((prog) => {
+          const option = document.createElement("option");
+          option.value = prog;
+          option.textContent = prog;
+          programFilter.appendChild(option);
+        });
+      }
+    
+      // Function to filter the table based on all criteria (without pagination)
+      function filterTable() {
+  const searchText = searchInput.value.toLowerCase();
+  const selectedCollege = collegeFilter.value.toLowerCase();
+  const selectedProgram = programFilter.value.toLowerCase();
+  const selectedStatus = statusFilter.value.toLowerCase();
+
+  rows.forEach((row) => {
+    // Column indices: 1: NAME, 2: EMAIL, 5: COLLEGE, 6: PROGRAM, 7: STATUS
+    const name = row.cells[1].textContent.toLowerCase();
+    const email = row.cells[2].textContent.toLowerCase();
+    const college = row.cells[5].textContent.toLowerCase();
+    const program = row.cells[6].textContent.toLowerCase();
+    const status = row.cells[7].textContent.toLowerCase();
+
+    const matchesSearch = name.includes(searchText) || email.includes(searchText);
+    const matchesCollege = selectedCollege === "all" || college.includes(selectedCollege);
+    const matchesProgram = selectedProgram === "all" || program.includes(selectedProgram);
+    const matchesStatus = selectedStatus === "all" || status === selectedStatus;
+
+    row.style.display = (matchesSearch && matchesCollege && matchesProgram && matchesStatus) ? "" : "none";
+  });
+
+  // Update numbering and row color for filtered rows
+  updateRowNumbersAndColors();
+}
+
+function updateSummaries() {
+  const cfg = electionConfig[0];                   // ← your real config
+  const collegesData = Array.isArray(cfg.colleges) 
+    ? cfg.colleges 
+    : [];
+
+  const totalStudents = cfg.totalStudents
+    ?? collegesData.reduce((sum, c) => sum + (c.numberOfStudents || 0), 0);
+
+  const sel = collegeFilter.value.toLowerCase();
+
+  // grab visible rows (no-data-row excluded)
+  const visibleRows = Array.from(table.tBodies[0].rows)
+    .filter(r => r.style.display !== 'none' && !r.classList.contains('no-data-row'));
+
+  // overall counts
+  const regAll  = visibleRows.length;
+  const voteAll = visibleRows.filter(r =>
+    r.cells[7].textContent.trim().toLowerCase() === 'voted'
+  ).length;
+  const pctRegAll  = totalStudents ? ((regAll  / totalStudents) * 100).toFixed(2) : '0.00';
+  const pctVoteAll = totalStudents ? ((voteAll / totalStudents) * 100).toFixed(2) : '0.00';
+
+  // find matching college object by includes()
+  const collegeInfo = collegesData.find(c =>
+    c.name.toLowerCase().includes(sel)
+  ) || { name: '', numberOfStudents: 0 };
+
+  const totalCol = collegeInfo.numberOfStudents;
+  // filter rows whose college cell includes the selected text
+  const rowsCol = visibleRows.filter(r =>
+    r.cells[5].textContent.toLowerCase().includes(sel)
+  );
+  const regCol  = rowsCol.length;
+  const voteCol = rowsCol.filter(r =>
+    r.cells[7].textContent.trim().toLowerCase() === 'voted'
+  ).length;
+  const pctRegCol  = totalCol ? ((regCol  / totalCol) * 100).toFixed(2) : '0.00';
+  const pctVoteCol = totalCol ? ((voteCol / totalCol) * 100).toFixed(2) : '0.00';
+
+  // DOM elements
+  const elTotReg = document.getElementById('totalRegistrationSummary');
+  const elTotVot = document.getElementById('totalVoterSummary');
+  const elColReg = document.getElementById('collegeRegistrationSummary');
+  const elColVot = document.getElementById('collegeVoterSummary');
+
+  if (sel === 'all') {
+    // show only overall
+    elTotReg.style.display = '';
+    elTotVot.style.display = '';
+    elColReg.style.display = 'none';
+    elColVot.style.display = 'none';
+
+    elTotReg.textContent = 
+      `${regAll} out of ${totalStudents} total students have registered (${pctRegAll}%).`;
+    elTotVot.textContent =
+      `${voteAll} out of ${totalStudents} total students have voted (${pctVoteAll}%).`;
+  } else {
+    // show only per-college
+    elTotReg.style.display = 'none';
+    elTotVot.style.display = 'none';
+    elColReg.style.display = '';
+    elColVot.style.display = '';
+
+    elColReg.textContent =
+      `${regCol} out of ${totalCol} students in ${collegeInfo.name} have registered (${pctRegCol}%).`;
+    elColVot.textContent =
+      `${voteCol} out of ${totalCol} students in ${collegeInfo.name} have voted (${pctVoteCol}%).`;
+  }
+}
+
+
+      // Attach event listeners for filter controls
+      collegeFilter.addEventListener("change", () => {
+  updateProgramDropdown();
+  filterTable();
+  updateSummaries();
+});
+searchInput.addEventListener("input", () => { filterTable(); updateSummaries(); });
+programFilter.addEventListener("change", () => { filterTable(); updateSummaries(); });
+statusFilter.addEventListener("change", () => { filterTable(); updateSummaries(); });
+document.addEventListener("DOMContentLoaded", () => {
+  updateProgramDropdown();
+  filterTable();
+  updateSummaries();
+});
+
+      function updateRowNumbersAndColors() {
+  const allRows = table.querySelectorAll("tbody tr");
+  let visibleCount = 0;
+  
+  allRows.forEach((row) => {
+    if (row.style.display !== "none") {
+      // If it has the class "no-data-row", skip numbering
+      if (row.classList.contains("no-data-row")) {
+        // Optionally clear the first cell’s content
+        row.cells[0].textContent = "";
+        return;
+      }
+
+      visibleCount++;
+      row.cells[0].textContent = visibleCount;
+
+      row.classList.remove("even", "odd");
+      if ((visibleCount - 1) % 2 === 0) {
+        row.classList.add("even");
+      } else {
+        row.classList.add("odd");
+      }
+    }
+  });
+}
+
+    </script>
+  
+
+    <!-- Print button using jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const printButton = document.querySelector(".option-print");
+        printButton.addEventListener("click", function () {
+          console.log("Print button clicked.");
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF("p", "pt");
+
+          doc.setFontSize(18);
+          doc.text("Registered Student Voters", 40, 40);
+
+          doc.autoTable({
+            html: "#studentTable",
+            startY: 60,
+            theme: "grid",
+            headStyles: { fillColor: [41, 128, 185] },
+            styles: { fontSize: 10 },
+          });
+
+          doc.save("voters.pdf");
+        });
+      });
+    </script>
+
+    <script src="admin/js/sidebar.js"></script>
+    <script src="admin/js/index-admin.js"></script>
+  </body>
+</html>

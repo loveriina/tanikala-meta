@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TANIKALA Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="voter/css/index-voter.css" />
+    <link rel="stylesheet" type="text/css" href="voter/css/data-privacy.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-logo">
+        <img src="img/logo_tanikala.png" alt="Tanikala Voting System" />
+      </div>
+      <div class="header-nav">
+        <ul class="header-nav-content">
+          <li id="active-link">Voter Registration</li>
+        </ul>
+      </div>
+      <div class="header-bottom-line"></div>
+    </header>
+
+    <div class="content">
+      <div class="main-first">
+        <div class="content-mobile">
+          <div class="content-main-left">
+            <img src="img/logo_bulsu.png" alt="BulSU Logo" class="logo-opacity" /> <br />
+            <p class="montserrat" id="be-heard">Be Heard! Your Vote is Your Power!</p>
+          </div>
+
+          <div class="content-main-right">
+            <img src="img/logo_bulsu_ucse.png" alt="BulSU UCSE Logo" class="logo-opacity" /><br />
+            <p class="montserrat" id="vote-now">Vote Now for the Student Government Elections!</p>
+          </div>
+        </div>
+        <img src="img/logo_bulsu.png" class="logo no-mobile" alt="BulSU Logo" />
+        <br />
+        <div class="first-text">
+          <h2 class="title"><%= electionConfig.electionName %></h2>
+        </div>
+        <img src="img/logo_bulsu_ucse.png" class="logo no-mobile" alt="BulSU UCSE Logo" />
+      </div>
+      <div class="main-second">
+        <br />
+        <h3 class="center yellow">Privacy Notice</h3>
+        <br />
+        <p>
+          In compliance with the Data Privacy Act of 2012 (RA 10173), your personal information will be collected solely for the purpose of verifying your eligibility to vote in the BulSU Student Government Elections S.Y. 2025-2026. Additionally, this information will be used to generate an accurate
+          ballot specific to each student based on details such as campus, college, and program.<br />
+          <br />
+          Only authorized personnel will have access to this data, and strict security measures are in place to ensure its confidentiality and integrity throughout the voting process.<br />
+          <br />
+          By checking "I Agree," you acknowledge that you have read and understood this notice.<br />
+          <br />
+        </p>
+
+        <label for="agreement">
+          <input type="checkbox" id="agreement" onchange="toggleButton()" required />
+          &nbsp; I Agree
+        </label>
+        <br />
+        <div class="center">
+          <button onclick="location.href='/register?agree=true'" class="proceed button" id="proceedBtn" disabled>Proceed</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleButton() {
+        const checkbox = document.getElementById("agreement");
+        const proceedBtn = document.getElementById("proceedBtn");
+
+        // Enable the button only if the checkbox is checked
+        proceedBtn.disabled = !checkbox.checked;
+      }
+    </script>
+
+   
+    <script src="js/index.js"></script>
+
+    <script>
+      // Use registration dates from server configuration.
+      const registrationStart = new Date("<%= electionConfig.registrationStart %>").getTime();
+      const registrationEnd = new Date("<%= electionConfig.registrationEnd %>").getTime();
+
+      // Get fakeCurrentDate from EJS template if provided.
+      // Use fakeCurrentDate if provided; otherwise use the real current time.
+      const fakeCurrentDateStr = "<%= electionConfig.fakeCurrentDate ? electionConfig.fakeCurrentDate : '' %>";
+      const baseNow = fakeCurrentDateStr ? new Date(fakeCurrentDateStr).getTime() : new Date().getTime();
+      let elapsed = 0;
+      function getCurrentTime() {
+        return baseNow + elapsed;
+      }
+
+      // // Update the date range display.
+      // const datePeriodElem = document.querySelector(".date-period");
+      // datePeriodElem.textContent = new Date(registrationStart).toLocaleDateString() + " - " + new Date(registrationEnd).toLocaleDateString();
+
+      // Update the date range display with the desired format (Month Day, Year).
+      const datePeriodElem = document.querySelector(".date-period");
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      datePeriodElem.textContent = new Date(registrationStart).toLocaleDateString("en-US", options) + " - " + new Date(registrationEnd).toLocaleDateString("en-US", options);
+
+      // Grab elements by id.
+      const electionPeriodElem = document.getElementById("election-period");
+      // const countdownElem = document.getElementById("countdown");
+      const daysElem = document.getElementById("days");
+      const hoursElem = document.getElementById("hours");
+      const minutesElem = document.getElementById("minutes");
+      const secondsElem = document.getElementById("seconds");
+      const timeLeftElem = document.getElementById("time-left");
+      const getReadyToRegisterElem = document.getElementById("get-ready-to-register");
+      const getReadyToRegisterContainer = document.getElementById("get-ready-container");
+      const registerButton = document.getElementById("register-button");
+
+      function updatePhase() {
+        const now = baseNow + elapsed;
+        let distance = 0;
+        if (now < registrationStart) {
+          electionPeriodElem.textContent = "Registration Period:";
+          timeLeftElem.textContent = "Time Until Registration Opens";
+          getReadyToRegisterElem.textContent = "Get Ready to Register!";
+          distance = registrationStart - now;
+          registerButton.style.display = "none";
+        } else if (now >= registrationStart && now <= registrationEnd) {
+          electionPeriodElem.textContent = "Registration Period:";
+          timeLeftElem.textContent = "Left to Register";
+          getReadyToRegisterContainer.textContent = "";
+          distance = registrationEnd - now;
+          registerButton.style.display = "block";
+        } else {
+          electionPeriodElem.textContent = "Registration Ended";
+          timeLeftElem.textContent = "";
+          distance = 0;
+          registerButton.style.display = "none";
+        }
+        return distance;
+      }
+
+      const interval = setInterval(() => {
+        const distance = updatePhase();
+        // Simulate time progression if using fakeCurrentDate:
+        if (fakeCurrentDateStr) {
+          elapsed += 1000;
+        }
+        if (distance <= 0) {
+          clearInterval(interval);
+          // countdownElem.textContent = "00 00 00 00";
+          daysElem.textContent = "00";
+          hoursElem.textContent = "00";
+          minutesElem.textContent = "00";
+          secondsElem.textContent = "00";
+        } else {
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          // countdownElem.textContent = (days < 10 ? "0" + days : days) + " " + (hours < 10 ? "0" + hours : hours) + " " + (minutes < 10 ? "0" + minutes : minutes) + " " + (seconds < 10 ? "0" + seconds : seconds);
+          daysElem.textContent = days < 10 ? "0" + days : days;
+          hoursElem.textContent = hours < 10 ? "0" + hours : hours;
+          minutesElem.textContent = minutes < 10 ? "0" + minutes : minutes;
+          secondsElem.textContent = seconds < 10 ? "0" + seconds : seconds;
+        }
+      }, 1000);
+    </script>
+     <%- include('footer') %> 
+
+  </body>
+</html>

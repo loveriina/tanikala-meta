@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>BulSU Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/vote-audit-log.css" />
+
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-election.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="admin/css/sample/vote-tally.css" /> -->
+
+    <!-- <link rel="stylesheet" type="text/css" href="admin/css/voter-id-form.css" /> -->
+
+    <!-- <link rel="stylesheet" type="text/css" href="admin/dependencies/progress-bar.css" /> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+
+    <style></style>
+  </head>
+
+  <body>
+   <script>
+  window.logs           = <%- JSON.stringify(voteAuditLog) %>;
+  window.electionConfig = <%- JSON.stringify(electionConfig) %>;
+</script>
+
+
+
+    <%- include('header') %>
+
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'election', activeSub: "vote-audit-log" }) %>
+
+      <main class="main">
+        
+        
+        <div class="title-container">
+          <div class="r">
+            <i class="fas fa-list-ol"></i>
+            <h1 class="title">Vote Audit Log</h1>
+          </div>
+        </div>
+        <hr class="title-line" />
+
+        <div class="split-container">
+          <!-- Left: your audit table -->
+          <div id="table-panel" class="table-panel">
+            <div class="filter-controls" style="margin-bottom: 15px;">
+              <label for="collegeFilter">College:&nbsp;</label>
+              <select id="collegeFilter" class="space">
+                <option value="all">All Colleges</option>
+                <option value="College of Architecture and Fine Arts">College of Architecture and Fine Arts</option>
+                <option value="College of Arts and Letters">College of Arts and Letters</option>
+                <option value="College of Business Education and Accountancy">College of Business Education and Accountancy</option>
+                <option value="College of Criminal Justice Education">College of Criminal Justice Education</option>
+                <option value="College of Hospitality and Tourism Management">College of Hospitality and Tourism Management</option>
+                <option value="College of Industrial Technology">College of Industrial Technology</option>
+                <option value="College of Information and Communications Technology">College of Information and Communications Technology</option>
+                <option value="College of Engineering">College of Engineering</option>
+                <option value="College of Education">College of Education</option>
+                <option value="College of Nursing">College of Nursing</option>
+                <option value="College of Science">College of Science</option>
+                <option value="College of Sports, Exercise, and Recreation">College of Sports, Exercise, and Recreation</option>
+                <option value="College of Social Sciences and Philosophy">College of Social Sciences and Philosophy</option>
+              </select>
+
+              
+
+
+            
+                
+                
+               
+                <div class="search-group">
+                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                  <g>
+                    <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+                  </g>
+                </svg>
+                <input placeholder="Search" type="search" id="searchInput" class="input" />
+              </div>
+
+              
+            
+
+                <!-- <label for="searchInput">Search:</label>
+              <input type="text"  placeholder="Search Voter ID, College, or Program" /> -->
+            </div>
+
+            <div class="filter-controls" id="filter-controls-second">
+              <label for="programFilter">Program:&nbsp;</label>
+              <select id="programFilter" disabled class="space">
+                <option value="all">All Programs</option>
+              </select>
+            </div>
+
+            <!-- Voter Summary Texts -->
+              <div id="collegeVoterSummary"></div>
+              <div id="totalVoterSummary"></div>
+
+
+              <!-- Registration Summary Texts -->
+              <div id="collegeRegistrationSummary" style="display: flex; justify-content: center; margin: 10px 0; font-weight: bold;"></div>
+              <div id="totalRegistrationSummary" style="display: flex; justify-content: center; margin: 10px 0; font-weight: bold;"></div> 
+
+            <table id="audit-table" class="audit-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Voter ID</th>
+                  <th>Voting Date</th>
+                  <th>View Receipt</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% voteAuditLog.forEach(log => { %>
+                  <tr>
+                    <td class="row-index"></td>
+                    <td><%= log.hashedEmail %></td>
+                    <!-- <td><%= log.hashedEmail %></td> -->
+                    <td><%= moment(log.createdAt).format("YYYY-MM-DD HH:mm:ss") %></td>
+                    <td>
+                      <button
+                        class="view-receipt"
+                        data-hashed-email="<%= log.hashedEmail %>"
+                      >
+                        View Receipt
+                      </button>
+
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Right: preview panel -->
+          <div class="preview-panel" id="receipt-preview">
+            <!-- initial skeleton with all “–” -->
+            <div class="receipt-container">
+              <div class="receipt-header">
+                <img src="/img/logo_tanikala.png" />
+                <div class="voting-receipt">VOTING RECEIPT</div>
+              </div>
+              <hr />
+              <div class="left">
+                <p class="long"><strong>Voter ID:</strong> –</p>
+                <p><strong>College:</strong> –</p>
+                <p><strong>Program:</strong> –</p>
+              </div>
+              <hr />
+              <div class="election-title"><%= electionConfig.electionName %></div>
+              <div class="resibo">
+                <table class="table-receipt" id="resibo">
+                  <thead>
+                    <tr>
+                      <th>Position</th><th colspan="2">Candidate(s)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- you can leave this empty or show dashes for each possible row -->
+                  </tbody>
+                </table>
+              </div>
+              <hr />
+              <div class="left">
+                <p><strong>Voting Date and Time:</strong> –</p>
+                <p class="long"><strong>Transaction Hash:</strong> –</p>
+              </div>
+              <hr />
+              <div class="receipt-footer">
+                <p>Thank you for using TANIKALA. …</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+                
+
+      </main>
+    </div>
+
+
+
+    <script>
+      const preview = document.getElementById('receipt-preview');
+
+      document.querySelectorAll('.view-receipt').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+           e.stopPropagation();    // added 
+          const hashedEmail = btn.dataset.hashedEmail;
+          const log = logs.find(l => l.hashedEmail === hashedEmail);
+          if (!log) return;
+
+          // build the receipt HTML
+          let html = `
+            <div class="receipt-container">
+              <div class="receipt-header">
+                <img src="/img/logo_tanikala.png" />
+                <div class="voting-receipt">VOTING RECEIPT</div>
+              </div>
+              <hr />
+              <div class="left">
+                <p class="long"><strong>Voter ID:</strong> ${log.hashedEmail}</p>
+                <p><strong>College:</strong> ${log.voterCollege}</p>
+                <p><strong>Program:</strong> ${log.voterProgram}</p>
+              </div>
+              <hr />
+              <div class="election-title">${electionConfig?.electionName || '-'}</div>
+              <div class="table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Position</th><th colspan="2">Candidate(s)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+          `;
+
+          // For each position in log.candidates
+          for (const [pos, val] of Object.entries(log.candidates)) {
+            // 1) Build the raw label (“senator”→“senators”, else same)
+            const rawLabel = Array.isArray(val) ? `${pos}s` : pos;
+
+            // 2) Insert spaces before any uppercase letter (camelCase → “camel Case”)
+            const withSpaces = rawLabel.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
+
+            // 3) Capitalize each word
+            const positionLabel = withSpaces
+              .split(' ')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ');
+
+            // Names as before
+            const names = Array.isArray(val)
+              ? val.map(c => c.name).join(', ')
+              : val.name;
+
+            html += `
+              <tr>
+                <td data-label="Position">${positionLabel}</td>
+                <td data-label="Candidate" colspan="2">${names}</td>
+              </tr>`;
+          }
+
+
+
+
+          html += `
+                  </tbody>
+                </table>
+              </div>
+              <hr />
+              <div class="left">
+                <p><strong>Voting Date and Time:</strong> ${new Date(log.completedAt).toLocaleString()}</p>
+                <p class="long"><strong>Transaction Hash:</strong> ${log.txHash}</p>
+              </div>
+              <hr />
+              <div class="receipt-footer">
+                <p>Thank you for using TANIKALA. With our blockchain technology, your vote stays secure, anonymous, and is counted accurately.</p>
+              </div>
+            </div>
+            <div id="downloadWrapper" style="text-align:center; margin-top:10px; display:none">
+              <div
+                id="exportStatus"
+                style="display:none; font-size:0.9rem; color:#555; margin-top:6px;"
+              >
+                The receipt is being exported. Please wait...
+              </div>
+              <br />
+              <button id="exportReceiptBtn" class="button button-brown">Download Receipt</button>
+              
+            </div>
+
+            `;
+
+          // inject & open
+          preview.innerHTML = html;
+          preview.classList.add('open');
+
+          // wire up export button & status
+          const exportBtn    = document.getElementById('exportReceiptBtn');
+          const exportStatus = document.getElementById('exportStatus');
+          exportBtn.addEventListener('click', () => {
+            const container = preview.querySelector('.receipt-container');
+            exportStatus.style.display = 'block';
+            exportBtn.disabled = true;
+            htmlToImage.toPng(container)
+              .then(dataUrl => {
+                const a = document.createElement('a');
+                a.download = 'Voting-Receipt.png';
+                a.href     = dataUrl;
+                a.click();
+              })
+              .finally(() => {
+                exportStatus.style.display = 'none';
+                exportBtn.disabled = false;
+              });
+          });
+
+          document.getElementById('downloadWrapper').style.display = 'block';
+
+          // re-bind your download listener to the newly inserted button
+          document.getElementById('exportReceiptBtn').addEventListener('click', () => {
+            const container = preview.querySelector('.receipt-container');
+            htmlToImage.toPng(container).then(dataUrl => {
+              const link = document.createElement('a');
+              link.download = 'Voting-Receipt.png';
+              link.href = dataUrl;
+              link.click();
+            });
+          });
+
+        });
+      });
+
+      // close on backdrop click
+      preview.addEventListener('click', e => {
+        if (e.target === preview) {
+          preview.classList.remove('open');
+          // reset to skeleton:
+          preview.scrollTop = 0;
+          // you could clone the original skeleton from the DOM or simply clear
+          preview.innerHTML = document.querySelector('.preview-panel .receipt-container').outerHTML;
+        }
+      });
+
+      // stash the empty skeleton once
+const skeleton = document
+  .querySelector('.preview-panel .receipt-container')
+  .outerHTML;
+
+// close whenever you click in <main> but not inside the open receipt
+document.querySelector('main.main').addEventListener('click', e => {
+  if (
+    preview.classList.contains('open') &&
+    !e.target.closest('.receipt-container')
+  ) {
+    preview.classList.remove('open');
+    preview.innerHTML = skeleton;
+  }
+});
+      
+      
+    </script>
+
+    <!-- html-to-image library -->
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.10.3/dist/html-to-image.min.js"></script>
+
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // ─── 1) DATA & CONFIG ───────────────────────────────────────────────
+    const logs                  = window.logs || [];
+    const cfg                   = window.electionConfig || {};
+    const collegesData          = Array.isArray(cfg.colleges) ? cfg.colleges : [];
+    const totalStudents         = cfg.totalNumberOfStudents
+      ?? collegesData.reduce((sum, c) => sum + (c.numberOfStudents || 0), 0);
+
+    // ─── 2) ELEMENT REFERENCES ──────────────────────────────────────────
+    const collegeFilter         = document.getElementById('collegeFilter');
+    const programFilter         = document.getElementById('programFilter');
+    const searchInput           = document.getElementById('searchInput');
+    const table                 = document.querySelector('.audit-table');
+    const totalVoterSummary     = document.getElementById('totalVoterSummary');
+    const collegeVoterSummary   = document.getElementById('collegeVoterSummary');
+
+    // ─── 3) ACRONYM → FULL NAME MAP ─────────────────────────────────────
+    const collegeNameMap = {
+      CAFA: "College of Architecture and Fine Arts",
+      CAL:  "College of Arts and Letters",
+      CBEA: "College of Business Education and Accountancy",
+      CCJE: "College of Criminal Justice Education",
+      CHTM: "College of Hospitality and Tourism Management",
+      CIT:  "College of Industrial Technology",
+      CICT: "College of Information and Communications Technology",
+      CE:   "College of Engineering",
+      CED:  "College of Education",
+      CN:   "College of Nursing",
+      CS:   "College of Science",
+      CSER: "College of Sports, Exercise, and Recreation",
+      CSSP: "College of Social Sciences and Philosophy"
+    };
+
+    // ─── 4) COLLEGE → PROGRAM LISTS ────────────────────────────────────
+    const collegePrograms = {
+      "college of architecture and fine arts": [
+        "Bachelor of Science in Architecture",
+        "Bachelor of Fine Arts Major in Visual Communication",
+        "Bachelor of Landscape Architecture"
+      ],
+      "college of arts and letters": [
+        "Bachelor of Arts in Broadcasting",
+        "Bachelor of Arts in Journalism",
+        "Batsilyer ng Sining sa Malikhaing Pagsulat",
+        "Bachelor of Performing Arts"
+      ],
+      "college of business education and accountancy": [
+        "Bachelor of Science in Accountancy/Accounting Information System",
+        "Bachelor of Science in Business Administration",
+        "Bachelor of Science in Entrepreneurship"
+      ],
+      "college of criminal justice education": [
+        "Bachelor of Science in Criminology",
+        "Bachelor of Arts in Legal Management"
+      ],
+      "college of hospitality and tourism management": [
+        "Bachelor of Science in Hospitality Management",
+        "Bachelor of Science in Tourism Management"
+      ],
+      "college of industrial technology": [
+        "Bachelor of Industrial Technology"
+      ],
+      "college of information and communications technology": [
+        "Bachelor of Science in Information Technology",
+        "Bachelor of Library and Information Science",
+        "Bachelor of Science in Information System"
+      ],
+      "college of engineering": [
+        "Bachelor of Science in Civil Engineering",
+        "Bachelor of Science in Computer Engineering",
+        "Bachelor of Science in Electrical Engineering",
+        "Bachelor of Science in Electronics Engineering",
+        "Bachelor of Science in Industrial Engineering",
+        "Bachelor of Science in Manufacturing Engineering",
+        "Bachelor of Science in Mechanical Engineering",
+        "Bachelor of Science in Mechatronics Engineering"
+      ],
+      "college of education": [
+        "Bachelor of Elementary Education",
+        "Bachelor of Secondary Education",
+        "Bachelor of Early Childhood Education",
+        "Bachelor of Physical Education",
+        "Bachelor of Technical Vocational Teacher Education",
+        "Bachelor of Technology and Livelihood Education"
+      ],
+      "college of nursing": [
+        "Bachelor of Science in Nursing"
+      ],
+      "college of science": [
+        "Bachelor of Science in Biology",
+        "Bachelor of Science in Environmental Science",
+        "Bachelor of Science in Medical Technology",
+        "Bachelor of Science in Food Technology",
+        "Bachelor of Science in Math with Specialization in Applied Statistics",
+        "Bachelor of Science in Math with Specialization in Business Applications",
+        "Bachelor of Science in Math with Specialization in Computer Science"
+      ],
+      "college of sports, exercise, and recreation": [
+        "Bachelor of Science in Exercise and Sports Science"
+      ],
+      "college of social sciences and philosophy": [
+        "Bachelor of Science in Psychology",
+        "Bachelor of Public Administration",
+        "Bachelor of Science in Social Work"
+      ]
+    };
+
+    // ─── 5) UPDATE PROGRAM DROPDOWN ────────────────────────────────────
+    function updateProgramDropdown() {
+      const sel = collegeFilter.value.toLowerCase();
+      programFilter.innerHTML = '<option value="all">All Programs</option>';
+      if (sel === 'all' || !collegePrograms[sel]) {
+        programFilter.disabled = true;
+      } else {
+        programFilter.disabled = false;
+        collegePrograms[sel].forEach(prog => {
+          const opt = document.createElement('option');
+          opt.value = prog;
+          opt.textContent = prog;
+          programFilter.appendChild(opt);
+        });
+      }
+    }
+
+    // ─── 6) FILTER TABLE ───────────────────────────────────────────────
+    function filterTable() {
+      const selCol  = collegeFilter.value;                  // full name or "all"
+      const selProg = programFilter.value.toLowerCase();
+      const searchV = searchInput.value.toLowerCase();
+
+      Array.from(table.tBodies[0].rows).forEach(row => {
+        const hashedEmail   = row.cells[1].textContent;
+        const logEntry = logs.find(l => l.hashedEmail === hashedEmail) || {};
+        const acr      = logEntry.voterCollege || '';
+        const fullCol  = collegeNameMap[acr] || acr;        // map acronym → full name
+        const prog     = (logEntry.voterProgram || '').toLowerCase();
+
+        const okCollege = selCol === 'all' || fullCol === selCol;
+        const okProg    = selProg === 'all' || prog.includes(selProg);
+        const okSearch  =
+             hashedEmail.toLowerCase().includes(searchV)
+          || fullCol.toLowerCase().includes(searchV)
+          || prog.includes(searchV);
+
+        row.style.display = (okCollege && okProg && okSearch) ? '' : 'none';
+      });
+
+      let counter = 1;
+      Array.from(table.tBodies[0].rows).forEach(row => {
+        if (row.style.display !== 'none') {
+          row.querySelector('.row-index').textContent = counter++;
+        } else {
+          row.querySelector('.row-index').textContent = '';
+        }
+      });
+
+      // updateSummaries();
+    }
+
+    // ─── 7) UPDATE SUMMARIES (VOTED) ───────────────────────────────────
+    function updateSummaries() {
+      const selCol = collegeFilter.value;
+
+      // which voteIds remain visible?
+      const visibleIds = Array.from(table.tBodies[0].rows)
+        .filter(r => r.style.display !== 'none')
+        .map(r => r.cells[1].textContent);
+
+      // only those completed votes still visible
+      const visibleLogs = logs.filter(l => visibleIds.includes(l.hashedEmail));
+
+      // total voted
+      const votedAll = visibleLogs.length;
+      const pctAll   = totalStudents
+        ? ((votedAll / totalStudents) * 100).toFixed(2)
+        : '0.00';
+
+      // per-college voted
+      let votedCol = 0;
+      if (selCol !== 'all') {
+        votedCol = visibleLogs.filter(l => {
+          const full = collegeNameMap[l.voterCollege] || l.voterCollege;
+          return full === selCol;
+        }).length;
+      }
+      const collegeInfo = collegesData.find(c => c.name === selCol) || {};
+      const totalCol    = collegeInfo.numberOfStudents || 0;
+      const pctCol      = totalCol
+        ? ((votedCol / totalCol) * 100).toFixed(2)
+        : '0.00';
+
+      if (selCol === 'all') {
+        totalVoterSummary.style.display   = '';
+        collegeVoterSummary.style.display = 'none';
+        totalVoterSummary.textContent =
+          `${votedAll} out of ${totalStudents} total students have voted (${pctAll}%).`;
+      } else {
+        totalVoterSummary.style.display   = 'none';
+        collegeVoterSummary.style.display = '';
+        collegeVoterSummary.textContent =
+          `${votedCol} out of ${totalCol} students in ${selCol} have voted (${pctCol}%).`;
+      }
+    }
+
+    // ─── 8) HOOK EVENTS & INIT ────────────────────────────────────────
+    collegeFilter.addEventListener('change', () => {
+      updateProgramDropdown();
+      filterTable();
+      updateSummaries();
+    });
+    
+    programFilter.addEventListener('change', filterTable);
+    searchInput.addEventListener('input', filterTable);
+
+    // initial load
+    updateProgramDropdown();
+    filterTable();
+     updateSummaries(); 
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const table = document.querySelector(".audit-table tbody");
+    let previouslyHighlighted = null;
+
+    table.addEventListener("click", (event) => {
+      if (event.target.classList.contains("view-receipt")) {
+        const row = event.target.closest("tr");
+
+        // If already highlighted, remove highlight
+        if (row === previouslyHighlighted) {
+          row.classList.remove("highlighted-row");
+          previouslyHighlighted = null;
+        } else {
+          // Remove highlight from any previously highlighted row
+          if (previouslyHighlighted) {
+            previouslyHighlighted.classList.remove("highlighted-row");
+          }
+
+          // Add highlight to the clicked row
+          row.classList.add("highlighted-row");
+          previouslyHighlighted = row;
+        }
+      }
+    });
+  });
+</script>
+
+<script>
+  
+  const collegesData = Array.isArray(cfg.colleges)
+    ? cfg.colleges
+    : [];
+
+  const totalStudents = cfg.totalStudents
+    ?? collegesData.reduce((sum, c) => sum + (c.numberOfStudents || 0), 0);
+
+  function filterTable() {
+    // (your existing search/program/college filtering logic here…)
+    // at the end, always update the registration summary:
+    updateSummaries();
+  }
+
+  function updateSummaries() {
+    const sel = collegeFilter.value.toLowerCase();
+
+    // visible rows, excluding “no‐data” rows
+    const visibleRows = Array.from(table.tBodies[0].rows)
+      .filter(r => r.style.display !== 'none'
+                && !r.classList.contains('no-data-row'));
+
+    // overall registration count
+    const regAll = visibleRows.length;
+    const pctRegAll = totalStudents
+      ? ((regAll / totalStudents) * 100).toFixed(2)
+      : '0.00';
+
+    // find the matching college (if any)
+    const collegeInfo = collegesData.find(c =>
+      c.name.toLowerCase().includes(sel)
+    ) || { name: '', numberOfStudents: 0 };
+
+    const totalCol = collegeInfo.numberOfStudents;
+    // rows in that college
+    const rowsCol = sel === 'all'
+      ? []
+      : visibleRows.filter(r =>
+          r.cells[5].textContent.toLowerCase().includes(sel)
+        );
+    const regCol = rowsCol.length;
+    const pctRegCol = totalCol
+      ? ((regCol / totalCol) * 100).toFixed(2)
+      : '0.00';
+
+    // DOM elements
+    const elTotReg = document.getElementById('totalRegistrationSummary');
+    const elColReg = document.getElementById('collegeRegistrationSummary');
+
+    if (sel === 'all') {
+      // show overall only
+      elTotReg.style.display = '';
+      elColReg.style.display = 'none';
+
+      elTotReg.textContent =
+        `${regAll} out of ${totalStudents} total students have registered (${pctRegAll}%).`;
+    } else {
+      // show per-college only
+      elTotReg.style.display = 'none';
+      elColReg.style.display = '';
+
+      elColReg.textContent =
+        `${regCol} out of ${totalCol} students in ${collegeInfo.name} have registered (${pctRegCol}%).`;
+    }
+  }
+
+  // Attach only the filters you still use:
+  collegeFilter.addEventListener("change", () => {
+    updateProgramDropdown();
+    filterTable();
+  });
+  programFilter.addEventListener("change", () => {
+    filterTable();
+  });
+  searchInput.addEventListener("input", () => {
+    filterTable();
+  });
+
+  // Remove any line referencing statusFilter entirely.
+
+  document.addEventListener("DOMContentLoaded", () => {
+    updateProgramDropdown();
+    filterTable();
+  });
+</script>
+
+
+    <%- include('footer') %>
+
+    <script src="admin/js/sidebar.js"></script>
+    <script src="admin/js/index-admin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+th {
+  background: #503a96;
+}
+
+table {
+  outline: 0.05rem solid #503a96;
+}
+
+.textie-left {
+  padding-left: 0.8rem;
+  text-align: left;
+  width: 15%;
+}
+
+th {
+  padding: 0.4rem;
+}
+
+td {
+  padding: 0.2rem 0.15rem;
+}
+
+.polygon-img {
+  width: 2.5rem;
+  height: auto;
+  filter: invert(13%) sepia(100%) saturate(800%) hue-rotate(345deg) brightness(80%);
+}
+
+.polygon-img.tinted {
+  filter: invert(13%) sepia(100%) saturate(800%) hue-rotate(345deg) brightness(80%);
+}

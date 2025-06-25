@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Processing Your Vote</title>
+    <script>
+      setInterval(async () => {
+        let voterHash = localStorage.getItem("voterHash");
+
+        if (!voterHash) return;
+
+        const response = await fetch(`/vote-status?voterHash=${voterHash}`);
+        const data = await response.json();
+
+        if (data.status === "completed") {
+          window.location.href = "/vote-confirmation?tx=" + data.transactionHash;
+        }
+      }, 10000);
+    </script>
+  </head>
+  <body>
+    <h1>Your vote is being processed...</h1>
+    <p>Please check back later or stay on this page.</p>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+
+<div class="sidebar close">
+  <div class="profile-details">
+    <img src="<%= loggedInAdmin.img %>" />
+    <span class="profile-name"><%= loggedInAdmin.name %></span>
+    <span class="job"><%= loggedInAdmin.role %></span>
+  </div>
+
+  <ul class="nav-links">
+    <hr />
+    <li>
+      <a href="#">
+        <i class="bx bx-menu"></i>
+        <span class="link_name">Menu</span>
+      </a>
+    </li>
+    <hr />
+    <li <% if (activeTab === 'dashboard') { %> id="active-tab" <% } %>>
+      <a href="/dashboard">
+        <i class="bx bxs-dashboard"></i>
+        <span class="link_name">Dashboard</span>
+      </a>
+      <ul class="sub-menu blank">
+        <li><a class="link_name" href="/dashboard">Dashboard</a></li>
+      </ul>
+    </li>
+    <li <% if (activeTab === 'configuration') { %> id="active-tab" <% } %>>
+      <a href="/configuration">
+        <i class="fa fa-cogs"></i>
+        <span class="link_name">Configuration</span>
+      </a>
+      <ul class="sub-menu blank">
+        <li><a class="link_name" href="/configuration">Configuration</a></li>
+      </ul>
+    </li>
+    <li <% if (activeTab === 'candidates') { %> id="active-tab" <% } %>>
+      <a href="/candidates">
+        <i class="fa fa-users"></i>
+        <span class="link_name">Candidates</span>
+      </a>
+      <ul class="sub-menu blank">
+        <li><a class="link_name" href="/candidates">Candidates</a></li>
+      </ul>
+    </li>
+    <li <% if (activeTab === 'blockchain') { %> id="active-tab" <% } %>>
+      <div class="icon-link">
+        <a >
+          <i class="fa fa-link"></i>
+          <span class="link_name">Blockchain</span>
+        </a>
+        <i class="bx bxs-chevron-down arrow"></i>
+      </div>
+      <ul class="sub-menu">
+        <li><a class="link_name" >Blockchain</a></li>
+        <li <% if (activeSub === 'blockchain-management') { %> id="active-sub" <% } %>><a href="/blockchain-management">Blockchain Management</a></li>
+        <li <% if (activeSub === 'blockchain-activity-log') { %> id="active-sub" <% } %>><a href="/blockchain-activity-log">Blockchain Activity Log</a></li>
+      </ul>
+    </li>
+    <li <% if (activeTab === 'election') { %> id="active-tab" <% } %>>
+      <div class="icon-link">
+        <a>
+          <i class="fa fa-bar-chart"></i>
+          <span class="link_name">Election</span>
+        </a>
+        <i class="bx bxs-chevron-down arrow"></i>
+      </div>
+      <ul class="sub-menu">
+        <li>
+          <a class="link_name">
+            <%= electionConfig.electionName || "No Election Ongoing" %>
+          </a>
+        </li>
+        <li <% if (activeSub === 'voter-info') { %> id="active-sub" <% } %>><a href="/voter-info" >Voter Information</a></li>
+        <li <% if (activeSub === 'voter-turnout') { %> id="active-sub" <% } %>><a href="/voter-turnout">Voter Turnout</a></li>
+        <li <% if (activeSub === 'vote-audit-log') { %> id="active-sub" <% } %>><a href="/vote-audit-log">Vote Audit Log</a></li>
+        <li <% if (activeSub === 'vote-tally') { %> id="active-sub" <% } %>><a href="/vote-tally">Vote Tally</a></li>
+        <li <% if (activeSub === 'results') { %> id="active-sub" <% } %>><a href="/results">Election Results</a></li>
+        <li <% if (activeSub === 'reset') { %> id="active-sub" <% } %>><a href="/reset">Reset Election</a></li>
+      </ul>
+    </li>
+    <li <% if (activeTab === 'archives') { %> id="active-tab" <% } %>>
+      <a href="/archives">
+        <i class="bx bx-archive"></i>
+        <span class="link_name">Election Archives</span>
+      </a>
+      <ul class="sub-menu blank">
+        <li><a class="link_name" href="/archives">Election Archives</a></li>
+      </ul>
+    </li>
+    <li <% if (activeTab === 'system') { %> id="active-tab" <% } %>>
+      <div class="icon-link">
+        <a>
+          <i class="fa fa-tasks"></i>
+          <span class="link_name">System</span>
+        </a>
+        <i class="bx bxs-chevron-down arrow"></i>
+      </div>
+      <ul class="sub-menu">
+        <li><a class="link_name">System</a></li>
+        <li <% if (activeSub === 'edit-account') { %> id="active-sub" <% } %>><a href="/edit-account">Edit Account</a></li>
+        <li <% if (activeSub === 'manage-admins') { %> id="active-sub" <% } %>><a href="/manage-admins">Manage Admins</a></li>
+        <li <% if (activeSub === 'help-page') { %> id="active-sub" <% } %>><a href="/help-page">Help Page</a></li>
+        <li <% if (activeSub === 'system-activity-log') { %> id="active-sub" <% } %>><a href="/system-activity-log">System Activity Log</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>

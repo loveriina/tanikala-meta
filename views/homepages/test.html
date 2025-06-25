@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TANIKALA - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/dropdown.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Poppins:wght@400&display=swap");
+
+      /* Body styling */
+      body {
+        color: white;
+        font-family: Garamond, sans-serif;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 250px;
+        background-color: #e1ae5b;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+      }
+
+      /* Sidebar links */
+      .sidebar a {
+        font-family: "Poppins", sans-serif;
+        font-weight: bold;
+        text-decoration: none;
+        color: white;
+        font-size: 18px;
+        margin: 5px 0;
+        padding: 20px;
+        width: 75%;
+        text-align: center;
+        background: linear-gradient(to right, #550c0a, #310505);
+        border-radius: 25px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .sidebar a:hover {
+        background-color: #310505;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        color: #f4ab2a;
+      }
+
+      .sidebar a.active {
+        background-color: #d8ac65;
+        color: #f4ab2a;
+      }
+
+      .admin-label {
+        font-family: "Poppins", sans-serif;
+        font-size: 16px;
+        color: black;
+        margin-top: 220px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      /* Main content area */
+      .main-content {
+        margin-left: 250px;
+        padding: 0px;
+        width: 100%;
+        background-color: #faf2db;
+        overflow-y: auto;
+        flex-grow: 1;
+      }
+
+      /* Logo and Dropdown styling (Red Top Part) */
+      .logo-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background: linear-gradient(to right, #550c0a, #310505);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+      }
+
+      .logo {
+        width: 300px;
+        height: auto;
+      }
+
+      /* Settings section styling */
+      .sidebar {
+        width: 250px;
+        background-color: #e1ae5b;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+      }
+
+      /* Main navigation buttons */
+      .sidebar > a {
+        font-family: "Poppins", sans-serif;
+        font-weight: bold;
+        text-decoration: none;
+        color: white;
+        font-size: 18px;
+        margin: 5px 0;
+        padding: 20px;
+        width: 75%;
+        text-align: center;
+        background: linear-gradient(to right, #550c0a, #310505);
+        border-radius: 25px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Settings section specific styles */
+      .settings-section {
+        display: block;
+        width: 100%;
+        padding-left: 60px;
+        box-sizing: border-box;
+      }
+
+      .settings-section a {
+        display: block;
+        color: black;
+        text-decoration: none;
+        padding: 0px 0;
+        font-family: "Poppins", sans-serif;
+        font-size: 16px;
+        background: none;
+        box-shadow: none;
+        text-align: left;
+        width: auto;
+        margin: 0;
+      }
+
+      .settings-section a:first-child {
+        text-decoration: underline;
+      }
+
+      .button-container {
+        display: flex;
+        gap: 10px;
+        padding: 20px;
+      }
+
+      .edit-button,
+      .save-button {
+        padding: 10px 20px;
+        font-family: "Poppins", sans-serif;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .edit-button {
+        background-color: #4caf50; /* Green */
+        color: white;
+      }
+
+      .save-button {
+        background-color: #f44336; /* Red */
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="admin-label">Admin 1</div>
+      <a href="dashboard.html">Voter Turnout</a>
+      <a href="results.html">Results</a>
+      <a href="voter_info.html">Voter Information</a>
+      <a href="settings-acc.html" id="settings-btn" class="active">Settings</a>
+      <div class="settings-section">
+        <a href="#">Edit Account</a>
+        <a href="#">Edit Candidates</a>
+        <a href="#">Edit Election</a>
+        <a href="#">Delete Election</a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Logo and Dropdown (Red Top Part) -->
+      <div class="logo-container">
+        <img class="logo" src="LOGO.png" alt="Logo" />
+        <div class="dropdown" id="dropdown">
+          <div class="dropdown-toggle" onclick="toggleDropdown()">Admin 1</div>
+          <ul class="dropdown-menu">
+            <li onclick="showHistoryPopup()">History</li>
+            <li onclick="showLogoutPopup()">Logout</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- New Account Information Section -->
+      <div class="account-info">
+        <div class="info-item">
+          <label>Email:</label>
+          <input type="text" value="admin@example.com" readonly />
+        </div>
+        <div class="info-item">
+          <label>Username:</label>
+          <input type="text" value="admin1" readonly />
+        </div>
+        <div class="info-item">
+          <label>Password:</label>
+          <input type="password" value="password123" readonly />
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="button-container">
+        <button class="edit-button" onclick="enableEditing()">Edit</button>
+        <button class="save-button" onclick="saveChanges()">Save</button>
+      </div>
+
+      <!-- Dashboard Section -->
+      <div class="dashboard-container">
+        <!-- History Popup -->
+        <div class="popup-overlay" id="history-popup-overlay">
+          <div class="popup-content">
+            <span class="close-btn" onclick="closeHistoryPopup()"></span>
+            <h4>History</h4>
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Date/Time</th>
+                  <th>Activity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>10/12/24 2:30 PM</td>
+                  <td>Admin logged in</td>
+                </tr>
+                <tr>
+                  <td>10/13/24 3:00 PM</td>
+                  <td>Admin created a new election form</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Log Out Confirmation Popup -->
+        <div class="popup-overlay" id="logout-popup-overlay">
+          <div class="popup-content logout-popup-content">
+            <h4>Are you sure you want to log out?</h4>
+            <button onclick="logout()">Yes, I want to log out</button>
+            <button onclick="closePopup(event)">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <iframe src="footer.html" style="position: fixed; left: 0; bottom: 0; width: 100%; height: 200px; margin: 0; box-sizing: border-box; overflow: auto" scrolling="no" frameborder="0"></iframe>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const settingsBtn = document.getElementById("settings-btn");
+        const settingsSection = document.querySelector(".settings-section");
+        let isOpen = true; // Ensure it's true to keep it open
+
+        settingsBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          isOpen = !isOpen;
+          settingsSection.style.display = isOpen ? "block" : "none";
+          settingsBtn.classList.toggle("active", isOpen);
+        });
+
+        // Close when clicking outside
+        document.addEventListener("click", function (e) {
+          if (!settingsBtn.contains(e.target) && !settingsSection.contains(e.target)) {
+            settingsSection.style.display = "none";
+            settingsBtn.classList.remove("active");
+            isOpen = false;
+          }
+        });
+      });
+
+      function enableEditing() {
+        document.querySelectorAll(".account-info input").forEach((input) => {
+          input.removeAttribute("readonly");
+        });
+      }
+
+      function saveChanges() {
+        document.querySelectorAll(".account-info input").forEach((input) => {
+          input.setAttribute("readonly", true);
+        });
+        // Add logic to save changes here
+      }
+    </script>
+  </body>
+</html>

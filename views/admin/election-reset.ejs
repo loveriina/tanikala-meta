@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>BulSU Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/election-reset.css" />
+    <link rel="stylesheet" href="css/progress-bar.css" /> <!-- ✅ Progress bar CSS -->
+
+    <!-- Boxicons CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <%- include('header') %>
+
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'election', activeSub: "reset" }) %>
+      <main class="main">
+        <div class="reset-election box-shadow">
+          <form id="resetElectionForm" action="/reset-election" method="POST">
+            <img src="../img/warning.png" class="image" alt="Reset Election Warning" />
+            <h2>Are you sure you want to reset the current election?</h2>
+            <br />
+            <p>Enter Account Password:</p>
+            <input type="password" id="super-admin-password" class="text-field" name="super-admin-password" required />
+            <br /><br />
+            <button type="button" id="sendOtpButton" class="button button-brown">Send OTP</button>
+            
+            
+
+            <br /><br />
+            <p>Enter the Code Sent to Your Email:</p>
+            <input type="text" id="email-code" class="text-field" name="email-code" disabled required />
+            <br /><br />
+            <div class="form-buttons">
+              <input type="reset" value="Cancel" class="action-buttons cancel-button" /> &nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="submit" value="Confirm" class="action-buttons save-button" />
+            </div>
+            <!-- ✅ Integrated Loading Container -->
+            <div id="loadingContainer" style="display: none; margin-top: 10px;">
+              <p>Loading</p>
+              <div class="progress-loader">
+                <div class="progress"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+
+    <%- include('footer') %>
+
+    <script src="admin/js/sidebar.js"></script>
+    <script src="admin/js/index-admin.js"></script>
+    <script src="admin/js/dropdown.js"></script>
+    <script>
+      const passwordField = document.getElementById("super-admin-password");
+      const sendOtpButton = document.getElementById("sendOtpButton");
+      const otpField = document.getElementById("email-code");
+      const form = document.getElementById("resetElectionForm");
+      const loadingContainer = document.getElementById("loadingContainer");
+    
+      let cooldownTimer = null;
+      let cooldownRemaining = 0;
+    
+      function startCooldown(seconds) {
+        cooldownRemaining = seconds;
+        updateSendOtpButton();
+    
+        cooldownTimer = setInterval(() => {
+          cooldownRemaining--;
+          updateSendOtpButton();
+    
+          if (cooldownRemaining <= 0) {
+            clearInterval(cooldownTimer);
+            sendOtpButton.disabled = false;
+            sendOtpButton.textContent = "Send OTP";
+          }
+        }, 1000);
+      }
+    
+      function updateSendOtpButton() {
+        const minutes = Math.floor(cooldownRemaining / 60);
+        const seconds = cooldownRemaining % 60;
+        sendOtpButton.textContent = `Resend OTP in ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      }
+    
+      sendOtpButton.addEventListener("click", async function () {
+        const passwordValue = passwordField.value.trim();
+        if (!passwordValue) {
+          alert("Please enter your account password first.");
+          return;
+        }
+    
+        if (cooldownRemaining > 0) return;
+    
+        sendOtpButton.disabled = true;
+    
+        try {
+          const response = await fetch('/reset-election/request-otp', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password: passwordValue })
+          });
+    
+          const data = await response.json();
+    
+          if (response.ok) {
+            alert("OTP sent to your email.");
+            otpField.disabled = false;
+            otpField.focus();
+            startCooldown(300); // 5 minutes
+          } else {
+            alert("Failed to send OTP: " + (data.error || "Unknown error"));
+            sendOtpButton.disabled = false;
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Error sending OTP");
+          sendOtpButton.disabled = false;
+        }
+      });
+    
+      form.addEventListener("submit", function () {
+        passwordField.disabled = true;
+        otpField.disabled = true;
+        sendOtpButton.disabled = true;
+    
+        // ✅ Only show this loading container
+        loadingContainer.style.display = "block";
+      });
+    </script>
+    
+  </body>
+</html>

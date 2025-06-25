@@ -1,0 +1,354 @@
+/* Style the scrollbar itself */
+::-webkit-scrollbar {
+  width: 8px; /* Adjust the width for a slimmer scrollbar */
+  height: 8px; /* Adjust height for horizontal scrollbar */
+  border: 1px solid #3f0807;
+}
+
+/* Style the scrollbar track (background of the scrollbar) */
+::-webkit-scrollbar-track {
+  background: #3f0807; /* Black track */
+}
+
+/* Style the scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background: var(--sidebar-color); /* Slightly lighter black for the thumb */
+  border-radius: 10px; /* Optional: rounded corners */
+  border: 1.2px solid #3f0807;
+}
+
+/* Style the scrollbar thumb when hovered */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sidebar-color-lighter);
+}
+
+.main-first {
+  display: flex;
+  /* border: 3px solid black; */
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  gap: 1rem;
+  /* border: 1px solid black; */
+}
+
+.header-nav-content {
+  flex: 4;
+  background: rgb(225, 216, 159);
+  background: linear-gradient(90deg, rgba(225, 216, 159, 1) 0%, rgba(231, 223, 177, 1) 25%, rgba(225, 216, 159, 1) 50%, rgba(231, 223, 177, 1) 75%, rgba(225, 216, 159, 1) 100%);
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.header-nav-content a {
+  color: #28303b;
+}
+
+.election-title {
+  flex: 2;
+  background-color: #e1d89f;
+  color: #a60212;
+  font-weight: bold;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.title {
+  font-size: 5rem;
+}
+
+.content-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0;
+  padding-bottom: 2rem;
+  /* align-items: flex-start; */
+  /* border: 1px solid black; */
+}
+
+.header-nav {
+  padding-top: 2rem;
+  padding-right: 6.5rem;
+  font-style: italic;
+}
+
+.fa-solid {
+  padding-right: 0.5rem;
+}
+
+.beside {
+  text-align: left;
+  /* border: 1px solid black; */
+  width: 100%;
+  padding: 2rem;
+  padding-left: 6rem;
+  font-size: 1.3rem;
+  /* border: 1px solid black; */
+  color: #28303b;
+  margin: 0;
+}
+
+.beside a {
+  color: #28303b;
+  text-decoration: none;
+}
+
+/* .content-main {
+  margin: 3rem;
+} */
+
+.sample {
+  text-align: justify;
+  padding: 0 8rem;
+  /* display: flex;
+  justify-content: flex-start;
+  align-items: flex-start; */
+}
+
+h2 {
+  font-size: 2.2rem;
+}
+
+.main-first {
+  gap: 3rem;
+}
+
+.main-first {
+  width: 90%;
+  /* border: 1px solid black; */
+}
+
+.header-nav-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.main-container {
+  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  padding: 0 3rem;
+  padding-bottom: 2rem;
+  /* border: 3px solid black; */
+}
+
+.main {
+  padding: 0;
+  margin: 0;
+}
+
+#active-link2 {
+  color: #85211d;
+  /* text-decoration: underline; */
+}
+
+.header-nav-content a:hover {
+  color: #85211d;
+}
+
+.header-nav-content a {
+  color: #28303b;
+}
+
+#active-link {
+  font-size: 1.7rem;
+}
+
+.dark-yellow {
+  color: var(--color-darkYellow);
+  font-weight: bold;
+}
+
+.light-yellow {
+  color: var(--color-mediumYellow);
+  font-weight: bold;
+}
+
+.content {
+  /* padding-bottom: 2rem; */
+  /* overflow-y: auto; */
+}
+
+.h3 {
+  font-family: poppins;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100vh; /* sus */
+  background: radial-gradient(circle, var(--color-mediumRed), var(--color-darkRed));
+  font-family: "Poppins", "Century Gothic";
+  color: white;
+  font-size: 1rem;
+}
+
+.rvs-container {
+  background-color: #fff3c8;
+  border-radius: 1.5rem;
+  box-shadow: rgba(168, 151, 151, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+.rvs-container h1,
+.rvs-container h2,
+.rvs-container h3,
+.rvs-container h4,
+.rvs-container h5,
+.rvs-container h6,
+.rvs-container p {
+  font-size: revert;
+}
+
+.rvs-container h1 {
+}
+
+.rvs-container h2 {
+  color: black;
+}
+
+.rvs-title {
+  text-align: center;
+  color: var(--color-darkYellow);
+}
+
+.first-main {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.rvs-container .progress-bar {
+  height: 1.7rem;
+}
+
+/* .content-main {
+  overflow-y: hidden;
+}
+
+.container {
+  overflow-y: auto;
+} */
+
+html,
+body {
+  background: radial-gradient(circle, var(--color-mediumRed), var(--color-darkRed));
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  background: inherit; /* Inherits the body background color */
+}
+
+.footer {
+  background: #990715;
+}
+
+.go-back {
+  color: #a60212;
+  /* border: 1px solid black; */
+}
+
+.beside,
+.beside a {
+  color: #3266c8;
+}
+
+.title {
+  color: #85211d;
+}
+
+.header-nav h2 {
+  font-family: "montserrat";
+}
+
+@media (max-width: 1000px) {
+  .beside {
+    padding: 1.5rem 1rem;
+    text-align: center;
+  }
+
+  .beside a {
+    text-decoration: underline;
+  }
+  .header {
+    padding: 0 1rem;
+  }
+  .header-logo {
+    padding: 0;
+    flex: 2 !important;
+    width: 50%;
+  }
+  .header-logo img {
+    width: 100%;
+  }
+  .header-nav {
+    flex: 2 !important;
+    width: 50%;
+    padding: 0;
+  }
+  .header-nav h2 {
+    text-align: right;
+    font-size: 0.85rem !important;
+  }
+
+  .main-first {
+    flex-direction: column;
+  }
+
+  .content-title {
+    padding: 0 0.1rem !important;
+    margin: 0;
+  }
+  .header-nav-content {
+    padding: 0.2rem 0.75rem !important;
+  }
+  .election-title {
+    padding: 0 !important;
+  }
+  .title {
+    padding: 0.2rem 0.75rem !important;
+    font-size: 1rem !important;
+  }
+
+  .beside {
+    font-size: 0.8rem;
+  }
+
+  .rvs-title {
+    font-size: 1.6rem !important;
+  }
+
+  .dark-yellow {
+    font-size: 1.2rem !important;
+    /* color: pink; */
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  .main-container h3 {
+    font-size: 1rem !important;
+  }
+
+  .main-first {
+    gap: 1.5rem;
+  }
+}
+
+.content-main {
+  width: 100vw;
+}
+
+/* .h3 {
+  font-family: "montserrat" !important;
+} */

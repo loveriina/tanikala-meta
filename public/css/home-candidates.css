@@ -1,0 +1,272 @@
+.first-main {
+  display: flex;
+  justify-content: center;
+}
+
+.main-content {
+  /* TANGGALIN MO */
+  /* border: 1px solid black; */
+
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  column-gap: 4rem;
+}
+
+.main-content h1 {
+  font-size: 1.5rem;
+}
+
+.main-content .ssc,
+.main-content .lsc {
+  font-size: 1.8rem;
+  color: #f5ab29;
+}
+
+.main-content .ssc,
+.position-ssc {
+  color: #c70a1c;
+}
+
+.main-content .lsc,
+.position-lsc {
+  color: #388b1c;
+}
+
+.main-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.8rem;
+}
+
+.main-left,
+.main-right {
+  /* TANGGALIN MO */
+  /* border: 1px solid gray; */
+}
+
+.main-left,
+.all-lsc {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+
+.main-left {
+  width: 50%;
+}
+.main-right {
+  width: 50%;
+}
+
+.container-ssc,
+.container-lsc {
+  border: 2.5px solid white;
+  border-radius: 1rem;
+}
+
+/* .position-ssc,
+.position-lsc {
+  color: #f2ddb4;
+} */
+
+.candidate {
+  display: flex;
+  flex-direction: row;
+}
+
+.candidate .img-container {
+  width: 20%;
+}
+
+.candidate .candidate-info {
+  width: 80%;
+}
+
+.candidate > div > * {
+  /* TANGGALIN MO */
+  /* border: 1px solid pink; */
+}
+
+.candidate-info h2 {
+  font-size: 1.2rem;
+}
+
+.program-header {
+  font-size: 1.2rem !important;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.program-group-candidates {
+  display: flex;
+  flex-direction: column !important;
+  row-gap: 1.5rem;
+}
+
+.text-name {
+  font-size: 1.2rem !important;
+}
+.text-party {
+  font-size: 0.8rem !important;
+}
+.text-moreInfo {
+  font-size: 0.8rem !important;
+}
+.text-program {
+  font-size: 0.8rem !important;
+  font-weight: bold;
+}
+
+#container-president,
+#container-vice-president,
+#container-senators {
+  background-color: #f8cbba;
+}
+
+#container-lsc-governor,
+#container-lsc-vice-governor {
+  background-color: #c9ddb1;
+}
+
+#container-lsc-board-member {
+  background-color: #f2ddb4;
+}
+
+.container,
+.container-lsc {
+  padding: 2rem;
+  color: black;
+  border: 0.1rem solid #f2ddb4;
+}
+
+.select:hover,
+.select:focus {
+  /* border: 2px solid green; */
+  box-shadow: 0px 0px 0px 7px rgba(74, 236, 136, 0.2);
+}
+
+.select {
+  background-color: #fff3c8;
+  color: #bb7e15;
+  font-family: "Montserrat", "Century Gothic";
+  font-weight: 700;
+  padding: 1em 0.8em;
+  border: none;
+  border-radius: 0.8em;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 0.1em #ffffff;
+  border: 0.1rem solid #008000;
+}
+
+.candidate {
+  /* border: 2px solid black; */
+}
+
+.candidate-info {
+  padding: 0.5rem;
+}
+
+.img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+.img-container img {
+  height: 7rem;
+  width: 6rem; /* Add this to match height */
+  border-radius: 1rem;
+  object-fit: cover; /* Ensures the image fits nicely inside the circle */
+}
+
+.main-content {
+  /* border: 2px solid black; */
+  width: 85vw;
+}
+
+.program-header {
+  color: #bb7e15;
+  text-decoration: underline;
+}
+
+.text-party {
+  font-style: italic;
+  color: #525252;
+}
+
+/* .all-lsc {
+  padding-bottom: 3rem;
+} */
+
+@media (max-width: 1000px) {
+  body {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    margin: 0;
+    padding: 0;
+  }
+
+  .main-content {
+    flex-direction: column;
+    width: 95%;
+    column-gap: 0;
+    row-gap: 2rem;
+    margin: 0 auto; /* center it */
+  }
+
+  .main-left,
+  .main-right {
+    width: 100%;
+  }
+
+  .container,
+  .container-lsc {
+    padding: 1rem;
+    margin: 0.5rem; /* adds spacing outside */
+    box-sizing: border-box; /* prevents overflow from padding */
+  }
+
+  .candidate {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .candidate .img-container,
+  .candidate .candidate-info {
+    width: 100%;
+  }
+
+  .candidate-info {
+    padding: 0.5rem;
+  }
+
+  .candidate-info h2 {
+    font-size: 1rem;
+  }
+
+  .text-name,
+  .text-party,
+  .text-moreInfo,
+  .text-program {
+    font-size: 0.75rem !important;
+  }
+
+  .program-header {
+    font-size: 1rem !important;
+  }
+
+  .select {
+    padding: 0.8em 0.6em;
+    font-size: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .all-lsc {
+    padding-bottom: 2rem;
+  }
+}

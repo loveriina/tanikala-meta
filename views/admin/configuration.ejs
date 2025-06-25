@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TANIKALA | Configuration</title>
+  <link rel="stylesheet" href="admin/css/index-admin.css" />
+  <link rel="stylesheet" href="admin/css/configuration.css" />
+  <link rel="stylesheet" href="admin/css/sidebar.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/boxicons/css/boxicons.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="components/notification.css" />
+  <script type="module" src="components/notification.js"></script>
+
+  <link rel="stylesheet" href="/components/popup-vote.css" />
+
+  <style>
+    /* Developer Tools Container */
+    .developer-only {
+      background-color: transparent;
+      color: #333;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      border: 3px solid #e1ae5b; /* matched to button color */
+      border-radius: 4px;
+      margin-top: 20px;
+    }
+  
+    /* Section Heading */
+    .developer-only h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.5em;
+      color: #222;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+    }
+  
+    /* Labels and Text */
+    .developer-only p,
+    .developer-only label {
+      margin: 8px 0;
+      font-size: 0.95em;
+    }
+  
+    /* Inline Date Displays */
+    #currentDate,
+    #fakeCurrentDateDisplay {
+      display: inline-block;
+      background: #f5f5f5;
+      padding: 4px 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      margin-left: 5px;
+    }
+  
+    /* Inputs and Selects */
+    .developer-only input[type="datetime-local"],
+    .developer-only input[type="checkbox"],
+    .developer-only select {
+      font-size: 0.95em;
+      padding: 6px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+  
+    .developer-only input[type="checkbox"] {
+      width: auto;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+  
+    /* Buttons */
+    .developer-only button {
+      background-color: #e1ae5b;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      margin-top: 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.95em;
+    }
+  
+    .developer-only button:hover {
+      background-color: #c8954a;
+    }
+  
+    /* Warning Text */
+    .developer-only p[style*="color: red"] {
+      color: #a00;
+      background-color: #fee;
+      padding: 8px;
+      border: 1px solid #f99;
+      border-radius: 3px;
+      margin: 10px 0;
+    }
+  
+    /* Fieldsets */
+    .developer-only fieldset {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 3px;
+      margin-top: 15px;
+    }
+  
+    .developer-only legend {
+      font-weight: bold;
+      padding: 0 5px;
+    }
+
+
+    .period-info {
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+    }
+
+    .period-info h3 {
+      margin: 0 0 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <% // Helper functions
+  function toPHFormat(dateString) { 
+    if (!dateString) return ''; 
+    return moment.tz(dateString, "Asia/Manila").format("YYYY-MM-DDTHH:mm"); 
+  }
+  function formatDisplayDate(dateString) { 
+    if (!dateString) return ''; 
+    return moment.tz(dateString, "Asia/Manila").format("MMMM D, YYYY [at] hh:mm A"); 
+  }
+  %>
+  <%- include('header') %>
+
+  <div class="content">
+    <%- include('sidebar', { activeTab: 'configuration', activeSub: "" }) %>
+    <main class="main">
+      <div class="title-container">
+        <div class="r">
+          <i class="fa fa-cogs"></i>
+          <h1 class="title">Election Configuration</h1>
+        </div>
+      </div>
+      <hr class="title-line" />
+      <div class="first-main">
+        <!-- Display Current Election Configuration -->
+
+        <section class="election-info">
+          <p class="election-name">
+            &nbsp;<strong><span class="gray semi-boldgre">Election Name:</span></strong>
+            <span class="semi-boldie hey"><%= electionConfig && electionConfig.electionName ? electionConfig.electionName : "N/A" %></span>
+          </p>
+          <hr />
+          <p class="space">
+            <i class="bx bx-calendar-check"></i>&nbsp;<strong><span class="gray semi-boldgr">Status:</span></strong>
+            <span class="semi-bold"> <%= electionConfig && electionConfig.electionStatus ? electionConfig.electionStatus : "N/A" %></span>
+          </p>
+          <p class="space">
+            <i class="bx bx-edit-alt"></i>
+            <strong><span class="gray semi-boldgr">Registration Period:</span></strong>
+            <span class="semi-bold"> <%= electionConfig && electionConfig.registrationStart ? formatDisplayDate(electionConfig.registrationStart) : "N/A" %>
+            to
+            <%= electionConfig && electionConfig.registrationEnd ? formatDisplayDate(electionConfig.registrationEnd) : "N/A" %>
+          </p> </span>
+          <p class="space">
+            <i class="bx bx-list-ul"></i>
+            <strong><span class="gray semi-boldgr">Voting Period:</span></strong>
+          <span class="semi-bold">   <%= electionConfig && electionConfig.votingStart ? formatDisplayDate(electionConfig.votingStart) : "N/A" %>
+            to
+            <%= electionConfig && electionConfig.votingEnd ? formatDisplayDate(electionConfig.votingEnd) : "N/A" %> </span>
+          </p>
+        </section>
+
+        <br />
+        <!-- Election Creation / Update Form -->
+        <section class="create-election">
+          <h2 class="blue space"><b>Edit Election Configuration</b></h2>
+          <hr />
+          <br />
+          <form action="/configuration" method="POST">
+            <div>
+             <label for="electionName" class="rectangle blue semi-bold">Election Name:</label>
+              <input class="input box" type="text" id="electionName" name="electionName" value="<%= electionConfig ? electionConfig.electionName : '' %>" required />
+            </div>
+            <div>
+              <label for="registrationStart" class="rectangle blue semi-bold">Registration Start Date:</label>
+              <input class="input box" type="datetime-local" id="registrationStart" name="registrationStart" value="<%= electionConfig ? toPHFormat(electionConfig.registrationStart) : '' %>" required />
+            </div>
+            <div>
+              <label for="registrationEnd" class="rectangle blue semi-bold">Registration End Date:</label>
+              <input class="input box" type="datetime-local" id="registrationEnd" name="registrationEnd" value="<%= electionConfig ? toPHFormat(electionConfig.registrationEnd) : '' %>" required />
+            </div>
+            <div>
+              <label for="votingStart" class="rectangle blue semi-bold">Voting Start Date:</label>
+              <input class="input box" type="datetime-local" id="votingStart" name="votingStart" value="<%= electionConfig ? toPHFormat(electionConfig.votingStart) : '' %>" required />
+            </div>
+            <div>
+              <label for="votingEnd" class="rectangle blue semi-bold">Voting End Date:</label>
+              <input class="input box" type="datetime-local" id="votingEnd" name="votingEnd" value="<%= electionConfig ? toPHFormat(electionConfig.votingEnd) : '' %>" required />
+            </div>
+            <div>
+              <label for="partylists" class="rectangle blue semi-bold">Participating Parties (Comma-Separated):</label>
+              <!-- Join the partylists array back to a comma separated string -->
+              <input class="input box" type="text" id="partylists" name="partylists" value="<%= electionConfig && electionConfig.partylists ? electionConfig.partylists.join(', ') : '' %>" required />
+            </div>
+             <div>
+              <label for="total-voters" class="rectangle blue semi-bold">Total Number of Students:</label>
+              <!-- Join the partylists array back to a comma separated string -->
+              <input class="input box" type="text" id="total-voters" name="total-voters" value="<%= electionConfig.totalNumberOfStudents %>" readonly />
+            </div>
+            <br />
+            <fieldset>
+              <legend><strong><span class="blue">Number of Voters (Students) per College</span></strong></legend>
+              <% if(electionConfig && electionConfig.colleges) { %>
+              <% electionConfig.colleges.forEach((college) => { %>
+              <div class="num-of-students">
+                <div>
+                  <img height="50" src="img/colleges/college-<%= college.acronym.toLowerCase() %>.png" alt="<%= college.name %>" />
+                  <label for="college-<%= college.acronym %>"><%= college.name %> (<%= college.acronym %>): </label>
+                </div>
+                <input class="input" type="number" id="college-<%= college.acronym %>" name="colleges[<%= college.acronym %>]" value="<%= college.notRegisteredNotVoted %>" min="0" required />
+              </div>
+              <% }) %>
+              <% } else { %>
+              <!-- Fallback: in case there's no config, you can hard-code or leave it blank -->
+              <p>No college data found.</p>
+              <% } %>
+            </fieldset>
+            <br />
+            <div class="center">
+            <% if (loggedInAdmin.role === "Developer" || loggedInAdmin.role === "Electoral Board Member" || loggedInAdmin.role === "Technical Team Member") { %>
+            <button class="button button-save" type="submit">Save Election Configuration</button>
+            <% } %>              
+          </div>
+          </form>
+          <!-- <form action="/reset-election" method="POST">
+            <button type="submit" style="background-color: #000; color: #fff">Reset Election</button>
+          </form> -->
+        </section>
+
+        <!-- FAKE DATE -->
+        <!-- FAKE DATE (using form submission to reload the page) -->
+        <% if (loggedInAdmin.role === "Developer") { %>
+        <div class="developer-only">
+          <h3>Developer Tools</h3>
+          <p>
+            Current Date:
+            <span id="currentDate"> <%= formatDisplayDate(new Date()) %> </span>
+          </p>
+          <p>
+            Fake Current Date:
+            <span id="fakeCurrentDateDisplay">
+              <%= (electionConfig && electionConfig.useFakeDate && electionConfig.fakeCurrentDate) 
+                  ? formatDisplayDate(electionConfig.fakeCurrentDate)
+                  : formatDisplayDate(new Date()) %>
+            </span>
+          </p>
+          <!-- Form that submits when the date changes -->
+          <form id="updateFakeDateForm" action="/update-fake-date" method="POST">
+            <label for="fakeDatePicker">Fake Date Picker:</label>
+            <input type="datetime-local" id="fakeDatePicker" name="fakeCurrentDate" value="<%= (electionConfig && electionConfig.useFakeDate && electionConfig.fakeCurrentDate)
+                ? toPHFormat(electionConfig.fakeCurrentDate)
+                : toPHFormat(new Date()) %>" onchange="this.form.submit()" />
+          </form>
+          <!-- Reset form: sets fake date to current date and reloads -->
+          <form id="resetFakeDateForm" action="/update-fake-date" method="POST" style="margin-top: 10px">
+            <input type="hidden" name="fakeCurrentDate" value="<%= toPHFormat(new Date()) %>" />
+            <button type="submit">Reset Fake Date to Current Date</button>
+          </form>
+          <form action="/update-special-status" method="POST" style="margin: 10px 0;">
+            <button type="submit" name="specialStatus" value="None">None</button>
+            <button type="submit" name="specialStatus" value="System Temporarily Closed">System Temporarily Closed</button>
+            <button type="submit" name="specialStatus" value="Results Are Out">Results Are Out</button>
+          </form>
+          <!-- Toggle form to switch between fake and real date modes -->
+          <form id="toggleDateModeForm" action="/toggle-date-mode" method="POST" style="margin-top: 10px;">
+            <label for="useFakeDateToggle">Use Fake Date:</label>
+            <input type="checkbox" id="useFakeDateToggle" name="useFakeDate" value="true" <%= electionConfig && electionConfig.useFakeDate ? 'checked' : '' %> onchange="this.form.submit()" />
+          </form>
+
+          <form id="toggleCandidatesSubmittedForm" action="/update-candidates-submitted" method="POST" style="margin-top: 10px;">
+            <p style="color: red;">
+              WARNING: Changing "candidatesSubmitted" may break something! Remember the original state.
+            </p>
+            <label for="candidatesSubmitted">Candidates Submitted:</label>
+            <select name="candidatesSubmitted" id="candidatesSubmitted">
+              <option value="true" <%= electionConfig && electionConfig.candidatesSubmitted === true ? 'selected' : '' %>>True</option>
+              <option value="false" <%= electionConfig && electionConfig.candidatesSubmitted === false ? 'selected' : '' %>>False</option>
+            </select>
+            <button type="submit">Update Candidates Submitted</button>
+          </form>
+          
+        </div>
+        <% } %>
+
+        <!-- Client-side JS -->
+        <script>
+          // Pass electionConfig from server to client
+  const config = <%- JSON.stringify(electionConfig) %>;
+          // Convert stored deadlines to moment objects in Asia/Manila timezone.
+          const regStart = config.registrationStart ? moment.tz(config.registrationStart.$date || config.registrationStart, "Asia/Manila") : null;
+          const regEnd = config.registrationEnd ? moment.tz(config.registrationEnd.$date || config.registrationEnd, "Asia/Manila") : null;
+          const voteStart = config.votingStart ? moment.tz(config.votingStart.$date || config.votingStart, "Asia/Manila") : null;
+          const voteEnd = config.votingEnd ? moment.tz(config.votingEnd.$date || config.votingEnd, "Asia/Manila") : null;
+
+          // Determine the current time: use fakeCurrentDate if useFakeDate is true; otherwise use real time.
+          let fakeCurrent = (config.useFakeDate && config.fakeCurrentDate) ?
+            moment.tz(config.fakeCurrentDate.$date || config.fakeCurrentDate, "Asia/Manila") :
+            moment.tz(new Date(), "Asia/Manila");
+
+          const now = moment.tz(new Date(), "Asia/Manila");
+          const useRealTime = Math.abs(fakeCurrent.diff(now)) < 1000;
+
+          // Function to update fakeCurrentDate in the database.
+          function updateDatabaseFakeCurrent(currentTime) {
+            fetch('/update-fake-date', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                fakeCurrentDate: currentTime.toISOString()
+              })
+            }).catch(err => console.error('Error updating fakeCurrentDate:', err));
+          }
+
+
+      </script>
+      </div>
+    </main>
+  </div>
+
+  <%- include('footer') %>
+
+
+  
+
+  <script src="admin/js/sidebar.js"></script>
+  <script src="admin/js/index_admin.js"></script>
+  <script src="/components/popup.js" defer></script>
+
+  <script type="module">
+    import {
+      createNotification
+    } from "/components/notification.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Select the election configuration form
+      const configForm = document.querySelector('form[action="/configuration"]');
+
+      // Form submission event handler for validation
+      configForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // Prevent the form from auto-submitting
+
+        // Grab form input values
+        const electionNameInput = document.getElementById("electionName");
+        const electionName = electionNameInput.value.trim();
+
+        // Validate election name length
+        if (electionName.length < 8 || electionName.length > 60) {
+          createNotification("Election name must be between 8 and 60 characters.", "error", 2000);
+          return;
+        }
+
+        // Get date values from the datetime-local inputs
+        const registrationStartInput = document.getElementById("registrationStart").value;
+        const registrationEndInput = document.getElementById("registrationEnd").value;
+        const votingStartInput = document.getElementById("votingStart").value;
+        const votingEndInput = document.getElementById("votingEnd").value;
+
+        // Ensure all date fields are provided
+        if (!registrationStartInput || !registrationEndInput || !votingStartInput || !votingEndInput) {
+          createNotification("All date fields must be filled.", "error", 2000);
+          return;
+        }
+
+        // Convert inputs to Date objects
+        const registrationStart = new Date(registrationStartInput);
+        const registrationEnd = new Date(registrationEndInput);
+        const votingStart = new Date(votingStartInput);
+        const votingEnd = new Date(votingEndInput);
+        const now = new Date();
+
+        // Validate the order of dates: now < registrationStart < registrationEnd < votingStart < votingEnd
+        // if (!(now < registrationStart && registrationStart < registrationEnd && registrationEnd < votingStart && votingStart < votingEnd)) {
+        //   createNotification("Please ensure that the current date is before registration start, which is before registration end, then voting start, and finally voting end.", "error", 2000);
+        //   return;
+        // }
+
+        // Validate and adjust the party list field
+        const partylistsInput = document.getElementById("partylists");
+        let partylistsValue = partylistsInput.value.trim();
+
+        // If empty, default to "Independent"
+        if (!partylistsValue) {
+          partylistsValue = "Independent";
+        } else if (!/Independent/i.test(partylistsValue)) {
+          // If "Independent" isn't included (case-insensitive), append it.
+          partylistsValue += ", Independent";
+        }
+        // Update the partylists field with the ensured value
+        partylistsInput.value = partylistsValue;
+
+        // All validations passed; submit the form
+        configForm.submit();
+      });
+    });
+  </script>
+
+<script>
+  // on page load
+  document.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("saved")) {
+      bigPopup(
+        "Success", 
+        "Election configuration saved successfully!",
+        {
+          imageSrc: "/components/popup-checkmark.png",
+          buttonText: "Dismiss",
+          timeout: 30000
+        }
+      );
+      // remove the query so it won't re-appear on reload
+      history.replaceState({}, document.title, window.location.pathname);
+    }
+  });
+</script>
+
+  <script src="admin/js/index-admin.js"></script>
+  <script src="js/dropdown.js"></script>
+</body>
+
+</html>

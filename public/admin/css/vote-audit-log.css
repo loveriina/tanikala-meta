@@ -1,0 +1,315 @@
+/* container splits left/right */
+.split-container {
+  display: flex;
+  height: 100%;
+}
+
+/* left panel grows twice as big as right when open */
+.table-panel {
+  flex: 2; /* takes up 2 parts */
+  padding: 1rem;
+  /* overflow: auto; */
+}
+
+/* right panel hidden by default */
+.preview-panel {
+  flex: 0; /* collapsed */
+  overflow: hidden;
+  transition: flex 0.3s ease;
+  background: #fff;
+  border-left: 0.1rem solid #ccc; /* relative border */
+  padding: 0; /* removed until open */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* open state: takes up 1 part of the flex and adds padding */
+.preview-panel.open {
+  flex: 1; /* now visible, ratio is 2:1 */
+  padding: 1rem;
+}
+
+/* RECEIPT */
+/* Preview panel background & padding */
+.preview-panel {
+  background: #f9f1dd; /* Cream background */
+  color: #000; /* Dark text */
+  padding: 0;
+  overflow: auto;
+  font-family: "Montserrat", sans-serif;
+  display: block;
+}
+
+/* Receipt container borders and width */
+.receipt-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+}
+
+/* Top header bar */
+.receipt-header {
+  background: #660000; /* Deep maroon */
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  color: #f4ab2a; /* Gold text */
+  font-weight: bold;
+  font-size: 1.2rem;
+  justify-content: space-between;
+  border-bottom: 0.1rem dashed #5b5454;
+}
+
+/* Logo in header */
+.receipt-header img {
+  height: 3rem;
+  width: auto;
+}
+
+/* “VOTING RECEIPT” title */
+.voting-receipt {
+  text-transform: uppercase;
+}
+
+/* Section separators */
+.receipt-container hr {
+  border: none;
+  border-top: 0.1rem dashed #5b5454;
+  margin: 0;
+}
+
+/* Voter info section */
+.left {
+  padding: 1rem 1.5rem;
+}
+.left p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+/* Election title */
+.election-title {
+  text-align: center;
+  font-weight: bold;
+  color: #af302e !important; /* Deep red */
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+/* Candidate table */
+.table {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.table tr {
+  background-color: #faf2db;
+  color: black;
+  border: 1px solid #000;
+  padding: 0.35em;
+}
+.table th,
+.table td {
+  padding: 0.625em;
+  border: 1px solid #000;
+}
+
+/* Footer status section */
+.receipt-footer {
+  background: #a60212; /* Bright red bar */
+  color: #fff;
+  text-align: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.85rem;
+  /* border-top: 0.1rem dashed #5b5454; */
+}
+
+.long {
+  overflow-wrap: break-word; /* modern, primary */
+  word-wrap: break-word; /* legacy support */
+  word-break: break-all; /* forced break if needed */
+  hyphens: auto; /* nice hyphens for real words */
+}
+
+.left p strong {
+  color: black;
+}
+
+/* in admin/css/vote-audit-log.css */
+#exportReceiptBtn {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: white;
+  padding: 1em 2em;
+  border-radius: 5em;
+  border: none;
+  background: #85211d;
+}
+
+#exportReceiptBtn:hover {
+  filter: brightness(1.2);
+}
+
+th {
+  background-color: #364150;
+}
+
+.group {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  max-width: 6rem;
+  padding-right: 0.7rem;
+  padding-top: 0.4rem;
+}
+
+.input {
+  width: 100%;
+  height: 1.5rem;
+  line-height: 28px;
+  padding: 0 1rem;
+  padding-left: 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  outline: none;
+  background-color: #f3f3f4;
+  color: #0d0c22;
+  transition: 0.3s ease;
+  border: 0.07rem solid #550c0a;
+  /* width: 20rem; */
+}
+
+.input::placeholder {
+  color: #9e9ea7;
+}
+
+.input:focus,
+input:hover {
+  outline: none;
+  border-color: #a60212;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+}
+
+.icon {
+  position: absolute;
+  left: 1rem;
+  fill: #9e9ea7;
+  width: 1rem;
+  height: 1rem;
+}
+
+.split-container {
+  /* border: 1px solid black; */
+}
+
+.space {
+  margin-right: 1.5rem;
+}
+
+.filter-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-bottom: 2rem;
+  /* margin-bottom: 4rem; */
+}
+
+.search-group {
+  display: flex;
+  /* line-height: 28px; */
+  height: 1rem;
+  align-items: center;
+  position: relative;
+  max-width: 190px;
+  padding-right: 0.7rem;
+  padding-top: 0.4rem;
+  /* border: 1px solid black; */
+}
+
+.view-receipt {
+  border: none;
+  color: #004aad;
+}
+
+.view-receipt:hover,
+.view-receipt:select {
+  color: #041d81;
+  text-decoration: underline;
+  background-color: none;
+}
+
+.receipt-container {
+  background-color: #faf2db;
+  border: 0.1rem dashed rgb(91, 84, 84);
+}
+
+.receipt-container p {
+  font-size: 0.6rem;
+}
+
+.receipt-container .election-title {
+  font-size: 0.75rem;
+}
+
+.receipt-container .voting-receipt {
+  font-size: 1rem;
+}
+
+.receipt-container .receipt-header {
+  height: 5rem;
+}
+
+/* resibo table */
+.preview-panel table {
+  border-radius: 0;
+  margin: 1rem;
+  width: 93%;
+  font-size: 0.6rem;
+  box-shadow: none;
+}
+
+.preview-panel table th {
+  background-color: transparent;
+  color: black;
+  height: 2rem;
+}
+
+.preview-panel table tr:nth-child(odd),
+.preview-panel table tr:nth-child(even) {
+  background-color: transparent !important;
+}
+
+.election-title {
+  border-bottom: none;
+}
+
+.preview-panel .button-save {
+  background-color: #a60212;
+}
+
+.highlighted-row {
+  background-color: #d3f3ff !important; /* Light blue highlight */
+  transition: background-color 0.3s ease;
+}
+
+#collegeVoterSummary, #totalVoterSummary {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 10px 0;
+  font-weight: bold;
+  font-size: 1.5rem;
+
+}
+
+#filter-controls-second {
+  margin-top: -2rem;
+}

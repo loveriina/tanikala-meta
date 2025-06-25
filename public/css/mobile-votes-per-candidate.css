@@ -1,0 +1,164 @@
+@media (max-width: 1000px) {
+  .header {
+    padding: 0 1rem;
+  }
+  .header-logo {
+    padding: 0;
+    flex: 2 !important;
+    width: 50%;
+  }
+  .header-logo img {
+    width: 100%;
+  }
+  .header-nav {
+    flex: 2 !important;
+    width: 50%;
+    padding: 0;
+  }
+  .header-nav h2 {
+    text-align: right;
+    font-size: 1.25rem !important;
+  }
+  #active-link2 {
+  }
+  .main-container {
+    padding: 0 !important;
+    margin: 0;
+  }
+  .first-main {
+    flex-direction: column;
+    padding: 1rem !important;
+  }
+  #lsc-container {
+    width: 100%;
+  }
+  .container-lsc {
+    width: 100%;
+    padding: 0 !important;
+    margin: 0.5rem 0 !important;
+  }
+  .left-container {
+    width: 100%;
+  }
+  .right-container {
+    width: 100%;
+  }
+  .main-content {
+    flex-direction: column;
+  }
+  .select {
+    width: 50%;
+    padding: 0;
+    /* font-size: 1rem; */
+  }
+  .main-container li {
+    font-size: 0.8rem;
+  }
+  .main-container u {
+    font-size: 1.5rem;
+  }
+  .container-position {
+    display: flex;
+    justify-content: center;
+  }
+  .ssc,
+  .lsc {
+    font-size: 1.25rem !important;
+    padding: 0;
+    margin: 0;
+  }
+  .main-right-header {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  #college-selector {
+    font-size: 0.75rem !important;
+    padding: 0 !important;
+    max-width: 80%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .select {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .position-ssc,
+  .position-lsc {
+    font-size: 1.25rem !important;
+    padding: 0 !important;
+  }
+  .program-header ul {
+    font-size: 1rem !important;
+    padding: 0 !important;
+    text-align: center;
+  }
+  .main-right {
+    width: 100%;
+  }
+  .container-ssc {
+    padding: 0;
+  }
+  .container-lsc {
+    padding: 0;
+  }
+  .candidate {
+    padding: 0;
+    gap: 0;
+  }
+  .candidate .img-container {
+    margin: 0;
+    padding: 0;
+  }
+
+  .container-ssc {
+    padding: 0 1rem;
+  }
+  .container-lsc {
+    padding: 1rem 1rem !important;
+  }
+
+  .candidate img {
+    width: 100%;
+    height: auto;
+  }
+
+  .candidate h2 {
+    font-size: 1rem;
+  }
+
+  .candidate p {
+    font-size: 0.75rem;
+  }
+
+  .candidate .candidate-info {
+    margin: 0;
+    padding: 0;
+  }
+
+  a.votes {
+    width: 100%;
+    font-size: 0.75rem;
+    padding: 0;
+    justify-self: center;
+  }
+
+  .right u {
+    font-size: 1rem !important;
+  }
+  .right {
+    font-size: 1rem !important;
+    width: 100%;
+    text-align: center;
+    margin: 0 !important;
+    padding: 1rem 0 !important;
+  }
+  .progress p {
+    font-size: 0.75rem !important;
+  }
+
+  .header-nav h2 {
+    text-align: right;
+    font-size: 0.85rem !important;
+  }
+}

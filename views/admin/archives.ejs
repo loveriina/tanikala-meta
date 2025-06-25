@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BulSU Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/archives.css" />
+
+    <!-- Boxicons CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <%- include('header') %>
+
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'archives', activeSub: "" }) %>
+      <main class="main">
+        <% 
+          // Helper functions for formatting dates in Manila time zone
+          function toPHFormat(dateString) { 
+            if (!dateString) return ''; 
+            return moment.tz(dateString, "Asia/Manila").format("YYYY-MM-DDTHH:mm"); 
+          }
+          function formatDisplayDate(dateString) { 
+            if (!dateString) return ''; 
+            return moment.tz(dateString, "Asia/Manila").format("MM/DD/YYYY, hh:mm A"); 
+          }
+          // Helper to format date ranges as "MMMM DD, YYYY to MMMM DD, YYYY"
+          function formatRange(start, end) {
+            if (!start || !end) return "N/A";
+            return moment.tz(start, "Asia/Manila").format("MMMM DD, YYYY") + " to " + moment.tz(end, "Asia/Manila").format("MMMM DD, YYYY");
+          }
+          // New helper to format the "Archived At" date as "MMMM DD, YYYY AT hh:mm A"
+          function formatArchivedAt(dateString) {
+            if (!dateString) return '';
+            return moment.tz(dateString, "Asia/Manila").format("MMMM DD, YYYY [AT] hh:mm A");
+          }
+        %>
+        <div class="title-container">
+          <div class="r">
+            <i class="bx bx-archive"></i>
+            <h1 class="title">Election Archives</h1>
+          </div>
+        </div>
+        <hr class="title-line" />
+        <div class="first-main">
+          <section class="archive-list">
+            <% if (archives && archives.length > 0) { %>
+              <% archives.sort(function(a, b) { 
+                return new Date(b.archivedAt) - new Date(a.archivedAt); 
+           }); %>
+           <% if (loggedInAdmin.role === "Developer" || loggedInAdmin.role === "Electoral Board Member" || loggedInAdmin.role === "Technical Team Member") { %>
+             <table class="archive-table">
+  <thead>
+    <tr>
+      <th>Archived At</th>
+      <th>Election Name</th>
+      <th>Status</th>
+      <th>Periods</th>
+      <!-- <th>Turnout</th> -->
+      <th>Downloads</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% archives.forEach(function(archive){ %>
+      <tr>
+        <td><%= archive.archivedAt ? formatArchivedAt(archive.archivedAt) : "N/A" %></td>
+        <td><%= archive.electionName %></td>
+        <td><%= archive.electionStatus %></td>
+        <td>
+          Reg: <%= archive.registrationPeriod?.start && archive.registrationPeriod?.end 
+                ? formatRange(archive.registrationPeriod.start, archive.registrationPeriod.end) 
+                : "N/A" %><br/>
+          Vote: <%= archive.votingPeriod?.start && archive.votingPeriod?.end 
+                ? formatRange(archive.votingPeriod.start, archive.votingPeriod.end) 
+                : "N/A" %>
+        </td>
+        <!-- <td><%= archive.voterTurnout?.percentage ?? "—" %></td> -->
+        <td>
+          <details class="download-menu">
+            <summary>Downloads ▾</summary>
+            <ul>
+              <li>Config:
+                <a href="/api/download-archive/<%= archive._id %>/electionConfig/json" target="_blank">JSON</a> |
+                <a href="/api/download-archive/<%= archive._id %>/electionConfig/csv" target="_blank">CSV</a>
+              </li>
+              <li>Candidates:
+                <a href="/api/download-archive/<%= archive._id %>/candidates/json" target="_blank">JSON</a> |
+                <a href="/api/download-archive/<%= archive._id %>/candidates/csv" target="_blank">CSV</a>
+              </li>
+              <li>LSC Candidates:
+                <a href="/api/download-archive/<%= archive._id %>/candidates_lsc/json" target="_blank">JSON</a> |
+                <a href="/api/download-archive/<%= archive._id %>/candidates_lsc/csv" target="_blank">CSV</a>
+              </li>
+              <li>Voters:
+                <a href="/api/download-archive/<%= archive._id %>/registeredVoters/json" target="_blank">JSON</a> |
+                <a href="/api/download-archive/<%= archive._id %>/registeredVoters/csv" target="_blank">CSV</a>
+              </li>
+              <li>Turnout:
+                <a href="/api/download-archive/<%= archive._id %>/voterTurnout/json" target="_blank">JSON</a> |
+                <a href="/api/download-archive/<%= archive._id %>/voterTurnout/csv" target="_blank">CSV</a>
+              </li>
+              <li>Tally:
+                <a href="/api/download-archive/<%= archive._id %>/voterTally/json" target="_blank">JSON</a> |
+                <a href="/api/download-archive/<%= archive._id %>/voterTally/csv" target="_blank">CSV</a>
+              </li>
+              <li>Results:
+                <a href="/api/download-archive/<%= archive._id %>/voterResults/json" target="_blank">JSON</a> |
+                <a href="/api/download-archive/<%= archive._id %>/voterResults/csv" target="_blank">CSV</a>
+              </li>
+              <li>Blockchain:
+                <a href="/api/download-archive/<%= archive._id %>/blockchain_management/json" target="_blank">JSON</a> |
+                <a href="/api/download-archive/<%= archive._id %>/blockchain_management/csv" target="_blank">CSV</a>
+              </li>
+              <li>All:
+                <a href="/api/download-archive/<%= archive._id %>/all/json" target="_blank">JSON</a> |
+                <a href="/api/download-archive/<%= archive._id %>/all/csv" target="_blank">CSV</a>
+              </li>
+            </ul>
+          </details>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+            
+            <% } else { %>
+              <p class="error-message" style="text-align: center;">You do not have permission to view this information.</p>
+              <% } %>
+              <% } else { %>
+                <p>No archived elections found.</p>
+              <% } %>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <%- include('footer') %>
+
+    <script src="admin/js/sidebar.js"></script>
+    <script src="admin/js/index-admin.js"></script>
+    <script src="admin/js/dropdown.js"></script>
+  </body>
+</html>

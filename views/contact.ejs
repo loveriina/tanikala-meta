@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TANIKALA Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="components/notification.css" />
+    <link rel="stylesheet" type="text/css" href="css/contact.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <link rel="stylesheet" href="/components/popup-vote.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-logo">
+        <img src="img/logo_tanikala.png" alt="Tanikala Voting System" />
+      </div>
+      <nav class="header-nav">
+        <ul class="header-nav-content">
+          <li><a href="/">Home</a></li>
+          <li><a href="/home-candidates">Candidates</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact" id="active-link">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-bottom-line"></div>
+    </header>
+
+    <div class="content">
+      <div class="content-title">
+        <h3>BLOCKCHAIN-BASED VOTING SYSTEM FOR THE STUDENT GOVERNMENT ELECTIONS AT BULACAN STATE UNIVERSITY</h3>
+      </div>
+
+      <div class="content-main">
+        <div class="main-first">
+          <img src="img/logo_bulsu.png" class="main-first-logo no-mobile" alt="BulSU Logo" />
+          <div class="first-text">
+            <h2 class="montserrat h1-big about">Contact Us</h2>
+            <p class="montserrat light">If you have any questions or feedback, feel free to reach us!</p>
+          </div>
+          <img src="img/logo_bulsu_ucse.png" class="main-first-logo no-mobile" alt="BulSU UCSE Logo" />
+        </div>
+        <div class="main-second">
+          <div class="second-left box-shadow">
+            <form id="contact-form">
+              <h2 class="red">Contact Form</h2>
+              <br />
+              <i class="fa fa-user-circle icon symbol"></i>
+              <input type="text" id="name" class="contact-field" name="name" placeholder="Type your name here..." />
+              <br />
+              <br />
+              <i class="fa-solid fa-envelope icon symbol"></i>
+              <input type="email" id="email" class="contact-field" name="email" placeholder="Type your email address here..." />
+              <br />
+              <br />
+              <label for="message" class="text-left">Message:</label> <br />
+              <textarea id="message" class="message" name="message" placeholder="Type your message here..."></textarea>
+              <div class="form-button">
+                <input type="reset" value="RESET" class="button" />
+                <input type="submit" value="SUBMIT MESSAGE" class="button" />
+              </div>
+            </form>
+          </div>
+          <div class="second-right">
+            <p class="yellow">Email Address:</p>
+            <p>For inquiries, please email us at:</p>
+            <a href="https://www.ucse@bulsu.edu.ph" class="text" target="_blank">ucse@bulsu.edu.ph</a>
+            <br />
+            <p class="yellow">Facebook Page:</p>
+            <p>Connect with us on Facebook:</p>
+            <p>University Commission on Student Elections (BulSU UCSE):</p>
+            <a href="https://www.facebook.com/ucsebulsu" class="text" target="_blank">https://www.facebook.com/ucsebulsu</a>
+            <br />
+            <br />
+            <br />
+            <p class="light-yellow">Response Time:</p>
+            <p>We aim to respond within 24 hours, Monday to Friday, from 8 AM to 5 PM.</p>
+            <br />
+            <p class="light-yellow">Privacy Note:</p>
+            <p>Your information will be kept confidential.</p>
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("contact-form").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const formData = {
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          message: document.getElementById("message").value,
+        };
+
+        try {
+          const response = await fetch("/submit-contact", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
+
+          const result = await response.json();
+          window.location.href = "/contact?message_submitted=true";
+          if (response.ok) {
+            this.reset(); // Clear the form after submission
+          }
+        } catch (error) {
+          console.error("Error submitting contact form:", error);
+          alert("Something went wrong. Please try again later.");
+        }
+      });
+    </script>
+
+    <!-- <footer class="footer">
+      <div class="footer-left">
+        <img src="img/calendar.png" class="footer-img" />
+        <p id="datetime" data-date="<%= electionConfig.fakeCurrentDate %>"></p>
+      </div>
+      <div class="footer-center">
+        <img src="img/copyright.png" class="footer-img" id="copyright-img" />
+        <p>2025 - Fourmula 1</p>
+      </div>
+      <div class="footer-right">
+        <img src="img/log-in.png" class="footer-img" id="admin-img" />
+        <p>Admin? Log in&nbsp;</p>
+        <a href="/admin-login"> here.</a>
+      </div>
+    </footer> -->
+    <script src="js/index.js"></script>
+    <script type="module" src="components/notificationHandler.js"></script>
+   
+<script src="/components/popup.js"></script>
+    <!-- <script>
+      function formatDate(isoString) {
+        const date = new Date(isoString);
+        const options = {
+          month: "long",
+          day: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        };
+        return date.toLocaleString("en-US", options).toUpperCase();
+      }
+
+      function updateDateTime() {
+        const datetimeElement = document.getElementById("datetime");
+        if (!datetimeElement) return;
+
+        // Get the initial time from the data attribute
+        let currentTime = new Date(datetimeElement.getAttribute("data-date"));
+
+        function update() {
+          datetimeElement.textContent = formatDate(currentTime);
+          currentTime.setMinutes(currentTime.getMinutes() + 1); // Increment by 1 minute
+        }
+
+        update(); // Set initial formatted date
+        setInterval(update, 60000); // Update every minute (60000ms)
+      }
+
+      document.addEventListener("DOMContentLoaded", updateDateTime);
+    </script> -->
+    <script>
+      // voting countdown
+      // Use voting dates from server configuration.
+      const votingStart = new Date("<%= electionConfig.votingStart %>").getTime();
+      const votingEnd = new Date("<%= electionConfig.votingEnd %>").getTime();
+
+      // Get fakeCurrentDate from EJS template if provided.
+      // Use fakeCurrentDate if provided; otherwise use the real current time.
+      const fakeCurrentDateStr = "<%= electionConfig.fakeCurrentDate ? electionConfig.fakeCurrentDate : '' %>";
+      const baseNow = fakeCurrentDateStr ? new Date(fakeCurrentDateStr).getTime() : new Date().getTime();
+      let elapsed = 0;
+      function getCurrentTime() {
+        return baseNow + elapsed;
+      }
+
+      // // Update the date range display.
+      // const datePeriodElem = document.querySelector(".date-period");
+      // datePeriodElem.textContent = new Date(votingStart).toLocaleDateString() + " - " + new Date(votingEnd).toLocaleDateString();
+
+      // Update the date range display with the desired format (Month Day, Year).
+      const datePeriodElem = document.querySelector(".date-period");
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      datePeriodElem.textContent = new Date(votingStart).toLocaleDateString("en-US", options) + " - " + new Date(votingEnd).toLocaleDateString("en-US", options);
+
+      // Grab elements by id.
+      const electionPeriodElem = document.getElementById("election-period");
+      // const countdownElem = document.getElementById("countdown");
+      const daysElem = document.getElementById("days");
+      const hoursElem = document.getElementById("hours");
+      const minutesElem = document.getElementById("minutes");
+      const secondsElem = document.getElementById("seconds");
+      const timeLeftElem = document.getElementById("time-left");
+      const prepareToCastYourVotesElem = document.getElementById("prepare-to-cast-your-votes");
+      const prepareToCastYourVotesContainer = document.getElementById("prepare-to-container");
+      const votingButton = document.getElementById("voting-button");
+
+      function updatePhase() {
+        const now = baseNow + elapsed;
+        let distance = 0;
+        if (now < votingStart) {
+          electionPeriodElem.textContent = "Voting Period:";
+          timeLeftElem.textContent = "Time Until Voting Begins";
+          prepareToCastYourVotesElem.textContent = "Prepare to Cast Your Votes!";
+          distance = votingStart - now;
+          votingButton.style.display = "none";
+        } else if (now >= votingStart && now <= votingEnd) {
+          electionPeriodElem.textContent = "Voting Period:";
+          timeLeftElem.textContent = "Left to Vote";
+          distance = votingEnd - now;
+          prepareToCastYourVotesContainer.textContent = "";
+          votingButton.style.display = "block";
+        } else {
+          electionPeriodElem.textContent = "Voting Ended";
+          timeLeftElem.textContent = "";
+          distance = 0;
+          votingButton.style.display = "none";
+        }
+        return distance;
+      }
+
+      const interval = setInterval(() => {
+        const distance = updatePhase();
+        // Simulate time progression if using fakeCurrentDate:
+        if (fakeCurrentDateStr) {
+          elapsed += 1000;
+        }
+        if (distance <= 0) {
+          clearInterval(interval);
+          // countdownElem.textContent = "00 00 00 00";
+          daysElem.textContent = "00";
+          hoursElem.textContent = "00";
+          minutesElem.textContent = "00";
+          secondsElem.textContent = "00";
+        } else {
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          // countdownElem.textContent = (days < 10 ? "0" + days : days) + " " + (hours < 10 ? "0" + hours : hours) + " " + (minutes < 10 ? "0" + minutes : minutes) + " " + (seconds < 10 ? "0" + seconds : seconds);
+          daysElem.textContent = days < 10 ? "0" + days : days;
+          hoursElem.textContent = hours < 10 ? "0" + hours : hours;
+          minutesElem.textContent = minutes < 10 ? "0" + minutes : minutes;
+          secondsElem.textContent = seconds < 10 ? "0" + seconds : seconds;
+        }
+      }, 1000);
+    </script>
+     <%- include('homepages/footer') %>
+  </body>
+</html>

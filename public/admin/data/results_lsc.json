@@ -1,0 +1,290 @@
+{
+    "colleges": [
+      {
+        "college": "College of Architecture and Fine Arts (CAFA)",
+        "positions": [
+          {
+            "position": "Governor",
+            "candidates": [
+              {
+                "name": "Juanito Dela Cruz",
+                "percentage": 55,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Ana Gomez",
+                "percentage": 35,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          },
+          {
+            "position": "Vice Governor",
+            "candidates": [
+              {
+                "name": "Pedro Santiago",
+                "percentage": 50,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Maria Lopez",
+                "percentage": 40,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          },
+          {
+            "position": "Secretary",
+            "candidates": [
+              {
+                "name": "Luis Mendoza",
+                "percentage": 60,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Carla Domingo",
+                "percentage": 30,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          },
+          {
+            "position": "Treasurer",
+            "candidates": [
+              {
+                "name": "Mark Villanueva",
+                "percentage": 70,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Ella Fajardo",
+                "percentage": 20,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          },
+          {
+            "position": "Board Member",
+            "candidates": [
+              {
+                "name": "Jose Ramirez",
+                "percentage": 50,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Rosa Bautista",
+                "percentage": 30,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 20
+          }
+        ]
+      },
+      {
+        "college": "College of Arts and Letters (CAL)",
+        "positions": [
+          {
+            "position": "Governor",
+            "candidates": [
+              {
+                "name": "Isabela Cruz",
+                "percentage": 45,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Miguel Santos",
+                "percentage": 40,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 15
+          },
+          {
+            "position": "Vice Governor",
+            "candidates": [
+              {
+                "name": "Clarisse Enriquez",
+                "percentage": 60,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Joel Ramos",
+                "percentage": 30,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          },
+          {
+            "position": "Secretary",
+            "candidates": [
+              {
+                "name": "Diana Cortez",
+                "percentage": 55,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Leo Guzman",
+                "percentage": 35,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          },
+          {
+            "position": "Treasurer",
+            "candidates": [
+              {
+                "name": "Rafael Torres",
+                "percentage": 65,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Sophia Marquez",
+                "percentage": 25,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          },
+          {
+            "position": "Board Member",
+            "candidates": [
+              {
+                "name": "Julian Pascual",
+                "percentage": 50,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Carla Reyes",
+                "percentage": 40,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          }
+        ]
+      },
+      {
+        "college": "College of Business Education and Accountancy (CBEA)",
+        "positions": [
+          {
+            "position": "Governor",
+            "candidates": [
+              {
+                "name": "Gabriel Santos",
+                "percentage": 50,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Bianca Ramirez",
+                "percentage": 40,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          },
+          {
+            "position": "Vice Governor",
+            "candidates": [
+              {
+                "name": "Lorenzo Bautista",
+                "percentage": 55,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Ellen Cruz",
+                "percentage": 35,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          },
+          {
+            "position": "Secretary",
+            "candidates": [
+              {
+                "name": "Mikaela Torres",
+                "percentage": 65,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Carlos Vega",
+                "percentage": 25,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          },
+          {
+            "position": "Treasurer",
+            "candidates": [
+              {
+                "name": "Nathaniel Rivera",
+                "percentage": 60,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Alyssa Suarez",
+                "percentage": 30,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          },
+          {
+            "position": "Board Member",
+            "candidates": [
+              {
+                "name": "Samuel Garcia",
+                "percentage": 50,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "BulSU One"
+              },
+              {
+                "name": "Isabelle Medina",
+                "percentage": 40,
+                "img": "../img/placeholder_admin_profile.png",
+                "partylist": "KASAMA"
+              }
+            ],
+            "abstain": 10
+          }
+        ]
+      }
+    ]
+  }
+  

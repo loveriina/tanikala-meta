@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BulSU Voting System</title>
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/candidates.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/system-manage-accounts.css" />
+     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+    
+    <style>
+      /* Modal styling */
+      /* .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      } */
+      .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+      }
+      .close {
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .main-overlay {
+        position: absolute; /* Make it position relative to the parent <main> */
+          display: none;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(90, 90, 90, 0.7); /* Adjust opacity of the overlay */
+        height: 100%; /* Full height of the parent */
+        width: 100%; /* Full width of the parent */
+        /* display: flex; */
+        align-items: center; /* Center content vertically */
+        justify-content: center; /* Center content horizontally */
+        z-index: 999; /* Ensure it appears on top of other elements */
+      }
+      .main {
+        position: relative; /* Ensures children with absolute position are relative to <main> */
+      }
+
+      .form-container {
+        position: absolute;
+        z-index: 1001;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const loggedInAdminId = "<%= loggedInAdmin.id %>";
+      console.log("Logged in admin id from EJS:", loggedInAdminId);
+    </script>
+    <%- include('header') %>
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'system', activeSub: "manage-admins" }) %>
+      
+      <main class="main">
+        <div class="main-overlay"></div>
+            <!-- Add Admin Modal -->
+    
+  <div id="addModal" class="form-container">
+    <div class="right">
+      <i class="fa-solid fa-xmark x-button" onclick="closeAddModal()"></i>
+    </div>
+    <br />
+   
+    
+    <div class="center form-title">
+      <h1 class="postion-name-lsc my-text position-lsc" id="heading-add-admin">Add Admin Account</h1>
+    </div>
+     <!-- <br /> -->
+    <div class="form-buttons">
+      <form id="add-admin-form" action="/admin-accounts/add" method="POST">
+        <div class="form-details">
+          <div class="left-content">
+            <img id="img-preview" class="circle-img" src="img/placeholder_admin_profile.png" alt="Image Preview" style="max-width: 200px; max-height: 200px" />
+            <br />
+            <div class="center">
+              <input type="file" name="imgUpload" accept="image/*" onchange="convertImageToBase64(event)" required />
+              <input type="hidden" name="img" id="imgBase64" value="img/placeholder_admin_profile.png" />
+            </div>
+          </div>
+          <br />
+          <div class="center-content">
+            <label for="email">Email:</label>
+            <input type="email" name="email" class="field fill" required /><br /><br />
+            <label for="password">Password:</label>
+            <input type="password" name="password" class="field fill" required />
+          </div>
+          <div class="right-content">
+            <label for="name">Name:</label>
+            <input type="text" name="name" maxlength="35" class="field fill" required /><br /><br />
+            <label for="role">Role:</label>
+            <select name="role" class="role field fill" required>
+              <option>Select a Role</option>
+              <option value="Electoral Board Member">Electoral Board</option>
+              <option value="Technical Team Member">Technical Team</option>
+              <option value="Creatives Team Member">Creatives Team</option>
+              <option value="Developer">Developer</option>
+            </select>
+          </div>
+        </div>
+        <br /><br />   <br /><br />
+        <div class="right">
+          <input type="submit" class="button button-brown" value="Add Admin" />
+        </div>
+      </form>
+    </div>
+  </div>
+  
+      <!-- Edit Modal -->
+     <div id="editModal" class="form-container">
+    <div class="right">
+      <i class="fa-solid fa-xmark x-button" onclick="closeEditModal()"></i>
+    </div>
+    <br />
+    <div class="center form-title">
+      <h1 class="postion-name-lsc my-text position-lsc" id="heading-edit-admin">Edit Admin Account</h1>
+    </div>
+    <br />
+    <div class="form-buttons">
+      <form id="edit-admin-form" action="/admin-accounts/edit" method="POST">
+        <input type="hidden" name="id" id="edit-id" />
+        <div class="form-details">
+  
+  
+          <div class="left-content">
+           <img id="edit-img-preview" class="circle-img" src="" alt="Image Preview" style="max-width: 200px; max-height: 200px; display: block" />
+          <br />
+           <div class="center">
+           <input type="file" name="imgUpload" id="edit-imgUpload" accept="image/*" onchange="convertEditImageToBase64(event)" />
+            
+            <input type="hidden" name="img" id="edit-imgBase64" />
+            </div>
+          </div>
+          <br />
+          <div class="center-content">
+            <br />
+            <br />
+            <label>Email:</label>
+            <input type="email" name="email" id="edit-email" class="field fill" required /><br /><br />
+            <!-- <label>Password:</label>
+            <input type="password" name="password" id="edit-password" class="field fill" required /> -->
+            <!-- <button type="button" onclick="toggleEditPassword()">Show/Hide</button> -->
+          </div>
+          <div class="right-content">
+            <label>Name:</label>
+            <input type="text" name="name" id="edit-name" class="field fill" required /><br /><br />
+            <label>Role:</label>
+            <select name="role" id="edit-role" class="role field fill" required>
+              <option value="">Select a Role</option>
+              <option value="Electoral Board Member">Electoral Board</option>
+              <option value="Technical Team Member">Technical Team</option>
+              <option value="Creatives Team Member">Creatives Team</option>
+              <option value="Developer">Developer</option>
+            </select>
+          </div>
+        </div>
+        <br /><br />
+        <br /><br />
+        <div class="right">
+          <button type="submit" class="button button-brown">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+        <div class="title-container">
+          <div class="r">
+            <i class="fa-solid fa-user-tie"></i>
+            <h1 class="title">Admin Account Management</h1>
+          </div>
+        </div>
+        <hr class="title-line" />
+        <div class="first-main">
+         <br />
+          <% if (loggedInAdmin.role === "Technical Team Member" || loggedInAdmin.role === "Developer") { %>
+          <!-- Button to open Add Admin Modal -->
+         
+           <div class="right right-add">
+            <label>Admin Role: </label>
+            <select id="roleFilter" name="role" class="select-role" required>
+              <option value="All">All</option>
+              <option value="Electoral Board Member">Electoral Board</option>
+              <option value="Technical Team Member">Technical Team</option>
+              <option value="Creatives Team Member">Creatives Team</option>
+              <option value="Developer">Developer</option>
+            </select>
+            
+        
+            <% if (loggedInAdmin.role === "Developer" || loggedInAdmin.role === "Electoral Board Member" || loggedInAdmin.role === "Technical Team Member") { %>
+          <button class="button button-brown" onclick="openAddModal()">Add Admin</button>
+          <% } %>
+        </div>
+          <% } %>
+          <br />
+          
+          <td class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>IMAGE</th>
+                  <th>NAME</th>
+                  <th>ROLE</th>
+                  <th>EMAIL</th>
+                  <!-- <th>STATUS</th> -->
+                  <% if (loggedInAdmin.role === "Technical Team Member" || loggedInAdmin.role === "Developer") { %>
+                  <th>ACTIONS</th>
+                  <% } %>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (loggedInAdmin.role === "Developer" || loggedInAdmin.role === "Electoral Board Member" || loggedInAdmin.role === "Technical Team Member") { %>
+                <% admins.forEach(function(admin) { %>
+                <tr data-id="<%= admin._id %>"
+                    data-name="<%= admin.name %>"
+                    data-email="<%= admin.email %>"
+                    data-role="<%= admin.role %>"
+                    data-status="<%= admin.online ? 'Active' : 'Inactive' %>"
+                    data-img="<%= admin.img %>"
+                    data-password="<%= admin.password %>">
+                  <td>
+                    <img class="circle-img-candidate" src="<%= admin.img %>" alt="Admin Image" />
+                  </td>
+                  <td><%= admin.name %></td>
+                  <td><%= admin.role %></td>
+                  <td><%= admin.email %></td>
+            <td class="pass" style="display: none;">
+  <span class="password-mask">********</span>
+  <button type="button" onclick="togglePassword(this)" data-password="<%= admin.password %>">
+    Show
+  </button>
+</td>
+                  <!-- <td>
+                    <% if (admin.online) { %>
+                      <span class="status-indicator active">Active</span>
+                    <% } else { %>
+                      <span class="status-indicator inactive">Inactive</span>
+                    <% } %>
+                  </td> -->
+                  <% if (loggedInAdmin.role === "Technical Team Member" || loggedInAdmin.role === "Developer") { %>
+                  <td class="action-column">
+                    <div class="actions">
+<button class="button button-edit"
+        onclick="openEditModal(this)"
+        data-id="<%= admin._id %>"
+        data-img="<%= admin.img %>"
+        data-email="<%= admin.email %>"
+        data-name="<%= admin.name %>"
+        data-role="<%= admin.role %>">
+  Edit
+</button>
+                      <button class="button button-cancel" data-id="<%= admin._id %>">Delete</button>
+                    </div>
+                  </td>
+                  <% } %>
+                </tr>
+                <% }); %>
+                <% } else { %>
+                  <td colspan="5" class="error-message" style="text-align:center">You do not have permission to view this information.</td>
+                  <% } %>
+              </tbody>
+            </table>
+          </td>
+        </div>
+      </main>
+    </div>
+
+
+    <%- include('footer') %>
+
+    <script>
+      // Toggle password in table rows
+      function togglePassword(button) {
+        const span = button.previousElementSibling;
+        if (span.textContent === "********") {
+          span.textContent = button.dataset.password;
+          button.textContent = "Hide";
+        } else {
+          span.textContent = "********";
+          button.textContent = "Show";
+        }
+      }
+
+         // Toggle password visibility in Edit Admin modal
+      function toggleEditPassword() {
+        const passwordInput = document.getElementById("edit-password");
+        passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+      }
+
+      // Convert image to Base64 for Add Admin form
+      function convertImageToBase64(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function () {
+          document.getElementById("imgBase64").value = reader.result;
+          const preview = document.getElementById("img-preview");
+          preview.src = reader.result;
+          preview.style.display = "block";
+        };
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      }
+
+      // Convert image to Base64 for Edit Admin form
+      function convertEditImageToBase64(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function () {
+          document.getElementById("edit-imgBase64").value = reader.result;
+          document.getElementById("edit-img-preview").src = reader.result;
+        };
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      }
+
+    </script>
+    <script src="admin/js/sidebar.js"></script>
+    <script src="admin/js/manage-admins.js"></script>
+    
+    <script src="admin/js/index-admin.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io("/", { query: { email: "<%= loggedInAdmin.email %>" } });
+    </script>
+    <script>
+// Get references to the main container and overlay
+const mainOverlay = document.querySelector('.main-overlay');
+const main = document.querySelector('main');
+
+// Listen for the scroll event on the <main> element
+main.addEventListener('scroll', function () {
+  // Get the current scroll position of <main>
+  const scrollY = main.scrollTop;  // Use scrollTop for the scroll within the <main> container
+  console.log('Scroll Position (main.scrollTop):', scrollY);
+
+  // Calculate the distance of the main element from the top of the viewport
+  // const overlayOffsetTop = main.offsetTop;
+  const overlayOffsetTop = 0;
+  console.log('Main offsetTop:', overlayOffsetTop);
+
+  // Calculate the new position for the main-overlay
+  const newTop = overlayOffsetTop + scrollY;
+  console.log('New Top Value for Overlay:', newTop);
+
+  // Update the position of the overlay
+  mainOverlay.style.top = `${newTop}px`;
+
+  // Debugging the final computed styles (optional)
+  const computedStyle = window.getComputedStyle(mainOverlay);
+  console.log('Current Position of Overlay:', computedStyle.top);
+});
+
+    </script>
+   <script>
+
+    // Get <main> and both modal elements
+      const mainElement = document.querySelector('main');
+    const addModal = document.getElementById("addModal");
+    const editModal = document.getElementById("editModal");
+
+
+    // Helper: update the modal’s position based on current scroll and visible height
+    function updateModalPosition(modal) {
+      const scroll = mainElement.scrollTop; // Get current scroll position directly from <main>
+      const modalTop = scroll + mainElement.clientHeight / 2;
+      modal.style.top = modalTop + "px";
+    }
+    
+    // Open Add Modal
+    function openAddModal() {
+      mainElement.style.overflow = "hidden";
+      // Use setTimeout to allow current layout update
+      setTimeout(() => {
+        updateModalPosition(addModal);
+        addModal.style.display = "block";
+        mainOverlay.style.display = "block"; 
+      }, 0);
+    }
+    
+    // Open Edit Modal
+ function openEditModal(button) {
+  // pull values from the clicked button
+  const id      = button.dataset.id;
+  const imgUrl  = button.dataset.img;
+  const email   = button.dataset.email;
+  const name    = button.dataset.name;
+  const role    = button.dataset.role;
+
+  // populate the form fields
+  document.getElementById('edit-id').value        = id;
+  document.getElementById('edit-email').value     = email;
+  document.getElementById('edit-name').value      = name;
+  document.getElementById('edit-role').value      = role;
+
+  // **set the preview** and hidden input
+  document.getElementById('edit-img-preview').src = imgUrl;
+  document.getElementById('edit-imgBase64').value = imgUrl;
+
+  // now show the modal & overlay
+  updateModalPosition(editModal);
+  editModal.style.display      = 'block';
+  mainOverlay.style.display    = 'block';
+  mainElement.style.overflow   = 'hidden';
+}
+    
+    // Close Add Modal only
+    function closeAddModal() {
+      mainElement.style.overflow = "auto";
+      document.getElementById('add-admin-form').reset();
+      document.getElementById('img-preview').src = 'img/placeholder_admin_profile.png';
+      addModal.style.display = "none";
+      mainOverlay.style.display = "none"; // Hide overlay when modal is closed
+    }
+    
+    // Close Edit Modal separately
+    function closeEditModal() {
+      mainElement.style.overflow = "auto";
+      editModal.style.display = "none";
+      mainOverlay.style.display = "none";
+    }
+    
+    // Optional: update modal position on scroll (if modal is open)
+    mainElement.addEventListener('scroll', () => {
+      if (addModal.style.display === "block") {
+        updateModalPosition(addModal);
+      }
+      if (editModal.style.display === "block") {
+        updateModalPosition(editModal);
+      }
+    });
+    
+    // Optionally, dismiss the modal when clicking outside it (if applicable)
+    window.addEventListener('click', (event) => {
+      if (event.target === addModal) {
+        closeAddModal();
+      }
+      if (event.target === editModal) {
+        closeEditModal();
+      }
+    });
+
+
+
+    
+  </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filter = document.getElementById("roleFilter");
+    const rows   = document.querySelectorAll("table tbody tr");
+
+    function applyFilter() {
+      const selected = filter.value;
+      rows.forEach(row => {
+        const role = row.dataset.role; 
+        if (selected === "All" || role === selected) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+
+    // run on startup in case you want a default (e.g. All)
+    applyFilter();
+
+    // re-filter whenever the dropdown changes
+    filter.addEventListener("change", applyFilter);
+  });
+</script>
+    
+    
+  </body>
+</html>

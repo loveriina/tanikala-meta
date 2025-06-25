@@ -1,0 +1,370 @@
+:root {
+  --color-lighter-yellow: #f1d5a8;
+  --color-yellow: #f4ab2a;
+  --color-red: #a60212;
+  --color-blue: #004aad;
+  --color-hover: #550c0a;
+}
+
+.verify {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.receipt-container {
+  display: flex;
+  flex-direction: row;
+}
+
+/* .content-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+/* Create four equal columns that floats next to each other */
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.column {
+  color: black;
+  background-color: #faf2db;
+  border: 0.1rem dashed rgb(91, 84, 84);
+  width: 40%;
+
+  /* height: 100%;  */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.receipt-header img {
+  width: 40%;
+  height: auto;
+}
+.flex-col {
+  flex-direction: column;
+}
+.justify-content-between {
+  justify-content: space-between;
+}
+.justify-content-center {
+  justify-content: center;
+}
+.justify-content-end {
+  justify-content: end;
+}
+.float-right {
+  float: right;
+}
+.float-left {
+  float: left;
+}
+.circle-logo {
+  width: 60px;
+}
+.logo {
+  width: 220px;
+}
+.title {
+  margin-top: 5px;
+}
+.student-name {
+  margin-bottom: 10px;
+}
+.bar-code {
+  width: 200px;
+  align-self: center;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+.align-center {
+  align-self: center;
+}
+/*table*/
+table {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+table tr {
+  background-color: #faf2db;
+  color: black;
+  border: 1px solid #000;
+  padding: 0.35em;
+}
+table th,
+table td {
+  padding: 0.625em;
+  border: 1px solid #000;
+}
+/*table end*/
+hr {
+  border-top: 1px solid #000;
+}
+
+.ballot-header {
+  color: white;
+  padding: 1% 0;
+  margin: 2% 0;
+}
+
+.ballot-position {
+  background-color: #1e66c4;
+  color: white;
+  font-size: 0.8rem;
+}
+
+.invoice-header {
+  background-color: #1f2d3d; /* Dark color for contrast */
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.invoice-header .logo {
+  height: 50px; /* Adjust to your logo size */
+}
+.invoice-header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+/* Content area */
+.invoice-body {
+  padding: 20px;
+  background-color: #fff; /* White or very light background for readability */
+  margin: 0 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional subtle shadow */
+}
+
+/* Bottom bar with dark background for any footer details/signatures */
+.invoice-footer {
+  background-color: #1f2d3d; /* Same dark color as header */
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+}
+.invoice-footer p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.receipt {
+  background-color: #faf2db;
+  display: flex;
+  flex-direction: row;
+  flex-basis: 25vw;
+  height: 10rem;
+}
+
+.receipt-header {
+  background-color: #550c0a;
+  width: 100%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+}
+
+.voting-receipt {
+  color: #f5ab29;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding-right: 2rem;
+  padding-top: 1rem;
+}
+
+.content {
+  padding: 1rem;
+  height: 10rem;
+}
+
+.receipt-subheader {
+  background-color: #e1ae5b;
+  width: 100%;
+  height: 1%;
+}
+
+.receipt-footer {
+  background-color: #a60212;
+  text-align: center;
+  width: 100%;
+  height: 9%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.receipt-footer p {
+  font-size: 0.1rem;
+}
+
+.column p {
+  font-size: 0.75rem;
+}
+
+.left {
+  text-align: left;
+  padding: 1rem;
+}
+
+hr {
+  border: none;
+  border-top: 2px dashed #232222; /* Adjust color and width as needed */
+}
+
+table {
+  font-size: 0.75rem;
+  background-color: #f2ddb4;
+}
+
+.election-title {
+  font-weight: bold;
+  color: #a60212;
+}
+
+.table {
+  padding: 1rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-mobile {
+  display: flex;
+}
+
+#popupNextbtn {
+  background-color: transparent;
+}
+
+@media (max-width: 1000px) {
+  .title {
+    font-size: 1.75rem;
+  }
+  .no-mobile {
+    display: none;
+  }
+  .row,
+  .receipt-container,
+  .verify {
+    flex-direction: column; /* Stack elements on top of each other */
+    align-items: center; /* Center items */
+  }
+
+  .column {
+    width: 90%; /* Make columns take full width */
+    margin-bottom: 1rem; /* Add spacing between stacked columns */
+  }
+
+  #receiptContainer,
+  .receipt-footer,
+  div.column.box-shadow {
+    max-width: 90vw;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  .receipt {
+    height: auto; /* Allow receipt height to adjust dynamically */
+  }
+
+  /* .receipt-header {
+    flex-direction: column;
+    padding: 1rem;
+  } */
+
+  .receipt-footer {
+    height: auto;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .receipt-footer p {
+    font-size: 0.6rem;
+  }
+
+  .content {
+    padding: 0.5rem;
+    height: auto;
+  }
+
+  .receipt-header img {
+    width: 10rem;
+  }
+
+  .circle-logo {
+    width: 50px;
+  }
+
+  .bar-code {
+    width: 150px;
+  }
+
+  .invoice-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .invoice-header h1 {
+    font-size: 20px;
+  }
+
+  .invoice-body {
+    padding: 10px;
+    margin: 0 10px;
+  }
+
+  .invoice-footer {
+    padding: 5px;
+    font-size: 12px;
+  }
+
+  .voting-receipt {
+    font-size: 1rem;
+    text-align: center;
+    padding: 0.5rem;
+  }
+
+  table {
+    font-size: 0.6rem; /* Reduce font size for tables */
+  }
+
+  .column p {
+    font-size: 0.7rem; /* Reduce paragraph font size */
+  }
+
+  .long {
+    word-wrap: break-word; /* Ensures words break if they exceed the width */
+    overflow-wrap: break-word; /* Alternative for better browser support */
+    white-space: normal; /* Allows text to wrap naturally */
+    max-width: 100%; /* Ensures it doesn't exceed the container */
+  }
+
+  .receipt-header {
+    padding: 0;
+  }
+}

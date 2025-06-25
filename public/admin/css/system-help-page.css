@@ -1,0 +1,123 @@
+.center {
+  text-align: center;
+}
+
+.indent {
+  padding: 2rem;
+}
+
+/* Preserve existing background */
+.first-main {
+  padding: 2rem 1.5rem;
+}
+
+/* Justify and style intro */
+.first-main .intro {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #364150;
+  margin-bottom: 2rem;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Section headings */
+.first-main h2 {
+  font-size: 1.4rem;
+  color: #782f40;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #782f40;
+  padding-bottom: 0.25rem;
+}
+
+/* Cards container */
+.help-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Individual help card */
+.help-card {
+  flex: 1 1 calc(33.333% - 1rem);
+  background: rgb(249, 247, 247);
+  border: 0.1rem solid #28303b94;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.help-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.help-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: #782f40;
+}
+
+/* Justify card paragraphs */
+.help-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: black;
+  line-height: 1.4;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Contact cards */
+.contact-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.contact-card {
+  flex: 1 1 calc(50% - 1rem);
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: #364150;
+}
+.contact-card b {
+  color: #782f40;
+}
+
+/* Divider line */
+.first-main hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #eee;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #782f40;
+}
+
+.card-header i {
+  font-size: 20px;
+}
+
+.help-card h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.tab-title {
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+}
+
+.intro {
+  color: black;
+  padding: 1rem 2rem;
+}

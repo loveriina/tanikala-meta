@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>BulSU Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+   
+    <link rel="stylesheet" type="text/css" href="admin/css/system-help-page.css" />
+
+    <!-- Boxicons CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <%- include('header') %>
+
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'system', activeSub: "help-page" }) %>
+      <main class="main">
+        <div class="title-container">
+          <div class="r">
+            <i class="fa fa-info-circle"></i>
+            <h1 class="title">Help Page</h1>
+          </div>
+        </div>
+        <hr class="title-line" />
+         <div class="first-main">
+          <p class="intro">
+            The Administrator Module provides full control over the election process—from configuring election
+            details and managing candidates to tracking voter participation and publishing final results. The
+            system uses blockchain technology to record every action securely and keep a clear, unchangeable record.
+            Detailed descriptions of each tab appear below, with support contact information at the end of
+            this page.
+          </p>
+
+        <h2>Tab Descriptions</h2>
+<div class="help-cards">
+  <% const tabs = [
+    { icon: 'bx bxs-dashboard', title: 'Dashboard', text: 'After logging in, the Dashboard is your central overview: it displays the current election status, candidate confirmation on the blockchain, live counts of registered voters, real-time turnout, admin fund balances, and other key metrics—all in one place.' },
+    { icon: 'fa fa-cogs', title: 'Configuration', text: 'Use this page to set up election parameters: name, registration and voting dates, party lists, and each college’s student population—ensuring alignment with institutional requirements.' },
+    { icon: 'fa fa-users', title: 'Candidate Management', text: 'View, add, edit, or remove candidate profiles to keep all participant information accurate and up-to-date.' },
+    { icon: 'fa fa-link', title: 'Blockchain Management', text: 'View admin wallet details, recent transactions, and chain metrics in one interface to maintain transparency.' },
+    { icon: 'fa fa-link', title: 'Blockchain Activity Log', text: 'A timestamped record of every blockchain action—transactions, verifications, and events—for a full audit trail.' },
+    { icon: 'fa-regular fa-address-card', title: 'Voter Information', text: 'Access detailed records of registered voters, including profiles and voting status, to ensure database accuracy.' },
+    { icon: 'fa fa-pie-chart', title: 'Voter Turnout', text: 'Monitor live statistics comparing total eligible voters to those who have voted—both SSC-wide and per LSC.' },
+    { icon: 'fas fa-list-ol', title: 'Vote Tally', text: 'Watch vote counts update in real time by candidate, and drill down to view hashed voter IDs for integrity checks.' },
+    { icon: 'fa fa-bar-chart', title: 'Election Results', text: 'Displays final vote totals and percentages for each candidate, formatted for reporting once voting concludes.' },
+    { icon: 'fas fa-redo-alt', title: 'Reset Election', text: 'Clear all current election data—candidates, votes, logs—so you can configure and run a fresh cycle.' },
+    { icon: 'bx bx-archive', title: 'Election Archives', text: 'Access past election data—details, candidate lists, turnout, results—and download or audit historical records.' },
+    { icon: 'fa-solid fa-user-gear', title: 'Edit Account', text: 'View and update your administrator profile—change name, email, password, or profile picture as needed.' },
+    { icon: 'fa-solid fa-user-tie', title: 'Manage Admins', text: 'Create or remove admin accounts and assign appropriate roles and access rights.' },
+    { icon: 'fa fa-info-circle', title: 'Help Page', text: 'Read through descriptions of each module and find support contact information.' },
+    { icon: 'fa fa-history', title: 'System Activity Log', text: 'Track all administrator actions performed in the system for monitoring and accountability.' }
+  ]; %>
+
+  <% tabs.forEach(tab => { %>
+    <div class="help-card">
+      <h3 class="tab-title">
+        <i class="<%= tab.icon %>"></i>
+        <span><%= tab.title %></span>
+      </h3>
+      <p class="tab-text"><%= tab.text %></p>
+    </div>
+  <% }); %>
+</div>
+          <h2>Contact Information</h2>
+          <div class="contact-cards">
+            <div class="contact-card"><strong>Email:</strong> tanikala-bulsu@gmail.com</div>
+            <div class="contact-card"><strong>Phone:</strong> 0976-173-2057</div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <%- include('footer') %>
+
+    <script src="admin/js/sidebar.js"></script>
+    <script src="admin/js/index-admin.js"></script>
+    <script src="admin/js/voter-id-form.js"></script>
+  </body>
+</html>

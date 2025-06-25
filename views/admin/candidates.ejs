@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>BulSU Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/candidates.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/vote-tally.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/index-election.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="admin/css/election-management.css" /> -->
+
+    <!-- <link rel="stylesheet" type="text/css" href="admin/css/vote-tally-lsc.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/vote-tally-scc.css" /> -->
+
+    <!-- Boxicons CDN Link -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="components/notification.css" />
+    <link rel="stylesheet" href="css/submit-votes.css" />
+    <link rel="stylesheet" href="css/progress-bar.css" />
+    <style>
+      .disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.main-overlay {
+        position: absolute; /* Make it position relative to the parent <main> */
+          display: none;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(90, 90, 90, 0.7); /* Adjust opacity of the overlay */
+        height: 100%; /* Full height of the parent */
+        width: 100%; /* Full width of the parent */
+        /* display: flex; */
+        align-items: center; /* Center content vertically */
+        justify-content: center; /* Center content horizontally */
+        z-index: 999; /* Ensure it appears on top of other elements */
+      }
+      .main {
+        position: relative; /* Ensures children with absolute position are relative to <main> */
+      }
+      .form-container {
+        position: absolute;
+        z-index: 1001;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        display: none;
+      }
+    </style>
+  <script type="module" src="components/notification.js"></script>
+  </head>
+
+  <body>
+
+    <%- include('header') %>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const selectCollege = document.getElementById("collegeSelect");
+        const governorContainer = document.getElementById("container-lsc-governor");
+        const viceGovernorContainer = document.getElementById("container-lsc-vice-governor");
+        const boardMemberContainer = document.getElementById("container-lsc-board-member");
+
+        selectCollege.addEventListener("change", function () {
+          updateLSCCandidates(selectCollege.value);
+        });
+
+        async function updateLSCCandidates(collegeAcronym) {
+          try {
+            const response = await fetch(`/api/lsc-candidates?college=${collegeAcronym}`);
+            const data = await response.json();
+
+            if (data.error) {
+              console.warn("API Error:", data.error);
+              return;
+            }
+
+            // Governor Section
+            governorContainer.innerHTML = `
+              <div class="container-position">
+                <h1 class="position-lsc">Governor</h1>
+                <button class="button button-add" onclick="addCandidateLSC('Governor')">Add Candidate</button>
+              </div>
+              <hr />
+              <br />
+              <div>
+                ${data.governor.length ? data.governor.map((candidate) => createCandidateCard(candidate, collegeAcronym)).join("") : "<p>No candidates found.</p>"}
+              </div>
+            `;
+
+            // Vice Governor Section
+            viceGovernorContainer.innerHTML = `
+              <div class="container-position">
+                <h1 class="position-lsc">Vice Governor</h1>
+                <button class="button button-add" onclick="addCandidateLSC('Vice Governor')">Add Candidate</button>
+              </div>
+              <hr />
+              <br />
+              <div>
+                ${data.viceGovernor.length ? data.viceGovernor.map((candidate) => createCandidateCard(candidate, collegeAcronym)).join("") : "<p>No candidates found.</p>"}
+              </div>
+            `;
+
+            // Board Members Section: Group candidates by program
+            if (data.boardMembers.length) {
+              const boardMembersByProgram = {};
+              data.boardMembers.forEach((candidate) => {
+                if (!boardMembersByProgram[candidate.program]) {
+                  boardMembersByProgram[candidate.program] = [];
+                }
+                boardMembersByProgram[candidate.program].push(candidate);
+              });
+
+              let boardMembersHTML = `<div class="container-position">
+                <h1 class="position-lsc">Board Members</h1>
+                
+              </div>
+              <hr />`;
+
+              for (const program in boardMembersByProgram) {
+                boardMembersHTML += `
+                  <div class="program-group" id="college-${collegeAcronym}-${program}">
+                    <br />
+                   <h2 class="position-program"><u>${program}</u></h2>
+                    <br />
+                    <div class="right">
+                    <button class="button button-add" onclick="addCandidateLSC('Board Member', '${program}')">Add Candidate</button>
+                    </div>
+                    <div>
+                      ${boardMembersByProgram[program].map((candidate) => createBoardMemberCard(candidate, collegeAcronym)).join("")}
+                    </div>
+                  </div>
+                `;
+              }
+              boardMemberContainer.innerHTML = boardMembersHTML;
+            } else {
+              boardMemberContainer.innerHTML = `
+                <div class="container-position">
+                  <h1 class="position-lsc">Board Members</h1>
+                  <button class="button button-add" onclick="addCandidateLSC('Board Member')">Add Candidate</button>
+                </div>
+                <hr />
+                <div><p>No board members found.</p></div>
+              `;
+            }
+          } catch (error) {
+            console.error("Error fetching LSC candidates:", error);
+          }
+        }
+
+        function createCandidateCard(candidate, collegeAcronym) {
+          return `
+            <div class="candidate">
+              
+                <div class="img-container">
+                  <img src="${candidate.image}" alt="${candidate.name}">
+                </div>
+                <div class="candidate-info">
+                  <h2>${candidate.name}</h2>
+                  <p>Party: ${candidate.party}</p>
+                </div>
+             
+              <button class="button button-edit"
+                onclick="editCandidateLSC('${candidate._id}', '${candidate.position}', '${candidate.party}', '${candidate.name}', '${candidate.moreInfo}', '${candidate.image}', '${collegeAcronym}')">
+                Edit
+              </button>
+            </div>
+          `;
+        }
+
+        // Board member card without printing the candidate's program (group header displays it)
+        function createBoardMemberCard(candidate, collegeAcronym) {
+          return `
+            <div class="candidate">
+             
+                <div class="img-container">
+                  <img src="${candidate.image}" alt="${candidate.name}">
+                </div>
+                <div class="candidate-info">
+                  <h2>${candidate.name}</h2>
+                  <p>Party: ${candidate.party}</p>
+                </div>
+          
+              <button class="button button-edit"
+                onclick="editCandidateLSC('${candidate._id}', '${candidate.position}', '${candidate.party}', '${candidate.name}', '${candidate.moreInfo}', '${candidate.image}', '${collegeAcronym}', '${candidate.program}')">
+                Edit
+              </button>
+            </div>
+          `;
+        }
+
+        // Load default selection on first page load
+        updateLSCCandidates(selectCollege.value);
+      });
+    </script>
+
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'candidates', activeSub: "" }) %>
+      <main class="main">
+        <div class="main-overlay"></div>
+        <!-- LSC -->
+
+    <div id="form-add-lsc" class="form-container">
+      <div class="right">
+        <i class="fa-solid fa-xmark x-button close" onclick="toggleForm('form-add-lsc')"></i>
+      </div>
+      <div class="center position-title-container">
+        <h1 class="postion-name-lsc my-text position-lsc" id="heading-position-add-lsc">Position</h1>
+      </div>
+      <div class="form-buttons">
+        <form method="POST" action="/add-candidate-lsc">
+          <input type="hidden" id="college-acronym-add-lsc" name="collegeAcronym" />
+          <input type="hidden" id="program-add-lsc" name="program" />
+          <input type="hidden" id="candidate-id-add-lsc" name="_id" readonly />
+          <input type="hidden" id="position-add-lsc" name="candidatePosition" readonly />
+
+          <div>
+            <div class="form-details">
+              <div class="left-content">
+                <img id="image-add-lsc" class="circle-img" src="img/placeholder_admin_profile.png" />
+                <br />
+                <div class="center">
+                  <input type="file" id="image-upload-add-lsc" accept="image/*" />
+                  <input type="hidden" id="image-base64-add-lsc" name="image" />
+                </div>
+              </div>
+              <br />
+              <div class="center-content">
+                <!-- (for backend): -->
+                <!-- <label>(for backend):</label> -->
+               
+                <label for="name">Name:</label>
+                <input type="text" id="name-add-lsc" name="name" maxlength="35" class="field fill" required /><br /><br />
+                <label for="party">Party:</label>
+                <!-- For the LSC "Add Candidate" form -->
+                <select id="party-add-lsc" name="party" class="field fill">
+                  <% electionConfig.partylists.forEach(function(party) { %>
+                    <option value="<%= party %>"><%= party %></option>
+                  <% }); %>
+                </select>
+
+              </div>
+              <div class="right-content">
+                <label for="more-info">Info:</label>
+                <textarea id="more-info-add-lsc" name="moreInfo" maxlength="150" class="field info"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <br /><br />
+          <div class="right">
+            <input type="submit" class="button button-add" value="Add Candidate" />
+          </div>
+       </form> <!-- AYAN LANG. HAY -->
+      </div>
+    </div>
+
+    <div id="form-edit-lsc" class="form-container">
+      <div class="right">
+        <i class="fa-solid fa-xmark x-button" onclick="toggleForm('form-edit-lsc')"></i>
+      </div>
+      <div class="center position-title-container">
+        <h1 class="postion-name-lsc my-text position-lsc" id="heading-position-edit-lsc">Position</h1>
+      </div>
+      <div class="form-buttons">
+        <form method="POST" action="/update-candidate-lsc">
+          <input type="hidden" id="college-acronym-edit-lsc" name="collegeAcronym" />
+          <input type="hidden" id="program-edit-lsc" name="program" />
+          <!-- Only for Board Members -->
+          <!-- <div class="center"> -->
+          <!-- <div class="border"> -->
+          <!-- <label>Candidate Number: </label> -->
+          <input type="hidden" id="candidate-id-edit-lsc" name="_id" readonly />
+          <!-- <label>Position: </label> -->
+          <input type="hidden" id="position-edit-lsc" name="candidatePosition" readonly />
+          <!-- </div> -->
+          <!-- </div> -->
+
+          <div>
+            <div class="form-details">
+              <div class="left-content">
+                <img id="image-edit-lsc" class="circle-img" src="img/placeholder_admin_profile.png"/>
+                <br />
+                <div class="center">
+                  <input type="file" id="image-upload-edit-lsc" accept="image/*" />
+                  <input type="hidden" id="image-base64-edit-lsc" name="image" />
+                  <input type="hidden" id="original-image-edit-lsc" name="originalImage" />
+                </div>
+              </div>
+              <br />
+
+              <div class="center-content">
+                <label for="name">Name:</label>
+                <input type="text" id="name-edit-lsc" name="name" maxlength="35" class="field fill" /><br /><br />
+                <label for="party">Party:</label>
+                <!-- For the LSC "Edit Candidate" form -->
+                <select id="party-edit-lsc" name="party" class="field fill">
+                  <% electionConfig.partylists.forEach(function(party) { %>
+                    <option value="<%= party %>"><%= party %></option>
+                  <% }); %>
+                </select>
+
+              </div>
+              <div class="right-content">
+                <label for="more-info">Info:</label>
+                <textarea id="more-info-edit-lsc" name="moreInfo" maxlength="150" class="field info"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <br />
+          <br />
+          <div class="right">
+            <button type="button" class="button beside-button-left" id="button-delete-edit-lsc" onclick="deleteCandidateLSC()">Delete</button>
+            <input type="submit" class="button button-save" value="Save" />
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- SSC -->
+
+    <div id="form-add" class="form-container">
+      <div class="right">
+        <i class="fa-solid fa-xmark x-button" onclick="toggleForm('form-add')"></i>
+      </div>
+      <div class="center position-title-container">
+        <h1 class="postion-name-ssc my-text position-ssc" id="heading-position-add">Position</h1>
+      </div>
+      <div class="form-buttons">
+        <form method="POST" action="/add-candidate">
+          <input type="hidden" id="candidate-id-add" name="_id" readonly />
+          <input type="hidden" id="position-add" name="candidatePosition" readonly />
+
+          <div>
+            <div class="form-details">
+              <div class="left-content">
+                <img id="image-add" class="circle-img" src="img/placeholder_admin_profile.png"  />
+                <br />
+                <div class="center">
+                  <input type="file" id="image-upload-add" accept="image/*" />
+                  <input type="hidden" id="image-base64-add" name="image" />
+                </div>
+              </div>
+              <br />
+              <div class="center-content">
+                <label for="name">Name:</label>
+                <input type="text" id="name-add" name="name" maxlength="35" class="field fill" required /><br /><br />
+                <label for="party">Party:</label>
+                <!-- For the "Add Candidate" form (SSC) -->
+                <select id="party-add" name="party" class="field fill">
+                  <% electionConfig.partylists.forEach(function(party) { %>
+                    <option value="<%= party %>"><%= party %></option>
+                  <% }); %>
+                </select>
+
+              </div>
+              <div class="right-content">
+                <label for="more-info">Info:</label>
+                <textarea id="more-info-add" name="moreInfo" maxlength="150" class="field info"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <br /><br />
+          <div class="right">
+            <input type="submit" class="button button-add" value="Add Candidate" />
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="form-edit" class="form-container">
+      <div class="right">
+        <i class="fa-solid fa-xmark x-button" onclick="toggleForm('form-edit')"></i>
+      </div>
+      <div class="center position-title-container">
+        <h1 class="my-text position-ssc" id="heading-position-edit">Position</h1>
+      </div>
+      <div class="form-buttons">
+        <form method="POST" action="/update-candidate">
+          <input type="hidden" id="candidate-id-edit" name="_id" readonly />
+          <input type="hidden" id="position-edit" name="candidatePosition" readonly />
+          <div>
+            <div class="form-details">
+              <div class="left-content">
+                <img id="image-edit" class="circle-img" src="img/placeholder_admin_profile.png" />
+                <br />
+                <div class="center">
+                  <input type="file" id="image-upload-edit" accept="image/*" />
+                  <input type="hidden" id="image-base64-edit" name="image" />
+                  <input type="hidden" id="original-image-edit" name="originalImage" />
+                </div>
+              </div>
+              <br />
+              <div class="center-content">
+                <label for="name">Name:</label>
+                <input type="text" id="name-edit" name="name" maxlength="35" class="field fill" /><br /><br />
+                <label for="party">Party:</label>
+                <!-- For the "Edit Candidate" form (SSC) -->
+                <select id="party-edit" name="party" class="field fill">
+                  <% electionConfig.partylists.forEach(function(party) { %>
+                    <option value="<%= party %>"><%= party %></option>
+                  <% }); %>
+                </select>
+
+              </div>
+              <div class="right-content">
+                <label for="more-info">Info:</label>
+                <textarea id="more-info-edit" name="moreInfo" maxlength="150" class="field info"></textarea>
+              </div>
+            </div>
+          </div>
+          <br />
+          <br />
+          <div class="right">
+            <button type="button" class="button beside-button-left" id="button-delete" onclick="deleteCandidate()">Delete</button>
+            <input type="submit" class="button button-save" value="Save" />
+          </div>
+        </form>
+      </div>
+    </div>
+        <div class="title-container">
+          <div class="r">
+            <i class="fa fa-users"></i>
+            <h1 class="title">Candidate Management</h1>
+          </div>
+          <h3>
+            <span class="purple">Candidate Submission Status on Blockchain:</span>
+           <span class="smart-contract-status <%= electionConfig.candidatesSubmitted ? 'submitted' : 'not-submitted' %>">
+  <%= electionConfig.candidatesSubmitted ? "Submitted" : "Not Submitted" %>
+</span>
+          </h3>
+          
+        </div>
+        <hr class="title-line" />
+
+        <div class="first-main">
+          <div class="main-content">
+            <div class="main-left">
+              <h1 class="ssc">Supreme Student Council</h1>
+
+              <div class="container container-ssc" id="container-president">
+                <div class="container-position">
+                  <h1 class="position-ssc">President</h1>
+                  <button class="button button-add" onclick="addCandidate('President')">Add Candidate</button>
+                </div>
+                <hr />
+                <div>
+                  <% candidates.filter(candidate=> candidate._id.startsWith('president_')) .forEach((president, index) => { %>
+                  <br />
+                  <div class="candidate">
+                    <% if (president._id) { %>
+                    <!-- <div class="candidate-content"> -->
+                      <div class="img-container">
+                        <img src="<%= president.image %>" alt="<%= president.name %>" />
+                      </div>
+
+                      <div class="candidate-info">
+                        <h2><%= president.name %></h2>
+                        <p>Party: <%= president.party %></p>
+                      </div>
+                    <!-- </div> -->
+
+                    <button class="button button-edit" onclick="editCandidate('<%= president._id %>', '<%= president.position %>', '<%= president.party %>', '<%= president.name %>', '<%= president.moreInfo %>', '<%= president.image %>')">Edit</button>
+                    <% } else { %>
+                    <p>There are no candidates for <%= president.position %> position right now.</p>
+                    <% } %>
+                  </div>
+                  <% }); %>
+                </div>
+              </div>
+
+              <div class="container container-ssc" id="container-vice-president">
+                <div class="container-position">
+                  <h1 class="position-ssc">Vice President</h1>
+                  <button class="button button-add" onclick="addCandidate('Vice President')">Add Candidate</button>
+                </div>
+                <hr />
+                <div>
+                  <% candidates.filter(candidate=> candidate._id.startsWith('vice_president_')) .forEach((vice_president, index) => { %>
+                  <br />
+                  <div class="candidate">
+                    <% if (vice_president._id) { %>
+                  
+                      <div class="img-container">
+                        <img src="<%= vice_president.image %>" alt="<%= vice_president.name %>" />
+                      </div>
+
+                      <div class="candidate-info">
+                        <h2><%= vice_president.name %></h2>
+                        <p>Party: <%= vice_president.party %></p>
+                      </div>
+                   
+
+                    <button class="button button-edit" onclick="editCandidate('<%= vice_president._id %>', '<%= vice_president.position %>', '<%= vice_president.party %>', '<%= vice_president.name %>', '<%= vice_president.moreInfo %>', '<%= vice_president.image %>')">Edit</button>
+                    <% } else { %>
+                    <p>There are no candidates for the <%= president.position %> position right now.</p>
+                    <% } %>
+                  </div>
+                  <% }); %>
+                </div>
+              </div>
+
+              <div class="container container-ssc" id="container-senators">
+                <div class="container-position">
+                  <h1 class="position-ssc">Senators</h1>
+                  <button class="button button-add" onclick="addCandidate('Senator')">Add Candidate</button>
+                </div>
+                <hr />
+                <div>
+                  <% candidates.filter(candidate=> candidate._id.startsWith('senator_')) .forEach((senator, index) => { %>
+                  <br />
+                  <div class="candidate">
+                    <% if (senator._id) { %>
+                    
+                      <div class="img-container">
+                        <img src="<%= senator.image %>" alt="<%= senator.name %>" />
+                      </div>
+
+                      <div class="candidate-info">
+                        <h2><%= senator.name %></h2>
+                        <p>Party: <%= senator.party %></p>
+                      </div>
+                    
+
+                    <button class="button button-edit" onclick="editCandidate('<%= senator._id %>', '<%= senator.position %>', '<%= senator.party %>', '<%= senator.name %>', '<%= senator.moreInfo %>', '<%= senator.image %>')">Edit</button>
+                    <% } else { %>
+                    <p>There are no candidates for <%= senator.position %> position right now.</p>
+                    <% } %>
+                  </div>
+                  <% }); %>
+                </div>
+              </div>
+            </div>
+            <div class="main-right">
+              <div class="main-right-header">
+                <h1 class="lsc">Local Student Council</h1>
+                <br />
+
+                <select class="select" id="collegeSelect">
+                  <option value="CAFA">College of Architecture and Fine Arts (CAFA)</option>
+                  <option value="CAL">College of Arts and Letters (CAL)</option>
+                  <option value="CBEA">College of Business Education and Accountancy (CBEA)</option>
+                  <option value="CCJE">College of Criminal Justice Education (CCJE)</option>
+                  <option value="CHTM">College of Hospitality and Tourism Management (CHTM)</option>
+                  <option value="CIT">College of Industrial Technology (CIT)</option>
+                  <option value="CICT">College of Information and Communications Technology (CICT)</option>
+                  <option value="COE">College of Engineering (COE)</option>
+                  <option value="COED">College of Education (COED)</option>
+                  <option value="CN">College of Nursing (CN)</option>
+                  <option value="CS">College of Science (CS)</option>
+                  <option value="CSER">College of Sports, Exercise and Recreation (CSER)</option>
+                  <option value="CSSP">College of Social Sciences and Philosophy (CSSP)</option>
+                </select>
+                <br />
+                <!-- <input type="text" id="collegeInput" /> -->
+              </div>
+              <div>
+                <div class="container container-lsc" id="container-lsc-governor">
+                  <div class="container-position">
+                    <h1 class="position-lsc">Governor</h1>
+                    <button class="button button-add" onclick="addCandidateLSC('Governor')">Add Candidate</button>
+                  </div>
+                  <hr />
+
+                  <div>
+                    <% candidates_lsc.forEach(college => { %> <% if (college.collegeAcronym === "CAFA" && college.positions["Governor"]) { %> <% college.positions["Governor"].forEach((candidate, index) => { %>
+                    <br />
+                    <div class="candidate">
+                      <% if (candidate._id) { %>
+                      
+                        <div class="img-container">
+                          <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+                        </div>
+                        <div class="candidate-info">
+                          <h2><%= candidate.name %></h2>
+                          <p>Party: <%= candidate.party %></p>
+                        </div>
+                      
+
+                      <button
+                        class="button button-edit"
+                        onclick="editCandidateLSC('<%= candidate._id %>', 
+                                         '<%= candidate.position %>', 
+                                         '<%= candidate.party %>', 
+                                         '<%= candidate.name %>', 
+                                         '<%= candidate.moreInfo %>', 
+                                         '<%= candidate.image %>', 
+                                         '<%= college.collegeAcronym %>')"
+                      >
+                        Edit
+                      </button>
+                      <% } %>
+                    </div>
+                    <% }) %> <% } %> <% }) %>
+                  </div>
+                </div>
+
+                <div class="container container-lsc" id="container-lsc-vice-governor">
+                  <h2>Vice Governor</h2>
+                  <button class="button button-add" onclick="addCandidateLSC('Vice Governor')">Add Candidate</button>
+
+                  <% candidates_lsc.forEach(college => { %> <% if (college.collegeAcronym === "CAFA") { %> <% if (college.positions["Vice Governor"]) { %> <% college.positions["Vice Governor"].forEach(candidate => { %>
+                  <div class="candidate">
+                  
+                    <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+                   
+                   
+                    <h3><%= candidate.name %></h3>
+                    <p>Party: <%= candidate.party %></p>
+                    
+                    <p><%= candidate.moreInfo %></p>
+                    <button
+                      class="button button-edit"
+                      onclick="editCandidateLSC(
+                                '<%= candidate._id %>', 
+                                '<%= candidate.position %>', 
+                                '<%= candidate.party %>', 
+                                '<%= candidate.name %>', 
+                                '<%= candidate.moreInfo %>', 
+                                '<%= candidate.image %>', 
+                                '<%= college.collegeAcronym %>'
+                            )"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                  <% }); %> <% } %> <% } %> <% }); %>
+                </div>
+
+                <!-- <div class="container container-lsc" id="container-lsc-board-member">
+                  <h1>Board Member</h1>
+
+                  <% let cafa = candidates_lsc.find(college => college.collegeAcronym === "CAFA"); if (cafa && cafa.positions["Board Member"]) { let boardMembers = cafa.positions["Board Member"]; %> <% Object.keys(boardMembers).forEach(program => { %>
+                  <h3><%= program %></h3>
+                  <button class="button button-add" onclick="addCandidateLSC('Board Member', '<%= program %>')">Add Candidate</button>
+
+                  <ul>
+                    <% boardMembers[program].forEach(candidate => { %>
+                    <li>
+                      <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+                      <strong><%= candidate.name %></strong> - <%= candidate.party %>
+                      
+                      <button
+                        class="button button-edit"
+                        onclick="editCandidateLSC(
+                            '<%= candidate._id %>', 
+                            '<%= candidate.position %>', 
+                            '<%= candidate.party %>', 
+                            '<%= candidate.name %>', 
+                            '<%= candidate.moreInfo %>', 
+                            '<%= candidate.image %>', 
+                            '<%= cafa.collegeAcronym %>'
+                        )"
+                      >
+                        Edit
+                      </button>
+                    </li>
+                    <% }); %>
+                  </ul>
+                  <% }); %> <% } %>
+                </div> -->
+
+                <!-- Board Member Container -->
+                <% const boardMembersAll = candidates.filter(candidate => candidate.position === 'board member' && candidate.college && candidate.program); const boardMembersNonAbstain = boardMembersAll.filter(candidate => candidate.name !== 'Abstain'); const boardMembersAbstain = boardMembersAll.filter(candidate => candidate.name === 'Abstain'); const totalVotesBoardMember = boardMembersNonAbstain.reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); let boardMembersByProgram
+                = {}; boardMembersNonAbstain.forEach(candidate => { if (!boardMembersByProgram[candidate.program]) { boardMembersByProgram[candidate.program] = []; } boardMembersByProgram[candidate.program].push(candidate); }); Object.keys(boardMembersByProgram).forEach(program => { boardMembersByProgram[program].sort((a, b) => Number(b.voteCount) - Number(a.voteCount)); }); let abstainByProgram = {}; boardMembersAbstain.forEach(candidate => { if (!abstainByProgram[candidate.program]) {
+                abstainByProgram[candidate.program] = []; } abstainByProgram[candidate.program].push(candidate); }); %>
+
+                <div class="container-lsc" id="container-lsc-board-member">
+                  <div class="container-position">
+                    <h1 class="position-lsc">Board Members</h1>
+                    <button class="button button-add" onclick="addCandidate('President')">Add Candidate</button>
+                  </div>
+                  <hr />
+
+                  <% Object.keys(boardMembersByProgram).forEach(program => { let programTotalVotes = boardMembersByProgram[program].reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); if (abstainByProgram[program]) { programTotalVotes += abstainByProgram[program].reduce((acc, candidate) => acc + (Number(candidate.voteCount) || 0), 0); } %>
+                  <!-- Wrap each program in its own container, adding an id based on college -->
+                  <div class="program-group" id="college-<%= boardMembersByProgram[program][0].college %>">
+                    <br />
+                    <h2 class="program-header">
+                      <ul>
+                        <%= program %>
+                      </ul>
+                    </h2>
+                    <!-- Add Candidate button for this program -->
+                     <br />
+                    <button class="button button-add right-usog" onclick="addCandidateLSC('Board Member', '<%= program %>')">Add Candidate</button>
+                    <br />
+
+                    <% boardMembersByProgram[program].forEach(candidate => { const voteCount = Number(candidate.voteCount) || 0; const percentage = programTotalVotes > 0 ? ((voteCount / programTotalVotes) * 100).toFixed(2) : 0; %>
+                    <div class="candidate lsc-candidate" data-college="<%= candidate.college %>" data-program="<%= candidate.program %>">
+                      <div class="candidate">
+                        <div class="img-container">
+                          <img src="<%= candidate.image %>" alt="<%= candidate.name %>" />
+                        </div>
+                        <div class="candidate-info">
+                          <h2><%= candidate.name %></h2>
+                          <p><%= candidate.party %></p>
+                          <div class="row">
+                            <div class="progress-bar">
+                              <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+                            </div>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <% }); %> <% if (abstainByProgram[program]) { abstainByProgram[program].forEach(candidate => { const voteCount = Number(candidate.voteCount) || 0; const percentage = programTotalVotes > 0 ? ((voteCount / programTotalVotes) * 100).toFixed(2) : 0; %>
+                    <div class="candidate lsc-candidate" data-college="<%= candidate.college %>" data-program="<%= candidate.program %>">
+                      <div class="candidate">
+                        <div class="img-container">
+                          <h2><%= candidate.name %></h2>
+                        </div>
+                        <div class="candidate-info">
+                          <div class="row">
+                            <div class="progress-bar">
+                              <div class="progress" data-target="<%= percentage %>%" style="width: 0"><%= voteCount %> votes</div>
+                            </div>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%= percentage %>%</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <% }); } %>
+                    <h3 class="right">
+                      <span><u><%= programTotalVotes %></u></span> total votes cast
+                    </h3>
+                  </div>
+                  <% }); %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <% if (!electionConfig.candidatesSubmitted) { %>
+          <div class="middle">
+            <button class="action-button cancel-button" id="clearCandidates">Clear All Candidate Data</button>
+          </div>
+        <% } %>
+
+        <script>
+          document.getElementById("clearCandidates").addEventListener("click", async () => {
+            if (!confirm("Are you sure you want to delete ALL candidate data?")) return;
+        
+            try {
+              const res = await fetch("/clear-candidates", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" }
+              });
+              const body = await res.json();
+              if (body.success) {
+                // reload so the empty state shows up
+                window.location.reload();
+              } else {
+                alert("Failed to clear data: " + (body.message || "unknown error"));
+              }
+            } catch (err) {
+              console.error(err);
+              alert("Error clearing data. See console.");
+            }
+          });
+        </script>
+        
+        <%
+          // pick real‐time or fake time based on your config
+          const now = electionConfig.useFakeDate
+            ? new Date(electionConfig.fakeCurrentDate)
+            : new Date();
+          const votingStart = new Date(electionConfig.votingStart);
+        %>
+
+
+        <div class="blockchain">
+          <!-- Deploy Candidates Button -->
+          <% if (electionConfig.candidatesSubmitted && now < votingStart) { %>
+            <!-- If candidates have been submitted, show only the "Remove Candidates from Blockchain" button -->
+            <button class="action-button" id="resetCandidatesBtn">
+              Remove Candidates from Blockchain
+            </button>
+          <% } %>
+          <% if (!electionConfig.candidatesSubmitted) { %>
+            <!-- If candidates have not been submitted, show only the "Submit Candidates to Blockchain" button -->
+            <!-- <button class="action-button" id="submitBtn">
+              Submit Candidates to Blockchain
+            </button> -->
+            <% if (loggedInAdmin.role === "Developer" ||  loggedInAdmin.role === "Technical Team Member") { %>
+              <button id="submitBtn" value="Submit Votes to Blockchain" onclick="" class="button-submit">
+                <span class="fold"></span>
+
+                <div class="points_wrapper">
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                  <i class="point"></i>
+                </div>
+
+                <span class="inner">
+                  <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5">
+                    <polyline points="13.18 1.37 13.18 9.64 21.45 9.64 10.82 22.63 10.82 14.36 2.55 14.36 13.18 1.37"></polyline>
+                  </svg>
+                  <span>Submit Candidates to Blockchain</span>
+                </span>
+              </button>
+            <% } %>
+            <br><br>
+            
+            
+            
+          <% } %>
+
+          <!-- Loading container is hidden by default -->
+          <div id="loadingContainer" style="display: none;">
+            <i><p>Loading...</p></i>
+            <div class="progress-loader">
+              <div class="progress"></div>
+            </div>
+          </div>
+          
+
+          <script type="module">
+            import { createNotification } from "/components/notification.js";
+          
+            document.addEventListener("DOMContentLoaded", () => {
+              const resetCandidatesBtn = document.getElementById("resetCandidatesBtn");
+              const currentTime = config.useFakeDate
+                ? moment.tz(config.fakeCurrentDate, "Asia/Manila")
+                : moment.tz(new Date(), "Asia/Manila");
+
+              resetCandidatesBtn.addEventListener("click", async () => {
+                // Display the loading container when the process starts.
+                document.getElementById("loadingContainer").style.display = "block";
+
+                try {
+                  // Get voting start time for validation
+                  const votingStartTime = moment.tz(config.votingStart, "Asia/Manila");
+
+                  // Check if the voting period is within one day and block reset if so
+                  if (votingStartTime.diff(currentTime, "hours") < 24) {
+                    createNotification("You can't reset candidates 1 day before the voting period.", "warning", 5000);
+                    return;
+                  }
+
+                  // Proceed with resetting candidates by calling the API
+                  const response = await fetch("/api/resetCandidates");
+
+                  // Notify user based on the success or failure of the API call
+                  if (response.ok) {
+                    createNotification("Candidates reset successfully.", "success", 5000);
+                  } else {
+                    createNotification("Failed to reset candidates.", "warning", 5000);
+                  }
+                } catch (error) {
+                  createNotification("An error occurred while resetting candidates.", "warning", 5000);
+                } finally {
+                  // Hide the loading container once the request is completed.
+                  document.getElementById("loadingContainer").style.display = "none";
+                }
+              });
+            });
+
+
+
+          </script>
+          
+          
+          
+          
+
+          <!-- Status Message -->
+          <p id="statusMessage"></p>
+
+          <script>
+            // Event listener for "Deploy Candidates" button
+            document.getElementById("submitBtn").addEventListener("click", async () => {
+              document.getElementById("loadingContainer").style.display = "block";
+              try {
+                // Update status message
+                document.getElementById("statusMessage").innerText = "Submitting candidates...";
+
+                // Send request to submit candidates to the blockchain
+                const response = await fetch("/submit-candidates", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                });
+
+                const data = await response.json();
+
+                // Update status message with server response
+                document.getElementById("statusMessage").innerText = data.message;
+
+                if (response.ok) {
+                  // Show the "Reset Candidates" button after successful submission
+                  document.getElementById("resetCandidatesBtn").style.display = "inline-block";
+
+                  // Make "Deploy Candidates" button less opaque and unclickable
+                  document.getElementById("submitBtn").style.opacity = "0.5";
+                   document.getElementById("submitBtn").style.pointerEvents = "none";
+                  
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("statusMessage").innerText = "Storing Candidates...";
+              }// In the finally block, after a short delay:
+              finally {
+                // Hide the loading container
+                document.getElementById("loadingContainer").style.display = "none";
+                // Optionally reload the page after a brief pause (e.g., 2 seconds)
+                setTimeout(() => {
+                  window.location.reload();
+                }, 2000);
+              }
+
+            });
+
+            // // Event listener for "Reset Candidates" button
+            // document.getElementById("resetCandidatesBtn").addEventListener("click", async () => {
+            //   try {
+            //     // Send request to reset candidates
+            //     const response = await fetch("/reset-candidates", { method: "POST" });
+            //     const data = await response.json();
+            //     alert(data.message);
+
+            //     if (response.ok) {
+            //       // Optionally hide the "Reset Candidates" button again
+            //       document.getElementById("resetCandidatesBtn").style.display = "none";
+
+            //       // Reset the "Deploy Candidates" button appearance and re-enable it
+            //       document.getElementById("submitBtn").style.opacity = "1";
+            //       document.getElementById("submitBtn").disabled = false;
+            //     }
+            //   } catch (error) {
+            //     alert("Failed to reset candidates.");
+            //   }
+            // });
+          </script>
+        </div>
+      </main>
+    </div>
+
+    <%- include('footer') %>
+
+    
+
+    <script>
+      // Set the default selection to CAFA on page load
+      window.onload = function () {
+        const select = document.getElementById("collegeSelect");
+        const input = document.getElementById("collegeInput");
+
+        // Set the default value of the input to the selected option (CAFA)
+        input.value = select.options[select.selectedIndex].text;
+
+        // Listen for any changes in the select element and update the input
+        select.addEventListener("change", function () {
+          input.value = select.options[select.selectedIndex].text;
+        });
+      };
+
+      function editCandidateLSC(id, position, party, name, moreInfo, image, collegeAcronym, program = "") {
+        let form_id = "form-edit-lsc";
+        toggleForm(form_id);
+
+        let headingPosition = document.getElementById("heading-position-edit-lsc");
+        let profileImage = document.getElementById("image-edit-lsc");
+        let inputId = document.getElementById("candidate-id-edit-lsc");
+        let inputPosition = document.getElementById("position-edit-lsc");
+        let inputName = document.getElementById("name-edit-lsc");
+        let inputParty = document.getElementById("party-edit-lsc");
+        let inputMoreInfo = document.getElementById("more-info-edit-lsc");
+        let inputCollegeAcronym = document.getElementById("college-acronym-edit-lsc");
+        let inputProgram = document.getElementById("program-edit-lsc");
+        let hiddenOriginalImage = document.getElementById("original-image-edit-lsc");
+
+        console.log("Editing candidate:", { id, position, party, name, moreInfo, collegeAcronym, program });
+
+        headingPosition.innerHTML = position + (program ? ` - ${program}` : ""); // Show program for Board Members
+        inputName.value = name;
+
+        // Capitalize first letter of each word
+        function capitalize(str) {
+          return str
+            .split(" ") // Split into words
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize first letter of each word
+            .join(" "); // Join the words back into a string
+        }
+
+        inputPosition.value = capitalize(position);
+        inputParty.value = party;
+        inputId.value = id;
+        inputMoreInfo.value = moreInfo;
+        inputCollegeAcronym.value = collegeAcronym; // Fix: Assign correct value
+        inputProgram.value = program; // Fix: Assign correct program if Board Member
+
+        if (image && image !== "image") {
+          profileImage.src = image;
+          hiddenOriginalImage.value = image;
+        } else if (hiddenOriginalImage.value) {
+          profileImage.src = hiddenOriginalImage.value;
+        } else {
+          profileImage.src = "img/placeholder_admin_profile.png";
+        }
+      }
+
+      function addCandidateLSC(position, program = "") {
+  let formId = "form-add-lsc";
+  toggleForm(formId); // Show form before setting values
+
+  // Update the heading to include the program if provided
+  let headingPosition = document.getElementById("heading-position-add-lsc");
+  headingPosition.innerHTML = position + (program ? ' - ' + program : '');
+
+  let selectedCollege = document.getElementById("collegeSelect");
+  let inputCollege = document.getElementById("college-acronym-add-lsc");
+  let inputPosition = document.getElementById("position-add-lsc");
+  let inputProgram = document.getElementById("program-add-lsc");
+  let inputCandidateId = document.getElementById("candidate-id-add-lsc");
+
+  // Ensure all elements exist before using them
+  if (!selectedCollege || !inputCollege || !inputPosition || !inputCandidateId) {
+    console.error("⚠️ Missing form elements! Check IDs in the HTML.");
+    return;
+  }
+
+  // Set values dynamically
+  inputCollege.value = selectedCollege.value;
+  inputPosition.value = position;
+  inputProgram.value = program || "";
+
+  // Fetch candidates to determine next ID (if needed)
+  fetch(`/api/candidates-lsc?position=${encodeURIComponent(position)}&college=${selectedCollege.value}${program ? `&program=${encodeURIComponent(program)}` : ""}`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        console.warn("API Error:", data.error);
+        return;
+      }
+      let maxId = 0;
+      data.candidates.forEach((candidate) => {
+        const match = candidate._id.match(/_(\d+)$/);
+        if (match) {
+          const num = parseInt(match[1], 10);
+          if (num > maxId) {
+            maxId = num;
+          }
+        }
+      });
+      // Generate new candidate ID dynamically
+      inputCandidateId.value = `${position.toLowerCase().replace(" ", "_")}_${maxId + 1}`;
+    })
+    .catch((error) => console.error("Error fetching candidates:", error));
+}
+
+      async function deleteCandidateLSC() {
+        let candidateId = document.getElementById("candidate-id-edit-lsc").value;
+        let candidatePosition = document.getElementById("position-edit-lsc").value;
+        let candidateCollege = document.getElementById("college-acronym-edit-lsc").value;
+        let candidateProgram = document.getElementById("program-edit-lsc").value; // Only relevant for Board Members
+
+        if (!candidateId) {
+          alert("No candidate selected for deletion.");
+          return;
+        }
+
+        if (!confirm("Are you sure you want to delete this candidate?")) {
+          return;
+        }
+
+        try {
+          const response = await fetch("/delete-candidate-lsc", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              _id: candidateId,
+              candidatePosition: candidatePosition,
+              collegeAcronym: candidateCollege,
+              program: candidateProgram,
+            }),
+          });
+
+          if (response.ok) {
+            alert("Candidate deleted successfully.");
+            window.location.reload(); // Refresh the page to update the UI
+          } else {
+            const errorMessage = await response.text();
+            alert("Failed to delete candidate: " + errorMessage);
+          }
+        } catch (error) {
+          console.error("Error deleting candidate:", error);
+          alert("An error occurred while deleting the candidate.");
+        }
+      }
+    </script>
+
+    <script>
+      async function addCandidate(position) {
+        let form_id = "form-add";
+        toggleForm(form_id); // Show form before setting values
+
+        let headingPosition = document.getElementById("heading-position-add");
+        headingPosition.innerHTML = position.charAt(0).toUpperCase() + position.slice(1);
+
+        try {
+          // Include the position query parameter in the request
+          const response = await fetch(`/api/candidates?position=${encodeURIComponent(position)}`);
+          const data = await response.json();
+          console.log(data);
+
+          // Check if the response contains an error
+          if (data.error) {
+            console.warn("API Error:", data.error);
+            return;
+          }
+
+          if (!data || !data.candidates) {
+            console.warn("No candidates found for position:", position);
+            return;
+          }
+
+          // Extract the highest candidate ID
+          let maxId = 0;
+          data.candidates.forEach((candidate) => {
+            const match = candidate._id.match(/_(\d+)$/);
+            if (match) {
+              const num = parseInt(match[1], 10);
+              if (num > maxId) {
+                maxId = num;
+              }
+            }
+          });
+
+          // Generate the new candidate ID
+          const newCandidateId = `${position.toLowerCase().replace(" ", "_")}_${maxId + 1}`;
+
+          // Populate the form fields
+          document.getElementById("candidate-id-add").value = newCandidateId;
+          document.getElementById("position-add").value = position;
+        } catch (error) {
+          console.error("Error fetching candidates:", error);
+        }
+      }
+
+      async function deleteCandidate() {
+        let candidateId = document.getElementById("candidate-id-edit").value;
+
+        if (!candidateId) {
+          alert("No candidate selected for deletion.");
+          return;
+        }
+
+        if (!confirm("Are you sure you want to delete this candidate?")) {
+          return;
+        }
+
+        try {
+          const response = await fetch("/delete-candidate", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ _id: candidateId }),
+          });
+
+          if (response.ok) {
+            alert("Candidate deleted successfully.");
+            window.location.reload(); // Refresh the page to update the UI
+          } else {
+            const errorMessage = await response.text();
+            alert("Failed to delete candidate: " + errorMessage);
+          }
+        } catch (error) {
+          console.error("Error deleting candidate:", error);
+          alert("An error occurred while deleting the candidate.");
+        }
+      }
+
+      function editCandidate(id, position = "position", party = "party", name = "name", moreInfo = "info", image = "image") {
+        let form_id = "form-edit";
+        toggleForm(form_id);
+
+        let headingPosition = document.getElementById("heading-position-edit");
+        let profileImage = document.getElementById("image-edit");
+        let inputId = document.getElementById("candidate-id-edit");
+        let inputPosition = document.getElementById("position-edit");
+        let inputName = document.getElementById("name-edit");
+        let inputParty = document.getElementById("party-edit");
+        let inputMoreInfo = document.getElementById("more-info-edit");
+        let hiddenOriginalImage = document.getElementById("original-image-edit");
+
+        console.log("form is being opened");
+        console.log(position, party, name);
+
+        headingPosition.innerHTML = position;
+        inputName.value = name;
+        inputPosition.value = position;
+        inputParty.value = party;
+        inputId.value = id;
+        inputMoreInfo.value = moreInfo;
+        console.log(position, id, name, party, moreInfo);
+
+        if (image && image !== "image") {
+          profileImage.src = image;
+          hiddenOriginalImage.value = image; // Store original image in hidden input
+        } else if (hiddenOriginalImage.value) {
+          profileImage.src = hiddenOriginalImage.value; // Keep existing image
+        } else {
+          profileImage.src = "img/placeholder_admin_profile.png"; // Fallback only if there's no original image
+        }
+      }
+
+      function toggleForm(form_id) {
+        let form = document.getElementById(form_id);
+        
+        if (form) {
+          if (form.style.display === "none" || form.style.display === "") {
+            updateModalPosition(form);
+            mainElement.style.overflow = "hidden";
+            mainOverlay.style.display="block";
+            form.style.display = "block";
+          } else {
+            mainOverlay.style.display ="none";
+            mainElement.style.overflow = "auto";
+            form.style.display = "none";
+          }
+        }
+      }
+
+      function handleImageUpload(imageUploadId, imagePreviewId, imageBase64InputId, hiddenOriginalImageId = "") {
+        document.getElementById(imageUploadId).addEventListener("change", function (event) {
+          let file = event.target.files[0];
+          if (file) {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = function (e) {
+              let img = new Image();
+              img.src = e.target.result;
+
+              img.onload = function () {
+                let canvas = document.createElement("canvas");
+                let ctx = canvas.getContext("2d");
+
+                // Set max dimensions
+                let maxWidth = 500;
+                let maxHeight = 500;
+                let width = img.width;
+                let height = img.height;
+
+                // Resize while maintaining aspect ratio
+                if (width > maxWidth || height > maxHeight) {
+                  let aspectRatio = width / height;
+                  if (width > height) {
+                    width = maxWidth;
+                    height = width / aspectRatio;
+                  } else {
+                    height = maxHeight;
+                    width = height * aspectRatio;
+                  }
+                }
+
+                // Draw resized image on canvas
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Convert to Base64
+                let base64String = canvas.toDataURL("image/png"); // Convert to PNG Base64
+                document.getElementById(imagePreviewId).src = base64String; // Preview
+                document.getElementById(imageBase64InputId).value = base64String; // Store in hidden input
+              };
+            };
+          } else {
+            if (hiddenOriginalImageId != "") {
+              document.getElementById(imageBase64InputId).value = document.getElementById(hiddenOriginalImageId).value;
+            }
+          }
+        });
+      }
+
+      // Usage:
+      handleImageUpload("image-upload-add", "image-add", "image-base64-add");
+      handleImageUpload("image-upload-edit", "image-edit", "image-base64-edit", "original-image-edit");
+      handleImageUpload("image-upload-add-lsc", "image-add-lsc", "image-base64-add-lsc");
+      handleImageUpload("image-upload-edit-lsc", "image-edit-lsc", "image-base64-edit-lsc", "original-image-edit-lsc");
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const selectCollege = document.getElementById("collegeSelect");
+        const governorContainer = document.getElementById("container-lsc-governor");
+        const viceGovernorContainer = document.getElementById("container-lsc-vice-governor");
+        const boardMemberContainer = document.getElementById("container-lsc-board-member");
+
+        selectCollege.addEventListener("change", function () {
+          updateLSCCandidates(selectCollege.value);
+          
+        });
+
+        async function updateLSCCandidates(collegeAcronym) {
+          try {
+            const response = await fetch(`/api/lsc-candidates?college=${collegeAcronym}`);
+            const data = await response.json();
+
+            if (data.error) {
+              console.warn("API Error:", data.error);
+              return;
+            }
+
+            // Governor Section
+            governorContainer.innerHTML = `<h1 class="position-lsc">Governor</h1>
+          <button class="button button-add" onclick="addCandidateLSC('Governor')">Add Candidate</button>
+          <div>${data.governor.length ? data.governor.map((candidate) => createCandidateCard(candidate, collegeAcronym)).join("") : "<p>No candidates found.</p>"}</div>
+        <hr />`;
+
+            // Vice Governor Section
+            viceGovernorContainer.innerHTML = `<h1 class="position-lsc">Vice Governor</h1>
+          <button class="button button-add" onclick="addCandidateLSC('Vice Governor')">Add Candidate</button>
+          <div>${data.viceGovernor.length ? data.viceGovernor.map((candidate) => createCandidateCard(candidate, collegeAcronym)).join("") : "<p>No candidates found.</p>"}</div>`;
+
+            // Board Members Section - Updated
+            if (data.boardMembers.length) {
+              // Group board members by program
+              const boardMembersByProgram = {};
+              data.boardMembers.forEach((candidate) => {
+                if (!boardMembersByProgram[candidate.program]) {
+                  boardMembersByProgram[candidate.program] = [];
+                }
+                boardMembersByProgram[candidate.program].push(candidate);
+              });
+
+              // Build the HTML for each program group
+              let boardMembersHTML = "<h1 class="position-lsc">Board Members</h1>";
+              for (let program in boardMembersByProgram) {
+                boardMembersHTML += `
+              <div class="program-group" id="college-${collegeAcronym}-${program}">
+                <h2>${program}</h2>
+                <button class="button button-add" onclick="addCandidateLSC('Board Member', '${program}')">Add Candidate</button>
+                <div>
+                  ${boardMembersByProgram[program].map((candidate) => createBoardMemberCard(candidate, collegeAcronym)).join("")}
+                </div>
+              </div>
+            `;
+              }
+              boardMemberContainer.innerHTML = boardMembersHTML;
+            } else {
+              boardMemberContainer.innerHTML = "<h1 class="position-lsc">Board Members</h1><p>No board members found.</p>";
+            }
+          } catch (error) {
+            console.error("Error fetching LSC candidates:", error);
+          }
+        }
+
+        function createCandidateCard(candidate, collegeAcronym) {
+          return `
+        <div class="candidate">
+          <div class="candidate-content">
+            <div class="img-container">
+              <img src="${candidate.image}" alt="${candidate.name}">
+            </div>
+            <div>
+              <h2>${candidate.name}</h2>
+              <p>Party: ${candidate.party}</p>
+            </div>
+          </div>
+          <button class="button button-edit"
+            onclick="editCandidateLSC('${candidate._id}', '${candidate.position}', '${candidate.party}', '${candidate.name}', '${candidate.moreInfo}', '${candidate.image}', '${collegeAcronym}')">
+            Edit
+          </button>
+        </div>`;
+        }
+
+        function createBoardMemberCard(candidate, collegeAcronym) {
+          return `
+        <div class="candidate">
+          <img src="${candidate.image}" alt="${candidate.name}">
+          <h3>${candidate.name}</h3>
+          <p>Party: ${candidate.party}</p>
+          <p>Program: ${candidate.program}</p>
+          <button class="button button-edit"
+            onclick="editCandidateLSC('${candidate._id}', '${candidate.position}', '${candidate.party}', '${candidate.name}', '${candidate.moreInfo}', '${candidate.image}', '${collegeAcronym}', '${candidate.program}')">
+            Edit
+          </button>
+        </div>`;
+        }
+
+        // Load default selection on first page load
+        updateLSCCandidates(selectCollege.value);
+      });
+    </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const isSubmitted = <%= electionConfig.candidatesSubmitted %>;
+
+  if (isSubmitted) {
+    // Function to disable buttons
+    const disableButtons = () => {
+      document.querySelectorAll(".button-add, .button-edit").forEach(button => {
+        button.classList.add("disabled");
+      });
+    };
+
+    // Apply to existing buttons
+    disableButtons();
+
+    // Observe dynamic changes in the document
+    const observer = new MutationObserver(() => {
+      disableButtons(); // Reapply the class when new buttons appear
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+});
+
+</script>
+
+
+    <script src="admin/js/sidebar.js"></script>
+
+    <script src="admin/js/index-admin.js"></script>
+    <script src="js/dropdown.js"></script>
+
+    <script>
+      // Get references to the main container and overlay
+      const mainOverlay = document.querySelector('.main-overlay');
+      const main = document.querySelector('main');
+      const mainElement = document.querySelector('main');
+      
+      // Listen for the scroll event on the <main> element
+      main.addEventListener('scroll', function () {
+        // Get the current scroll position of <main>
+        const scrollY = main.scrollTop;  // Use scrollTop for the scroll within the <main> container
+        console.log('Scroll Position (main.scrollTop):', scrollY);
+      
+        // Calculate the distance of the main element from the top of the viewport
+        // const overlayOffsetTop = main.offsetTop;
+        const overlayOffsetTop = 0;
+        console.log('Main offsetTop:', overlayOffsetTop);
+      
+        // Calculate the new position for the main-overlay
+        const newTop = overlayOffsetTop + scrollY;
+        console.log('New Top Value for Overlay:', newTop);
+      
+        // Update the position of the overlay
+        mainOverlay.style.top = `${newTop}px`;
+      
+        // Debugging the final computed styles (optional)
+        const computedStyle = window.getComputedStyle(mainOverlay);
+        console.log('Current Position of Overlay:', computedStyle.top);
+      });
+      
+          </script>
+          <script>
+            function updateModalPosition(modal) {
+              const scroll = mainElement.scrollTop; // Get current scroll position directly from <main>
+              const modalTop = scroll + mainElement.clientHeight / 2;
+              modal.style.top = modalTop + "px";
+            }
+          </script>
+  </body>
+</html>

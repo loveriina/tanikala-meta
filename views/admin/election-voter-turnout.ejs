@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>BulSU Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-admin.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/vote-tally.css" />
+
+    <link rel="stylesheet" type="text/css" href="admin/css/index-election.css" />
+    <link rel="stylesheet" type="text/css" href="admin/css/voter-turnout.css" />
+
+    <link rel="stylesheet" href="admin/dependencies/liner-bar.css" />
+
+    <!-- Boxicons CDN Link -->
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" /> -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=upins:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <%- include('header') %>
+
+    <div class="content">
+      <%- include('sidebar', { activeTab: 'election', activeSub:"voter-turnout" }) %>
+      <main class="main">
+        <div class="title-container">
+          <div class="r">
+            <i class="fa fa-pie-chart" aria-hidden="true"></i>
+            <h1 class="title">Voter Turnout</h1>
+          </div>
+           <!-- <div class="main-header-options printer">
+            <img src="../img/printer.png" class="option-print" />
+          </div> -->
+
+        </div>
+        <hr class="title-line" />
+
+        <%- include('shared-voter-turnout') %>
+      </main>
+    </div>
+
+    <%- include('footer') %>
+
+    <script src="admin/dependencies/liner-bar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="admin/js/sidebar.js"></script>
+    <script src="admin/js/index-admin.js"></script>
+
+    <!-- <script src="admin/js/turnout-liner-bar.js"></script> -->
+    <!-- <script src="admin/js/turnout-pie-chart.js"></script> -->
+  </body>
+</html>

@@ -1,0 +1,333 @@
+.form {
+  border-radius: 1.5rem;
+  /* border: .2rem solid; */
+}
+
+.main {
+  color: black;
+}
+
+#election-configuration {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 55%;
+  background-color: #4d6034;
+  border: 0.2rem solid #879147;
+  margin-right: 1.5rem;
+  padding: 1.5rem;
+}
+
+.election-configuration {
+  padding-left: 1.5rem;
+}
+
+.election-info {
+  font-size: 1.2rem;
+  background-color: #beeaa3;
+  padding: 2%;
+  border-radius: 0.5em;
+  border: 0.15em solid green;
+  border-left: 0.5rem solid green;
+  /* border-bottom: 0.5em solid green; */
+  /* box-shadow: 0 6px 16px rgba(85, 12, 10, 0.4); */
+  margin-bottom: 0.9rem;
+}
+
+.election-name {
+  font-size: 1.6rem;
+}
+
+.create-election {
+  font-size: 1.2rem;
+  background-color: #d3eec3;
+
+  padding: 2%;
+  border-radius: 0.5rem;
+  border: 0.15rem solid rgb(124, 179, 124);
+}
+
+hr {
+  border: 0.099rem solid #0b8000;
+}
+
+.create-election form > * {
+  margin-bottom: 1rem;
+}
+
+.first-main hr {
+  margin: 0.5rem 0;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 45%;
+  /* background-color: #c6cee7; */
+}
+
+.quick-actions-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+#quick-actions {
+  background-color: #ffbc97;
+  color: #c24703;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.quick-actions-buttons {
+  background-color: #ffbc97;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 1.5rem;
+  font-size: 0.7rem;
+  padding: 0.35rem;
+  width: 22%;
+}
+
+.quick-buttons {
+  width: 30%;
+  height: auto;
+}
+
+.view-export {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.separator {
+  margin: 0 0.4rem;
+}
+
+.indent {
+  text-indent: 20rem;
+}
+
+#voter-turnout {
+  display: flex;
+  height: 60vh;
+  background-color: #f8d69e;
+  justify-content: center;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+#election-settings {
+  display: flex;
+  background-color: #bbd686;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.5rem;
+}
+
+.center {
+  text-align: center;
+  width: 100%;
+}
+
+.full-line {
+  width: 100%;
+  height: 0.19rem;
+  background-color: #58664e;
+}
+
+#candidates-title {
+  background-color: #ffe1ab;
+  color: #bb7e15;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.edit-student-totals-popup {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100vw;
+}
+
+.page-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.smart {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 60%;
+  justify-content: flex-end;
+  /* border: 1px solid black; */
+}
+
+.center {
+  width: 100%;
+  text-align: center;
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: center;
+}
+
+/* From Uiverse.io by Satwinder04 */
+/* Input container */
+/* From Uiverse.io by shadowmurphy */
+.input {
+  border: 2px solid transparent;
+  width: 15em;
+  height: 2rem;
+  padding-left: 0.8em;
+  outline: none;
+  overflow: hidden;
+  background-color: #f3f3f3;
+  border-radius: 0.5em;
+  /* transition: all 0.5s; */
+  border: 0.03rem solid green;
+}
+
+.input:hover,
+.input:focus {
+  border: 0.149rem solid green;
+  box-shadow: 0 0 12px 2px rgba(74, 236, 136, 0.2);
+  /* box-shadow: 0px 0px 0px 7px rgba(74, 236, 136, 0.2); */
+  background-color: white;
+}
+
+.create-election fieldset {
+  padding: 1.5em;
+  border: 0.1rem solid rgba(14, 13, 13, 0.5);
+}
+
+.create-election fieldset legend {
+  font-size: 1.5rem;
+}
+
+.num-of-students {
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  gap: 2em;
+}
+
+.num-of-students > div {
+  flex-basis: 40vw;
+  display: flex;
+  align-items: center;
+  gap: 2em;
+  /* justify-content: space-between; */
+}
+
+/* .num-of-students > div label {
+  justify-self: flex-end;
+} */
+
+.first-main strong {
+  color: black;
+}
+
+.create-election label {
+  width: 50rem;
+}
+
+.box {
+  width: 30%;
+}
+
+.rectangle {
+  padding-left: 1rem;
+}
+
+.create-election form > div {
+  display: flex;
+  align-items: center; /* Vertically center label & input in a row */
+  margin-bottom: 1rem; /* Spacing between each label-input pair */
+}
+
+.create-election form > div label {
+  /* Give each label a consistent width so inputs line up */
+  width: 30rem;
+  margin-right: 1rem;
+  text-align: left; /* Ensures label text is left-aligned */
+  padding-left: 2rem;
+}
+
+.create-election form > div input {
+  width: 30%;
+}
+
+.developer-only {
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.green {
+  color: #0b8000;
+}
+
+.blue {
+  color: #283844;
+}
+
+.semi-bold {
+  font-weight: 500;
+}
+
+.semi-boldie {
+  font-weight: 600;
+}
+
+.space {
+  padding: 0.2rem;
+  padding-left: 1rem;
+}
+
+.developer-only {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.election-info i,
+.gray {
+  color: green;
+}
+
+.num-of-students label {
+  font-weight: 500;
+}
+
+.election-name,
+.election-info .semi-bold {
+  color: #28303b;
+}
+
+/* .election-info .semi-bold {
+  font-weight: 600;
+}
+
+.semi-boldgr {
+  font-weight: 500;
+}
+
+.semi-boldgre {
+  font-weight: 600;
+} */
+
+.hey {
+  color: #28303b;
+}

@@ -1,0 +1,200 @@
+{
+    "title": "LSC Voter Turnout",
+    "colleges": [
+        {
+            "name": "Architecture and Fine Arts",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 945,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 424,
+                    "color": "#c11515"
+                }
+            ]
+        },
+        {
+            "name": "Arts and Letters",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 1232,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 308,
+                    "color": "#c11515"
+                }
+            ]
+        },
+        {
+            "name": "Business Education and Accountancy",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 2010,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 893,
+                    "color": "#c11515"
+                }
+            ]
+        },
+        {
+            "name": "Criminal Justice Education",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 1065,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 403,
+                    "color": "#c11515"
+                }
+            ]
+        },
+        {
+            "name": "Education",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 1874,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 763,
+                    "color": "#c11515"
+                }
+            ]
+        },
+        {
+            "name": "Engineering",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 3050,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 1210,
+                    "color": "#c11515"
+                }
+            ]
+        },
+        {
+            "name": "Hospitality and Tourism Management",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 1423,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 611,
+                    "color": "#c11515"
+                }
+            ]
+        },
+        {
+            "name": "Industrial Technology",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 2640,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 870,
+                    "color": "#c11515"
+                }
+            ]
+        },
+        {
+            "name": "Information and Communications Technology",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 1890,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 625,
+                    "color": "#c11515"
+                }
+            ]
+        },
+        {
+            "name": "Nursing",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 540,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 218,
+                    "color": "#c11515"
+                }
+            ]
+        },
+        {
+            "name": "Sport, Exercise, and Recreation",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 430,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 162,
+                    "color": "#c11515"
+                }
+            ]
+        },
+        {
+            "name": "Science",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 1585,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 583,
+                    "color": "#c11515"
+                }
+            ]
+        },
+        {
+            "name": "Social Science and Philosophy",
+            "items": [
+                {
+                    "name": "Already Voted",
+                    "value": 1390,
+                    "color": "#57ac4f"
+                },
+                {
+                    "name": "Not Yet Voted",
+                    "value": 456,
+                    "color": "#c11515"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,66 @@
+[
+    {
+        "name": "Reyes, John Michael D.",
+        "email": "2021100567@ms.bulsu.edu.ph",
+        "studentNo": "2021100567",
+        "campus": "MAIN",
+        "college": "College of Science (CS)",
+        "program": "MEDICAL TECHNOLOGY"
+    },
+    {
+        "name": "Santos, Alyssa Mae P.",
+        "email": "2022100893@ms.bulsu.edu.ph",
+        "studentNo": "2022100893",
+        "campus": "MAIN",
+        "college": "College of Arts and Letters (CAL)",
+        "program": "BROADCASTING"
+    },
+    {
+        "name": "Cruz, Mark Vincent E.",
+        "email": "2020100123@ms.bulsu.edu.ph",
+        "studentNo": "2020100123",
+        "campus": "MAIN",
+        "college": "College of Business (CB)",
+        "program": "ACCOUNTING"
+    },
+    {
+        "name": "Tan, Sophia Louise M.",
+        "email": "2022100345@ms.bulsu.edu.ph",
+        "studentNo": "2022100345",
+        "campus": "MAIN",
+        "college": "College of Science (CS)",
+        "program": "ENVIRONMENTAL"
+    },
+    {
+        "name": "Lim, Joshua Emmanuel R.",
+        "email": "2021100678@ms.bulsu.edu.ph",
+        "studentNo": "2021100678",
+        "campus": "MAIN",
+        "college": "College of Engineering (CE)",
+        "program": "COMPUTER ENGINEERING"
+    },
+    {
+        "name": "Dela Cruz, Katrina Joy A.",
+        "email": "2023100911@ms.bulsu.edu.ph",
+        "studentNo": "2023100911",
+        "campus": "MAIN",
+        "college": "College of Arts and Letters (CAL)",
+        "program": "JOURNALISM"
+    },
+    {
+        "name": "Gomez, Daniel Joseph T.",
+        "email": "2020100987@ms.bulsu.edu.ph",
+        "studentNo": "2020100987",
+        "campus": "MAIN",
+        "college": "College of Business (CB)",
+        "program": "ENTREPRENEURSHIP"
+    },
+    {
+        "name": "Lopez, Claire Beatriz S.",
+        "email": "2022100432@ms.bulsu.edu.ph",
+        "studentNo": "2022100432",
+        "campus": "SAN RAFAEL",
+        "college": "College of Science (CS)",
+        "program": "BIOLOGY"
+    }
+]

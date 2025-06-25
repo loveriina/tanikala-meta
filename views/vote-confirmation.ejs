@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Vote Submitted!</title>
+  </head>
+  <body>
+    <h1>Vote Successfully Submitted!</h1>
+    <p>Your transaction hash: <span id="txHash"></span></p>
+    <script>
+      document.getElementById("txHash").textContent = new URLSearchParams(window.location.search).get("tx");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+/* popup-vote.css */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* hidden by default */
+#popupContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none; /* <<< hide until .active */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* show when we add .active */
+#popupContainer.active {
+  display: flex;
+}
+
+.popup-vote {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 1rem;
+
+  background-color: #f0f1e1;
+  text-align: center;
+  color: #5fb643;
+  font-family: "Poppins", "Century Gothic";
+  width: 450px;
+  height: 400px;
+  border-radius: 1rem;
+  padding: 0 3rem;
+}
+
+.popup-img {
+  height: 5rem;
+  width: 5rem;
+}
+
+.popup-title {
+  font-size: 2rem;
+}
+
+.popup-info {
+  color: black;
+  font-size: 1rem;
+}
+
+.popup-vote button {
+  width: 60%;
+  height: 12%;
+  font-weight: 700;
+  border-radius: 1rem;
+  border: 0.15rem solid #5fb643 !important;
+  background-color: transparent;
+  color: #5fb643;
+  transition: all 0.3s ease, transform 0.2s ease;
+  box-shadow: none;
+}
+
+.popup-vote button:hover {
+  background-color: #5fb643;
+  color: white;
+}
+
+.popup-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #333;
+}
+.popup-close:hover {
+  color: #000;
+}
+
+/* responsive tweaks… */
+@media (max-width: 1000px) {
+  .popup-vote {
+    width: 337.5px;
+    height: 300px;
+    row-gap: 0.4rem;
+    padding: 0 1.5rem;
+  }
+  .popup-img {
+    height: 4rem;
+    width: 4rem;
+  }
+  .popup-title {
+    font-size: 1.4rem;
+  }
+  .popup-info {
+    font-size: 0.6rem;
+  }
+}

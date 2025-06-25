@@ -1,0 +1,318 @@
+:root {
+  /* colors */
+  --color-darkRed: #310505;
+  --color-mediumRed: #550c0a;
+  --color-lightRed: #a60212;
+  --color-darkYellow: #f5ab29;
+  --color-mediumYellow: #e1ae5b;
+  --color-lightYellow: #f2ddb4;
+  --color-lighterYellow: #faf2db;
+
+  --color-darkGreen: #245414;
+  --color-lightGreen: #5fb643;
+  --color-darkBlue: #004aad;
+  --color-lightBlue: #2c86fd;
+  --color-gray: #323847;
+
+  /* div sizes */
+  --height-main-first: 20%;
+  --height-main-second: 80%;
+  --width-main-second: 100vw;
+
+  --width-second-left: 50%;
+  --width-second-right: 50%;
+}
+
+/* border
+.content-title, .content-main, .main-first, 
+.main-second, .second-right {
+    border: 1px solid black;
+} */
+
+.content-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* border: 3px solid black; */
+}
+
+.main-second {
+  display: flex;
+  flex-direction: row;
+  flex-basis: var(--height-main-second);
+  min-width: 90%;
+  flex-grow: 1;
+  padding-top: 5%;
+  /* border: 1px solid black; */
+}
+
+.second-left {
+  display: flex;
+  flex-direction: column;
+  flex-basis: var(--width-second-left);
+  background: linear-gradient(to bottom, var(--color-mediumYellow), var(--color-lightYellow));
+  border-radius: 1.5rem;
+  padding: 2%;
+  margin-top: 2%;
+  margin-left: 4%;
+  margin-bottom: 5%;
+
+  min-height: 75vh;
+}
+
+.message {
+  width: 70%;
+  height: 60%;
+  overflow-y: auto;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  background-color: #fff3c8;
+  border: 0.2rem solid #6e1311;
+  padding: 1rem;
+}
+
+.second-right {
+  display: flex;
+  flex-direction: column;
+  flex-basis: var(--width-second-right);
+  padding: 3%;
+  margin-left: 2%;
+  margin-top: 1%;
+}
+
+#contact {
+  color: var(--color-darkYellow);
+}
+
+#light {
+  color: var(--color-mediumYellow);
+}
+
+.button {
+  background-color: #6e1311;
+  border-radius: 0.5rem;
+  width: auto;
+  padding: 3% 4%;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  line-height: normal;
+  height: auto;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) 0px 2px 4px;
+}
+
+form {
+  color: black;
+  position: relative;
+}
+
+form h1 {
+  color: #6e1311;
+}
+
+input[type="text"],
+input[type="email"] {
+  border: none;
+  border-bottom: 0.2rem solid #6e1311;
+  outline: none;
+  width: 70%;
+  background-color: transparent;
+  padding-left: 2rem;
+  height: 2.3em;
+  /* padding-bottom: 0.5rem; */
+}
+
+/* form input:focus {
+  background-color: transparent;
+} */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #000000;
+
+  transition: background-color 5000s ease-in-out 0s !important;
+  box-shadow: inset 0 0 20px 20px transparent;
+}
+
+.form-button {
+  gap: 3%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  /* margin-top: 1rem; */
+}
+
+.yellow {
+  color: var(--color-darkYellow);
+  font-weight: bold;
+}
+
+.light-yellow {
+  color: var(--color-mediumYellow);
+}
+
+.icon {
+  font-size: 1.5em;
+  /* border: 1px solid; */
+
+  position: absolute;
+  color: var(--color-mediumRed);
+  margin-bottom: 1em;
+}
+
+.text {
+  font-size: 1.2rem;
+}
+
+input[type="submit"]:active,
+input[type="button"]:active {
+  transform: none; /* No shrink effect */
+}
+
+i {
+  text-align: center;
+}
+
+.form-button input {
+  border: none;
+}
+
+@media (max-width: 1000px) {
+  /* Stack the two main sections vertically */
+  .first-text {
+    padding: 0;
+  }
+  .first-text p {
+    font-size: 1rem;
+  }
+
+  .main-second {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2%;
+    min-width: 100%;
+  }
+
+  /* Make both left and right sections full width with adjusted margins and padding */
+  .second-left,
+  .second-right {
+    /* margin: 1% 0; */
+    padding: 2%;
+  }
+
+  /* Let the left section height adjust automatically */
+  .second-left {
+    /* height: auto; */
+    /* margin: 1rem 0; */
+  }
+  #contact-form {
+    height: 60dvh;
+  }
+
+  /* Adjust the message box to span more of the available width */
+  .message {
+    width: 90%;
+    margin: 1rem auto;
+    padding: 0.8rem;
+  }
+
+  /* Make form inputs wider and reduce side padding */
+  form input {
+    width: 90%;
+    padding-left: 1rem;
+  }
+
+  #message {
+    height: 30%;
+  }
+
+  /* Stack form buttons vertically and reduce gap */
+  .form-button {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Scale down the button padding and font size */
+  .button {
+    padding: 2% 3%;
+    font-size: 0.9rem;
+    margin: 0.5rem auto;
+  }
+
+  /* Adjust icon and text sizes for better mobile readability */
+  .icon {
+    font-size: 1.2em;
+  }
+
+  .text {
+    font-size: 1rem;
+  }
+
+  .second-right {
+    margin-top: 10rem;
+  }
+
+  .no-mobile {
+    display: none;
+  }
+
+  .form-button {
+    flex-direction: row;
+  }
+
+  .content-main-left,
+  .content-main-right {
+    display: none;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  .second-right {
+    margin: 1rem;
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  .main-second p {
+    font-size: 0.8rem;
+  }
+
+  .main-second {
+    padding: 0;
+  }
+
+  .second-left {
+    min-width: 20rem;
+
+    min-height: 21rem;
+  }
+
+  .button {
+    font-size: 0.8rem;
+  }
+
+  .form-button {
+    gap: 0;
+  }
+
+  #contact-form {
+    justify-content: center;
+    align-items: center;
+  }
+  .contact-field {
+    /* gap: 1rem; */
+    padding-left: 1.5rem;
+  }
+
+  .symbol {
+    /* border: 1px solid black; */
+    margin-bottom: -1rem;
+  }
+}

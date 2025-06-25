@@ -1,0 +1,258 @@
+/* also being used by settings_edit_candidates.html */
+
+:root {
+  --background-light-red: #f8cbba;
+  --background-light-yellow: #f2ddb4;
+  --background-lighter-yellow: #faf2db;
+  --background-light-green: #c9ddb1;
+
+  --width-main-left: 50%;
+  --width-main-right: var(--width-main-left);
+}
+
+/* .main,
+  .main-left,
+  .main-right {
+    border: 1px solid black;
+  } */
+
+* {
+  box-sizing: border-box;
+}
+
+.main img {
+  width: 5rem;
+  height: 5rem;
+}
+
+.first-main {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.main-left {
+  flex-basis: var(--width-main-left);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.main-left h1 {
+  margin: 4%;
+  text-align: center;
+}
+
+.container-ssc {
+  background-color: var(--background-light-yellow);
+  margin: 2%;
+  padding: 6%;
+  border-radius: 1em;
+}
+
+.container-lsc {
+  background-color: var(--background-light-green);
+  margin: 4% 2%;
+  padding: 6%;
+  border-radius: 1em;
+}
+#container-president {
+  background-color: var(--background-light-red);
+}
+
+.main-right {
+  flex-basis: var(--width-main-right);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.main-right-header {
+  margin-top: 4%;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+}
+
+/* .candidate {
+  width: 100%;
+  text-align: left;
+  border: 1px solid black;
+} */
+
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+/* .candidate-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem;
+  padding-left: 2rem;
+
+  /* border: 1px solid black; */
+
+.container-position {
+  padding: 0;
+}
+/* .img-container img {
+  height: 6.5rem;
+  width: 6.5rem;
+} */
+
+.total-votes {
+  text-align: right;
+}
+
+.right {
+  text-align: right;
+  padding-right: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+.main {
+  position: relative; /* Positioning context for the modal */
+}
+
+/* 1. Outer modal container (absolute positioning in viewport) */
+.hashes-container.modal {
+  position: absolute;
+  z-index: 1000;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80vh; /* or any other fixed height */
+  background-color: #fefefe;
+  border: 1px solid #888;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  /* Remove internal padding so .modal-content can fill entirely */
+  display: none;
+}
+
+/* 2. Modal content - relative to the outer container */
+.modal-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 20px; /* adjust as needed */
+  box-sizing: border-box;
+}
+
+/* 3. Close button - can remain the same */
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+}
+.close-modal:hover,
+.close-modal:focus {
+  color: #000;
+  text-decoration: none;
+}
+
+/* 4. The header area (.top-bar) and grid-wrapper - normal flow inside modal-content */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.grid-wrapper {
+  /* Give enough bottom padding so that content doesn't hide behind the pagination */
+  padding-bottom: 60px; /* or more if your pagination is taller */
+  overflow-y: auto;
+  height: calc(100% - 150px); /* Adjust if needed: total height minus header+footer height */
+}
+
+/* 5. Pagination - absolutely positioned at the bottom of the modal content */
+.pagination {
+  position: absolute;
+  bottom: 20px; /* Match this value with modal-content padding */
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #ccc; /* optional */
+  padding-top: 1rem;
+  box-sizing: border-box;
+}
+
+/* Example pagination buttons styling */
+#prevBtn,
+#nextBtn {
+  margin: 0 1rem;
+}
+
+.campus {
+  text-align: center;
+}
+
+.candidate-info {
+  padding-left: 1rem;
+}
+
+.candidate {
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+.votes {
+  margin-left: 2rem;
+  /* border: 1px solid black; */
+  padding: 0;
+}
+
+.select {
+  background-color: #fff3c8;
+  color: #bb7e15;
+  font-family: "Montserrat", "Century Gothic";
+  font-weight: 700;
+  padding: 1em 0.8em;
+  border: none;
+  border-radius: 0.8em;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 0.1em #ffffff;
+  border: 0.2rem solid #bb7e15;
+}
+
+.select:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 2px #ffaa00;
+}
+
+.select option {
+  background-color: #fff;
+  color: #4a0707;
+  font-weight: 400;
+}
+
+#collegeSelect {
+  border: 0.18rem solid #008000;
+}
+
+.select:hover,
+.select:focus {
+  /* border: 2px solid green; */
+  box-shadow: 0px 0px 0px 7px rgba(74, 236, 136, 0.2);
+}
+
+.main-left h1,
+.main-right h1 {
+  color: ;
+}

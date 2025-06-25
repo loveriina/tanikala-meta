@@ -1,0 +1,185 @@
+:root {
+  --height-main-first: 20%;
+  --height-main-second: 80%;
+}
+
+.header-nav-content {
+  padding-left: 10rem;
+}
+
+.logo {
+  height: 7rem;
+  width: auto;
+  opacity: 0.6;
+}
+
+.main-second {
+  display: flex;
+  flex-direction: column;
+  flex-basis: var(--height-main-second);
+  width: 50%;
+  /* margin: ; */
+  text-align: justify;
+}
+
+.proceed {
+  width: 20%;
+  padding: 1%;
+  border-radius: 0.5em;
+}
+
+.proceed.button:not(:disabled) {
+  background-color: #e1ae5b;
+  color: #550c0a;
+  font-weight: bold;
+}
+
+.proceed.button:hover:not(:disabled) {
+  background: #f5ab29;
+  filter: none;
+}
+
+/* Disabled state */
+.proceed.button:disabled,
+.proceed.button[disabled] {
+  background-color: #ccc; /* gray background */
+  color: #666; /* gray text */
+  cursor: not-allowed; /* show "blocked" cursor */
+  pointer-events: none; /* prevent any interaction */
+  opacity: 0.7; /* slightly translucent */
+}
+
+.center {
+  text-align: center;
+}
+
+.yellow {
+  color: #e1ae5b;
+}
+
+.content-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .content-main-left,
+  .content-main-right {
+    display: none;
+  }
+
+  .header-nav {
+    width: 50vw;
+  }
+
+  .header-nav .header-nav-content {
+    width: 50vw;
+  }
+
+  /* .header-nav-content ul,
+  .header-nav-content li {
+    width: 100%;
+  } */
+
+  .header-nav-content ul,
+  .header-nav-content li {
+    width: 100%;
+    padding-right: 10%;
+  }
+
+  .no-mobile {
+    display: none;
+  }
+
+  .content-mobile {
+    margin-top: 2rem;
+    display: flex;
+    column-gap: 3rem;
+  }
+
+  .content-mobile img {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .content-mobile p {
+    display: none;
+  }
+  .header-nav-content {
+    padding-left: 2rem; /* Reduced padding for smaller screens */
+  }
+
+  .logo {
+    height: 5rem; /* Smaller logo height for mobile */
+  }
+
+  .main-first {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-second {
+    width: 90%; /* Expand the main container to fill more width */
+    margin: 0 auto; /* Center the container */
+    text-align: left; /* Optional: adjust text alignment for readability */
+  }
+
+  .main-second p {
+    font-size: 1rem;
+  }
+
+  .proceed {
+    background-color: #6e1311;
+    color: white;
+    width: 50%; /* Increase button width for easier tapping */
+    padding: 2%; /* Slightly increased padding */
+  }
+
+  .button {
+    background-color: #6e1311;
+    border-radius: 0.5rem;
+    /* width: auto; */
+    padding: 3% 4%;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    line-height: normal;
+    height: auto;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.06) 0px 2px 4px;
+  }
+
+  .center {
+    /* margin-top: 3rem; */
+    text-align: center; /* Retain centering if needed */
+  }
+
+  .yellow {
+    color: #e1ae5b;
+    margin-top: 3rem;
+    font-size: 1.2rem; /* Color remains the same */
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .main-second p {
+    font-size: 0.8rem;
+    text-align: justify;
+  }
+
+  label {
+    font-size: 0.8rem;
+  }
+
+  .button {
+    width: 7rem;
+    margin-top: -3rem;
+  }
+
+  .main-first {
+    height: 20vh;
+    padding: 0;
+    margin: 0;
+  }
+}

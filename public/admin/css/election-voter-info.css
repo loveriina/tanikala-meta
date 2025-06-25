@@ -1,0 +1,188 @@
+:root {
+  --background-lighter-yellow: #faf2db;
+  --background-red: #a60212;
+}
+
+.main-header,
+.main-content,
+table,
+td {
+  /* border: 1px solid black; */
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  align-items: center;
+  justify-content: start;
+
+  background-color: var(--background-lighter-yellow);
+  padding: 1.5rem;
+}
+
+.main-header {
+  display: flex;
+  flex-direction: row;
+
+  max-height: 10vh;
+  width: 100%;
+  padding: 2%;
+  /* align-items: center; */
+}
+
+.main-header-title {
+  margin-right: auto;
+}
+
+.main-header-search {
+  margin-right: 2rem;
+}
+
+.main-header-options {
+  flex-basis: 5vw;
+}
+
+.option-filter,
+.option-print {
+  width: 2vw;
+}
+
+.option-filter {
+  margin-right: 8%;
+}
+
+.option-print {
+  cursor: pointer;
+}
+
+.studentTable {
+}
+
+.main-content {
+  flex-grow: 1;
+  width: 96%;
+  /* border: 1px solid black; */
+}
+
+table,
+th,
+td {
+  border: 0.1em solid #85211d;
+  border-collapse: collapse;
+}
+
+table {
+  outline: 2px solid #85211d;
+}
+
+table {
+  width: 100%;
+  border-radius: 0;
+}
+
+table th,
+table td {
+  height: 8vh;
+  text-align: center;
+}
+
+table th {
+  background-color: #85211d;
+  color: white;
+}
+
+.no {
+}
+/* from net */
+
+.group {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  max-width: 190px;
+  padding-right: 0.7rem;
+  padding-top: 0.4rem;
+}
+
+.input {
+  width: 100%;
+  height: 1.5rem;
+  line-height: 28px;
+  padding: 0 1rem;
+  padding-left: 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  outline: none;
+  background-color: #f3f3f4;
+  color: #0d0c22;
+  transition: 0.3s ease;
+  border: 0.07rem solid #550c0a;
+}
+
+.input::placeholder {
+  color: #9e9ea7;
+}
+
+.input:focus,
+input:hover {
+  outline: none;
+  border-color: #a60212;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+}
+
+.icon {
+  position: absolute;
+  left: 1rem;
+  fill: #9e9ea7;
+  width: 1rem;
+  height: 1rem;
+}
+
+.space {
+  margin-right: 1.5rem;
+}
+
+td {
+  padding: 0.5rem;
+}
+
+.gray {
+  color: #28303b;
+}
+
+select {
+  border: 0.07rem solid #550c0a;
+  cursor: pointer;
+  transition: 0.3s ease;
+  /* border-radius: 0.5rem; */
+  /* outline: 1rem solid pink; */
+}
+
+select:focus,
+select:hover {
+  border-color: #a60212;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+  outline: none;
+  /* outline: 1rem solid green; */
+}
+
+/* select:valid {
+  outline: 1rem solid pink;
+} */
+
+.group {
+  margin-left: -0.5rem;
+}
+
+.stud-number {
+  width: 9%;
+}
+
+.number {
+  width: 4%;
+}

@@ -1,0 +1,176 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #faf2db;
+  /* border: 1px solid black; */
+}
+
+.indent {
+  text-indent: 28rem;
+}
+
+.action-buttons {
+  margin: 0.5rem;
+}
+
+.space {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+.button-brown {
+  margin-left: 50%;
+}
+
+.space input {
+  margin-right: 3rem;
+}
+
+table {
+  outline: 2px solid #364150;
+}
+
+th {
+  background-color: #364150;
+}
+
+table,
+th,
+td {
+  border: 0.1em solid #364150;
+  border-collapse: collapse;
+}
+
+table {
+  width: 85vw;
+  border-radius: 0;
+}
+
+table th,
+table td {
+  height: 8vh;
+  text-align: center;
+  padding: 1rem;
+}
+
+.table-container {
+  border: 3px solid black;
+}
+
+.main-content {
+  border: 3px solid black;
+}
+
+.right {
+  /* border: 3px solid black; */
+  text-align: right;
+  margin-bottom: -1rem;
+  gap: 3rem;
+}
+
+.pass {
+  width: 10rem;
+}
+
+.modal-content {
+  border: 0.2rem solid rgba(14, 13, 13, 0.5);
+  padding: 2%;
+  border-radius: 1em;
+  background-color: #d8ac65;
+  min-height: 60dvh;
+  min-width: 60vw;
+}
+
+.center-content {
+  width: 30%;
+}
+
+.right-content {
+  width: 40%;
+}
+
+.left-content {
+  width: 25%;
+}
+
+.form-title {
+  color: #550c0a;
+}
+
+.circle-img-candidate {
+  width: 5rem !important; /* match your desired max width */
+  height: 5rem !important; /* match your desired max height */
+  object-fit: cover; /* ensures the image fills the circle without distortion */
+  border-radius: 50%; /* creates the circular shape */
+  display: block;
+
+  border: 0.149rem solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+td img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.right-add {
+  padding-right: 5.3rem;
+
+  margin-bottom: 0.6rem;
+  text-align: right;
+  /* border: 1px solid black; */
+}
+
+.button-brown {
+  background: #550c0a;
+}
+
+.button {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: white;
+  padding: 1em 2em;
+  border-radius: 5em;
+  border: none;
+  margin: 0.5rem;
+}
+
+.actions {
+  gap: 1rem;
+}
+
+.action-column {
+  width: 22%;
+  padding: 0;
+}
+
+.right {
+  /* border: 1px solid black; */
+}
+
+.select-role {
+  margin-right: 65%;
+}
+
+.select-role:focus,
+.select-role:hover {
+  outline: none;
+  border-color: #a60212;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+}

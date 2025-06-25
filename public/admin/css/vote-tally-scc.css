@@ -1,0 +1,56 @@
+.progress-element {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5em;
+}
+
+.progress-label {
+  font-size: 1em; /* Relative to the root font size */
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  margin-right: 1em;
+  margin-top: 0.5em;
+}
+
+.progress-container {
+  width: 100%;
+}
+
+progress {
+  width: 100%;
+  height: 1.25em; /* Dynamic height */
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #f4f4f4;
+  border-radius: 0.625em; /* Scaled down for responsiveness */
+  overflow: hidden;
+}
+
+progress::-webkit-progress-value {
+  background-color: #4a0707; /* Green for positive */
+  border-radius: 0.625em;
+}
+
+progress::-moz-progress-bar {
+  background-color: #4a0707;
+  border-radius: 0.625em;
+}
+
+.progress-element img {
+  width: 3em; /* Dynamically scale the width */
+  height: 3em; /* Dynamically scale the height */
+  border-radius: 50%; /* Keeps it circular */
+  margin-right: 0.75em; /* Space between image and text */
+}
+
+.partylist {
+  font-size: 0.875em; /* Slightly smaller than the name */
+  color: #555;
+}
+
+.progress-container-abstain {
+  margin-top: 0.5em; /* Adds space above the abstain progress bar */
+}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TANIKALA Voting System</title>
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/home.css" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link rel="stylesheet" href="components/notification.css" />
+    <link rel="stylesheet" href="/components/popup-vote.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-logo">
+        <img src="img/logo_tanikala.png" alt="TANIKALA Voting System" />
+      </div>
+      <nav class="header-nav">
+        <ul class="header-nav-content">
+          <li><a href="/" id="active-link">Home</a></li>
+           <li><a href="/home-candidates">Candidates</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-bottom-line"></div>
+    </header>
+
+    <div class="content">
+      <div class="content-title">
+        <h3 class="h3">BLOCKCHAIN-BASED VOTING SYSTEM FOR THE STUDENT GOVERNMENT ELECTIONS AT BULACAN STATE UNIVERSITY</h3>
+      </div>
+
+      <div class="content-main">
+        <div class="content-main-left no-mobile">
+          <img src="img/logo_bulsu.png" alt="BulSU Logo" class="logo-opacity" /> <br />
+          <p class="montserrat" id="be-heard">Be Heard! Your Vote is Your Power!</p>
+        </div>
+
+        <div class="content-main-center">
+          <!-- The heading will change based on the state -->
+          <h1 class="montserrat h1" id="election-period">Voting Period:</h1>
+          <br />
+          <!-- Countdown date range display -->
+          <span><h3 class="date-period"></h3></span><br />
+          <br />
+          <!-- Countdown timer -->
+
+          <div id="countdown" class="countdown-timer">
+            <div class="time-box">
+              <span class="time" id="days">02</span>
+              <span class="label">DAY(S)</span>
+            </div>
+            <div class="time-box">
+              <span class="time" id="hours">27</span>
+              <span class="label">HOUR(S)</span>
+            </div>
+            <div class="time-box">
+              <span class="time" id="minutes">37</span>
+              <span class="label">MINUTE(S)</span>
+            </div>
+            <div class="time-box">
+              <span class="time" id="seconds">53</span>
+              <span class="label">SECOND(S)</span>
+            </div>
+          </div>
+
+          <!-- Label for the countdown -->
+          <h2 id="time-left" class="h1"></h2>
+          <!-- <h2 id="prepare-to-cast-your-votes" class="h1 waiting-text"></h2> -->
+          <h2 id="prepare-to-container" class="h1 waiting-text"><span id="prepare-to-cast-your-votes"></span></h2>
+
+          <!-- The voting button uses an id for stable reference -->
+          <button id="voting-button" class="button-rounded-yellow" onclick="window.location.href='/vote';">VOTE NOW</button>
+        </div>
+
+        <div class="content-main-right no-mobile">
+          <img src="img/logo_bulsu_ucse.png" alt="BulSU UCSE Logo" class="logo-opacity" /><br />
+          <p class="montserrat" id="vote-now">Vote Now for the Student Government Elections!</p>
+        </div>
+
+        <div class="content-mobile">
+          <div class="content-main-left">
+            <img src="img/logo_bulsu.png" alt="BulSU Logo" class="logo-opacity" /> <br />
+            <p class="montserrat" id="be-heard">Be Heard! Your Vote is Your Power!</p>
+          </div>
+
+          <div class="content-main-right">
+            <img src="img/logo_bulsu_ucse.png" alt="BulSU UCSE Logo" class="logo-opacity" /><br />
+            <p class="montserrat" id="vote-now">Vote Now for the Student Government Elections!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('footer') %>
+
+    
+    <script type="module" src="components/notificationHandler.js"></script>
+    <script src="/components/popup.js"></script>
+
+    <script>
+      // voting countdown
+      // Use voting dates from server configuration.
+      const votingStart = new Date("<%= electionConfig.votingStart %>").getTime();
+      const votingEnd = new Date("<%= electionConfig.votingEnd %>").getTime();
+
+      // Get fakeCurrentDate from EJS template if provided.
+      // Use fakeCurrentDate if provided; otherwise use the real current time.
+      const fakeCurrentDateStr = "<%= electionConfig.fakeCurrentDate ? electionConfig.fakeCurrentDate : '' %>";
+      const baseNow = fakeCurrentDateStr ? new Date(fakeCurrentDateStr).getTime() : new Date().getTime();
+      let elapsed = 0;
+      function getCurrentTime() {
+        return baseNow + elapsed;
+      }
+
+      // // Update the date range display.
+      // const datePeriodElem = document.querySelector(".date-period");
+      // datePeriodElem.textContent = new Date(votingStart).toLocaleDateString() + " - " + new Date(votingEnd).toLocaleDateString();
+
+      // Update the date range display with the desired format (Month Day, Year).
+      // const datePeriodElem = document.querySelector(".date-period");
+      // const options = { year: "numeric", month: "long", day: "numeric" };
+      // datePeriodElem.textContent = new Date(votingStart).toLocaleDateString("en-US", options) + " - " + new Date(votingEnd).toLocaleDateString("en-US", options);
+
+      const datePeriodElem = document.querySelector(".date-period");
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      };
+      datePeriodElem.textContent = new Date(votingStart).toLocaleDateString("en-US", options) + " - " + new Date(votingEnd).toLocaleDateString("en-US", options);
+
+      // Grab elements by id.
+      const electionPeriodElem = document.getElementById("election-period");
+      // const countdownElem = document.getElementById("countdown");
+      const daysElem = document.getElementById("days");
+      const hoursElem = document.getElementById("hours");
+      const minutesElem = document.getElementById("minutes");
+      const secondsElem = document.getElementById("seconds");
+      const timeLeftElem = document.getElementById("time-left");
+      const prepareToCastYourVotesElem = document.getElementById("prepare-to-cast-your-votes");
+      const prepareToCastYourVotesContainer = document.getElementById("prepare-to-container");
+      const votingButton = document.getElementById("voting-button");
+
+      function updatePhase() {
+        const now = baseNow + elapsed;
+        let distance = 0;
+        if (now < votingStart) {
+          electionPeriodElem.textContent = "Voting Period:";
+          timeLeftElem.textContent = "Time Until Voting Begins";
+          prepareToCastYourVotesElem.textContent = "Prepare to Cast Your Votes!";
+          distance = votingStart - now;
+          votingButton.style.display = "none";
+        } else if (now >= votingStart && now <= votingEnd) {
+          electionPeriodElem.textContent = "Voting Period:";
+          timeLeftElem.textContent = "Left to Vote";
+          distance = votingEnd - now;
+          prepareToCastYourVotesContainer.textContent = "";
+          votingButton.style.display = "block";
+        } else {
+          electionPeriodElem.textContent = "Voting Ended";
+          timeLeftElem.textContent = "";
+          distance = 0;
+          votingButton.style.display = "none";
+        }
+        return distance;
+      }
+
+      const interval = setInterval(() => {
+        const distance = updatePhase();
+        // Simulate time progression if using fakeCurrentDate:
+        if (fakeCurrentDateStr) {
+          elapsed += 1000;
+        }
+        if (distance <= 0) {
+          clearInterval(interval);
+          // countdownElem.textContent = "00 00 00 00";
+          daysElem.textContent = "00";
+          hoursElem.textContent = "00";
+          minutesElem.textContent = "00";
+          secondsElem.textContent = "00";
+        } else {
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          // countdownElem.textContent = (days < 10 ? "0" + days : days) + " " + (hours < 10 ? "0" + hours : hours) + " " + (minutes < 10 ? "0" + minutes : minutes) + " " + (seconds < 10 ? "0" + seconds : seconds);
+          daysElem.textContent = days < 10 ? "0" + days : days;
+          hoursElem.textContent = hours < 10 ? "0" + hours : hours;
+          minutesElem.textContent = minutes < 10 ? "0" + minutes : minutes;
+          secondsElem.textContent = seconds < 10 ? "0" + seconds : seconds;
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

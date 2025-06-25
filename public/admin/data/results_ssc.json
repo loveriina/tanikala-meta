@@ -1,0 +1,94 @@
+{
+  "positions": [
+    {
+      "position": "President",
+      "candidates": [
+        {
+          "name": "Juan Dela Cruz",
+          "percentage": 45,
+          "img": "../img/placeholder_admin_profile.png",
+          "partylist": "BulSU One"
+        },
+        {
+          "name": "Maria Santos",
+          "percentage": 35,
+          "img": "../img/placeholder_admin_profile.png",
+          "partylist": "KASAMA"
+        }
+      ],
+      "abstain": 20
+    },
+    {
+      "position": "Vice President",
+      "candidates": [
+        {
+          "name": "Pedro Lopez",
+          "percentage": 40,
+          "img": "../img/placeholder_admin_profile.png",
+          "partylist": "BulSU One"
+        },
+        {
+          "name": "Ana Reyes",
+          "percentage": 50,
+          "img": "../img/placeholder_admin_profile.png",
+          "partylist": "KASAMA"
+        }
+      ],
+      "abstain": 10
+    },
+    {
+      "position": "Secretary",
+      "candidates": [
+        {
+          "name": "Luis Garcia",
+          "percentage": 60,
+          "img": "../img/placeholder_admin_profile.png",
+          "partylist": "BulSU One"
+        },
+        {
+          "name": "Carla Mendoza",
+          "percentage": 30,
+          "img": "../img/placeholder_admin_profile.png",
+          "partylist": "KASAMA"
+        }
+      ],
+      "abstain": 10
+    },
+    {
+      "position": "Treasurer",
+      "candidates": [
+        {
+          "name": "Mark Cruz",
+          "percentage": 70,
+          "img": "../img/placeholder_admin_profile.png",
+          "partylist": "BulSU One"
+        },
+        {
+          "name": "Ella Flores",
+          "percentage": 20,
+          "img": "../img/placeholder_admin_profile.png",
+          "partylist": "KASAMA"
+        }
+      ],
+      "abstain": 10
+    },
+    {
+      "position": "Board Member",
+      "candidates": [
+        {
+          "name": "Jose Bautista",
+          "percentage": 50,
+          "img": "../img/placeholder_admin_profile.png",
+          "partylist": "BulSU One"
+        },
+        {
+          "name": "Rosa Gutierrez",
+          "percentage": 30,
+          "img": "../img/placeholder_admin_profile.png",
+          "partylist": "KASAMA"
+        }
+      ],
+      "abstain": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.40/moment-timezone-with-data.min.js"></script>
+
+
+<footer class="footer">
+    <div class="footer-left">
+      <img src="img/calendar.png" class="footer-img" />
+      <p><span id="footerTime"></span></p>
+    </div>
+
+    <div class="footer-center">
+      <img src="img/copyright.png" class="footer-img" id="copyright-img" />
+      <p>2025 - Fourmula 1</p>
+    </div>
+
+    <!-- <div class="footer-right">
+        <img src="img/log-in.png" class="footer-img" id="admin-img" />
+        <p>Admin? Log in&nbsp;</p>
+        <a href="/admin-login"> here.</a>
+    </div> -->
+  </footer>
+
+  <script>
+    const config = <%- JSON.stringify(electionConfig) %>;
+    function updateFooterTime() {
+      // Use the fake current date if useFakeDate is true and fakeCurrentDate exists in config.
+      let currentTime;
+      if (typeof config !== 'undefined' && config.useFakeDate && config.fakeCurrentDate) {
+        // If the fakeCurrentDate is stored as an object with a "$date" property, use that,
+        // otherwise use the value directly.
+        currentTime = moment.tz(config.fakeCurrentDate.$date || config.fakeCurrentDate, "Asia/Manila");
+      } else {
+        currentTime = moment.tz(new Date(), "Asia/Manila");
+      }
+      // Format the time.
+      const formattedTime = currentTime.format("MMMM DD, YYYY [AT] hh:mm A").toUpperCase();
+      document.getElementById("footerTime").textContent = formattedTime;
+    }
+
+    console.log("Use Fake Date", config.useFakeDate);
+  
+    updateFooterTime();
+    setInterval(updateFooterTime, 30000);
+  </script> 

@@ -1,0 +1,213 @@
+
+<div class="first-main">
+  <div class="main-content">
+   
+    <div class="left-container">
+      <h1 class="ssc" id="supreme-student-council">Supreme Student Council</h1>
+      <br />
+      <div class="main-left">
+        <h1 class="black" id="total-voter-turnout">Total Voter Turnout</h1>
+        <div class="content-box-2">
+          <br />
+          <canvas id="chart-turnout"></canvas>
+          <br />
+          <div class="summary-text">
+            <span></span>
+          </div>
+        </div>
+        <br />
+
+        <!-- <h3 style="text-align: center;"><%= electionConfig.totalRegisteredVoted %> students have voted out of <%= electionConfig.totalNumberOfStudents %> students.</h3> -->
+        <br />
+        <div class="content-colleges"></div>
+      </div>
+    </div>
+    <div class="right-container">
+       
+      <h1 class="lsc" id="local-student-council">Local Student Council</h1>
+      <br />
+      <div class="campus">
+        <select class="select">
+          <option>Main Campus</option>
+          <!-- <option>External Campuses</option> -->
+        </select>
+      </div>
+      <br />
+      <div class="main-right">
+        <br />
+        <h1 class="black" id="voter-turnout-per-college">Voter Turnout per College</h1>
+        <br />
+        <div id="container-charts"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Get the container where the liner bars will be rendered.
+      const container = document.getElementById("container-charts");
+      if (!container) return;
+  
+      // Retrieve the list of colleges from electionConfig (new structure)
+      const colleges = <%- JSON.stringify(electionConfig.colleges) %>;
+      console.log("Colleges data:", colleges);
+  
+      // Loop through each college and create a liner bar.
+      colleges.forEach((college) => {
+        const div = document.createElement("div");
+        div.id = `liner-bar-college-${college.acronym}`;
+        div.classList.add("liner-bar-college");
+        container.appendChild(div);
+  
+        // For each college, the "Voted" value is the registeredVoted,
+        // and "Not Yet Voted" is the remaining students.
+        const data = {
+          title: college.name,
+          dark: false,
+          items: [
+            { name: "Voted", value: college.registeredVoted, color: "#5fb643" },
+            {
+              name: "Not Yet Voted",
+              value: college.notRegisteredNotVoted + college.registeredNotVoted,
+              color: "#FC440F"
+            }
+          ]
+        };
+  
+        // Instantiate the liner bar using your LinerBar class from liner-bar.js.
+        const bar = new LinerBar(`#${div.id}`, data);
+        bar.render();
+  
+        // Calculate the percentage of students that have voted.
+        const totalStudents = college.numberOfStudents || 0;
+        const percentage = totalStudents
+          ? ((college.registeredVoted / totalStudents) * 100).toFixed(1)
+          : "0.0";
+  
+        // Create a paragraph element to show the percentage text.
+        const summaryWrap = document.createElement('div');
+        summaryWrap.classList.add('college-summary');
+  
+        const pPercentage = document.createElement("p");
+        pPercentage.classList.add("percentage-text");
+        // pPercentage.textContent = `${percentage}% of students have voted from ${college.acronym}.`;
+        summaryWrap.appendChild(pPercentage);
+  
+        
+        // ——— NEW: registered-only stats ———
+        const totalRegistered = college.registeredVoted + college.registeredNotVoted;
+        const registeredPct = totalRegistered
+          ? ((college.registeredVoted / totalRegistered) * 100).toFixed(1)
+          : "0.0";
+  
+        const pRegPct = document.createElement("p");
+        pRegPct.classList.add("registered-percentage-text");
+        // pRegPct.textContent = `${registeredPct}% of registered students have voted from ${college.acronym}.`;
+        summaryWrap.appendChild(pRegPct);
+  
+        const pRegCount = document.createElement("p");
+        pRegCount.classList.add("registered-count-text");
+        pRegCount.textContent = `${college.acronym}: ${college.registeredVoted} out of ${totalRegistered} registered students have voted (${registeredPct}%).`;
+        summaryWrap.appendChild(pRegCount);
+
+        const pCount = document.createElement("p");
+        pCount.classList.add("count-text");
+        pCount.textContent = `${college.acronym}: ${college.registeredVoted} out of ${college.numberOfStudents} total students have voted (${percentage}%).`;
+        summaryWrap.appendChild(pCount);
+  
+        // — end new —
+  
+        // append the whole block right after your bar chart div
+        div.after(summaryWrap);
+      });
+    });
+  </script>
+  
+  
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Retrieve the list of colleges from electionConfig
+    const colleges = <%- JSON.stringify(electionConfig.colleges) %>;
+
+    // Compute overall totals
+    let totalStudents = 0;
+    let totalRegisteredNotVoted = 0;
+    let totalRegisteredVoted = 0;
+    let totalNotRegisteredNotVoted = 0;
+
+    colleges.forEach(college => {
+      totalStudents += college.numberOfStudents;
+      totalRegisteredNotVoted += college.registeredNotVoted;
+      totalRegisteredVoted += college.registeredVoted;
+      totalNotRegisteredNotVoted += college.notRegisteredNotVoted;
+    });
+
+    // For the overall pie chart:
+    const totalNotVoted = totalRegisteredNotVoted + totalNotRegisteredNotVoted;
+
+    // Setup Chart.js chart data
+    const ctx = document.getElementById('chart-turnout').getContext('2d');
+    const data = {
+      labels: ['Voted', 'Not Yet Voted'],
+      datasets: [{
+        data: [totalRegisteredVoted, totalNotVoted],
+        backgroundColor: ['#5fb643', '#FC440F'],
+        borderWidth: 1,
+      }]
+    };
+
+    // Instantiate the pie chart
+    new Chart(ctx, {
+      type: 'pie',
+      data: data,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' },
+          title: { display: true, text: 'BulSU Total Voter Turnout' }
+        }
+      }
+    });
+
+    // ——— NEW: overall registered-only stats ———
+    const overallRegistered = totalRegisteredVoted + totalRegisteredNotVoted;
+    const overallRegPct = overallRegistered
+      ? ((totalRegisteredVoted / overallRegistered) * 100).toFixed(1)
+      : "0.0";
+
+    const regPctText = document.createElement("p");
+    // regPctText.textContent = `${overallRegPct}% of registered students have voted in total.`;
+    // Append registered stats first
+    const chartCanvas = document.getElementById('chart-turnout');
+    chartCanvas.parentNode.appendChild(regPctText);
+
+   const regCountText = document.createElement("p");
+regCountText.textContent = `${totalRegisteredVoted} out of ${overallRegistered} registered students have voted (${overallRegPct}%).`;
+regCountText.classList.add('registered-count-text-overall'); // <-- add this line
+chartCanvas.parentNode.appendChild(regCountText);
+    // — end new —
+
+
+    // Calculate overall percentage of students who have voted.
+    const overallPercentage = totalStudents
+      ? ((totalRegisteredVoted / totalStudents) * 100).toFixed(1)
+      : "0.0";
+
+    const percentageText = document.createElement("p");
+    // percentageText.textContent = `${overallPercentage}% total students have voted.`;
+
+    // Append total stats after registered stats
+    const countText = document.createElement("p");
+    countText.textContent = `${totalRegisteredVoted} out of ${totalStudents} total students have voted (${overallPercentage}%).`;
+    countText.classList.add('count-text'); // <-- Add class
+    //  countText.classList.add('count-text');
+
+    chartCanvas.parentNode.appendChild(percentageText);
+    chartCanvas.parentNode.appendChild(countText);
+  });
+</script>
+  
+  
+
+  
+</div>

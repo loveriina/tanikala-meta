@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TANIKALA Voting System - OTP Verification</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/index.css" />
+    <link rel="stylesheet" type="text/css" href="/css/otp-verification.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/components/notification.css" />
+
+    <style>
+      .card {
+        background-color: #f8e7c7;
+        padding: 30px 40px;
+        border-radius: 15px;
+        text-align: center;
+        width: 400px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        margin: 50px auto;
+      }
+      .card img {
+        width: 50px;
+        margin-bottom: 20px;
+      }
+      .otp-inputs {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+      }
+      .otp-inputs input {
+        width: 40px;
+        height: 50px;
+        font-size: 24px;
+        text-align: center;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+      }
+      h2 {
+        font-weight: 700;
+        font-size: 24px;
+        color: #333;
+        margin-top: 10px;
+      }
+      .text {
+        color: #444;
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+      .btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .verify-btn {
+        background-color: #4CAF50;
+        color: white;
+        margin-bottom: 10px;
+      }
+      .resend-btn {
+        background-color: transparent;
+        border: 2px solid #4CAF50;
+        color: #4CAF50;
+      }
+      .resend-btn:disabled {
+        color: gray;
+        border-color: gray;
+        cursor: not-allowed;
+      }
+      .email-highlight {
+        font-weight: 600;
+      }
+      /* new inline messages */
+      .error-text {
+        color: #c00;
+        margin-bottom: 10px;
+      }
+      .message-text {
+        color: #080;
+        margin-bottom: 10px;
+      }
+    </style>
+     <link rel="stylesheet" href="/components/popup-vote.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <div class="header-logo">
+        <img src="/img/logo_tanikala.png" alt="Tanikala Voting System" />
+      </div>
+      <div class="header-bottom-line"></div>
+    </header>
+
+    <div class="content">
+      <div class="content-title">
+        <h3 class="h3">
+          BLOCKCHAIN-BASED VOTING SYSTEM FOR THE STUDENT GOVERNMENT ELECTIONS AT BULACAN STATE UNIVERSITY
+        </h3>
+      </div>
+
+      <div class="content-main">
+        <div class="card">
+          <img src="/img/otp-icon.png" alt="Email Icon" />
+
+          <!-- inline feedback -->
+          <p id="errorText" class="error-text" style="display:none;"></p>
+          <p id="messageText" class="message-text" style="display:none;"></p>
+
+          <div class="otp-inputs">
+            <input type="text" maxlength="1" />
+            <input type="text" maxlength="1" />
+            <input type="text" maxlength="1" />
+            <input type="text" maxlength="1" />
+            <input type="text" maxlength="1" />
+            <input type="text" maxlength="1" />
+          </div>
+
+          <h2>Verification Code</h2>
+          <p class="text">
+            Please enter the 6-digit verification code sent to
+            <span class="email-highlight"><%= email %></span>.
+          </p>
+
+          <button class="btn verify-btn" id="verifyBtn">Verify Code</button>
+          <button class="btn resend-btn" id="resendBtn" disabled>Resend OTP</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const otpInputs    = document.querySelectorAll('.otp-inputs input');
+      const verifyBtn    = document.getElementById('verifyBtn');
+      const resendBtn    = document.getElementById('resendBtn');
+      const errorText    = document.getElementById('errorText');
+      const messageText  = document.getElementById('messageText');
+
+      // auto-tab between inputs
+      otpInputs.forEach((input, i) => {
+        input.addEventListener('input', () => {
+          if (input.value.length === 1 && i < otpInputs.length - 1) {
+            otpInputs[i+1].focus();
+          }
+        });
+      });
+
+      function showError(msg) {
+        messageText.style.display = 'none';
+        errorText.textContent    = msg;
+        errorText.style.display  = 'block';
+      }
+      function showMessage(msg) {
+        errorText.style.display   = 'none';
+        messageText.textContent   = msg;
+        messageText.style.display = 'block';
+      }
+      function clearMessages() {
+        errorText.style.display   =
+        messageText.style.display = 'none';
+      }
+
+      // resend cooldown
+      let cooldown = 60;
+      function startCooldown() {
+        resendBtn.disabled = true;
+        resendBtn.textContent = `Resend OTP in ${cooldown}s`;
+        const timer = setInterval(() => {
+          cooldown--;
+          resendBtn.textContent = `Resend OTP in ${cooldown}s`;
+          if (cooldown <= 0) {
+            clearInterval(timer);
+            resendBtn.disabled = false;
+            resendBtn.textContent = 'Resend OTP';
+            cooldown = 60;
+          }
+        }, 1000);
+      }
+
+      // request or resend OTP
+      async function requestOtp() {
+        clearMessages();
+        try {
+          const res = await fetch('/request-otp', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' }
+          });
+          const data = await res.json();
+          if (res.ok) {
+            showMessage(data.message || 'OTP sent to your email.');
+            startCooldown();
+          } else {
+            showError(data.error || 'Failed to send OTP.');
+          }
+        } catch (e) {
+          showError('Network error, please try again.');
+        }
+      }
+
+      resendBtn.addEventListener('click', requestOtp);
+
+      // verify OTP
+      verifyBtn.addEventListener('click', async () => {
+        clearMessages();
+        const otp = Array.from(otpInputs).map(i => i.value).join('');
+        if (!/^\d{6}$/.test(otp)) {
+          return showError('Please enter a 6‑digit code.');
+        }
+        try {
+          const res = await fetch('/verify-otp', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({ otp })
+          });
+          const data = await res.json();
+          if (res.ok) {
+            window.location.href = data.redirect || '/vote';
+          } else {
+            showError(data.error || 'Invalid or expired OTP.');
+          }
+        } catch (e) {
+          showError('Verification failed. Please try again.');
+        }
+      });
+
+      // send first OTP on page load
+      document.addEventListener('DOMContentLoaded', () => {
+        requestOtp();
+      });
+    </script>
+
+    <script src="/js/index.js"></script>
+    <script type="module" src="/components/notificationHandler.js"></script>
+    <script src="/components/popup.js"></script>
+    <%- include('footer') %>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vote Submission Status</title>
+  </head>
+  <body>
+    <h1>Checking Vote Status...</h1>
+    <p>Your voter hash: <span id="voterHash"></span></p>
+    <p id="statusMessage">Your vote is being processed.</p>
+
+    <script>
+      let voterHash = new URLSearchParams(window.location.search).get("voterHash");
+      document.getElementById("voterHash").textContent = voterHash;
+
+      async function checkVoteStatus() {
+        let response = await fetch(`/vote-status?voterHash=${voterHash}`);
+        let data = await response.json();
+
+        if (data.status === "completed") {
+          document.getElementById("statusMessage").textContent = "✅ Vote submitted successfully!";
+        } else if (data.status === "failed") {
+          document.getElementById("statusMessage").textContent = "❌ Vote submission failed!";
+        } else {
+          document.getElementById("statusMessage").textContent = `Processing your vote... Queue Position: ${data.queuePosition}`;
+          setTimeout(checkVoteStatus, 5000); // Poll every 5 seconds
+        }
+      }
+
+      checkVoteStatus();
+    </script>
+  </body>
+</html>
