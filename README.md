@@ -67,7 +67,7 @@ This website was deployed in [Render](render.com) over the duration of 2 months 
 ## Environment Variables
 
 Refer to the file `.env.setup.guide` for info about the environment variables.
-## FAQ
+## FAQs
 
 ### 1. What blockchain technology did you use?
 - We used Polygon, a scaling solution built on top of Ethereum. Polygon is designed to make blockchain transactions faster, cheaper, and more efficient, which makes it well-suited for voting systems.
@@ -77,6 +77,8 @@ Refer to the file `.env.setup.guide` for info about the environment variables.
 - No. This is a meta repository intended for public viewing and documentation purposes only. It does not contain the complete or production-ready source code.
 ### 4. How can I run the full system?
 - This meta repository does not include all the components necessary to run the system. If you require access to the full implementation (for academic or research purposes), please contact us at the emails below.
+### 5. What files are missing from this repository?
+- The key implementation files intentionally excluded from this meta repository include: `contracts/AdminCandidates.sol`, `scripts/deploy.js`, `server.js`, `hardhat.config.js`, `db.js`, and `package-lock.json`. These files contain core backend logic, blockchain integration scripts, and server configuration. If you require access for academic or research purposes, feel free to contact us via email.
 
 ## Feedback
 
