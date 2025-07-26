@@ -1,8 +1,13 @@
 
 # Tanikala Voting System
-[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/run-with-allowance-money.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
+[![Made in College](readme-img/made-in-college.svg)](https://forthebadge.com) [![Start Date](readme-img/start-date.svg)](https://forthebadge.com)
+
+
+[![Made with Node.js](readme-img/made-with-node.js.svg)](https://forthebadge.com) [![Made with Solidity](readme-img/made-with-solidity.svg)](https://forthebadge.com) [![Powered by Blockchain](readme-img/powered-by-blockchain.svg)](https://forthebadge.com) [![Tested in Polygon Amoy](readme-img/tested-in-polygon-amoy.svg)](https://forthebadge.com)
+
+
+
+
 
 <p align="center">
   <img src="./readme-img/logo-tanikala.png" alt="Logo" width="400"/>
@@ -18,52 +23,11 @@ By integrating blockchain into the voting system, this project addresses the com
 
 - **Transparency** – Enables voters to verify that their votes were counted through transaction receipts, allowing independent verification of election results without compromising privacy.
 
-## Authors
-- [@Lowell0803](https://github.com/Lowell0803)
+## Developers
 - [@loverinaa](https://www.github.com/loverinaa)
+- [@Lowell0803](https://github.com/Lowell0803)
 
 *This is in partial fulfillment of the requirements for the course subject **Thesis**, as part of the curriculum for fourth year students of the Bachelor of Science in Mathematics with Specialization in Computer Science.*
-
-## System Screenshots
-
-### Dynamic Homepage
-<img src="readme-img/ss-homepages.png" alt="Homepage" width="300">
-
-### Voter Registration
-<img src="readme-img/ss-registration.png" alt="Voter Registration" width="300">
-
-### Voting Interface
-<img src="readme-img/ss-vote.png" alt="Vote Interface" width="300">
-
-### Vote Receipt
-<img src="readme-img/ss-receipt.png" alt="Vote Receipt" width="300">
-
-### Vote Verification
-<img src="readme-img/ss-verify.png" alt="Vote Verification" width="300">
-
-### Vote Audit
-<img src="readme-img/ss-vote-audit.png" alt="Vote Audit" width="300">
-
-### Vote Tally
-<img src="readme-img/ss-vote-tally.png" alt="Vote Tally" width="300">
-
-### Admin Dashboard
-<img src="readme-img/ss-admin-dashboard.png" alt="Admin Dashboard" width="300">
-
-### Blockchain Record - 1
-<img src="readme-img/ss-blockchain-1.png" alt="Blockchain Record 1" width="300">
-
-### Blockchain Record - 2
-<img src="readme-img/ss-blockchain-2.png" alt="Blockchain Record 2" width="300">
-
-### RVS - Main
-<img src="readme-img/ss-rvs.png" alt="RVS Main" width="300">
-
-### RVS - Voter ID View
-<img src="readme-img/ss-rvs-voter-id.png" alt="RVS Voter ID View" width="300">
-
-### RVS - Votes Per Candidate
-<img src="readme-img/ss-rvs-votes-per-candidate.png" alt="RVS Votes Per Candidate" width="300">
 
 ## Features & Contributions
 
@@ -87,6 +51,101 @@ By integrating blockchain into the voting system, this project addresses the com
 | Blockchain Features      | Vote hash storage, CoinGecko API, candidate data fetching from chain                      | <p align="center">✔️</p> |                    |
 
 ---
+
+## System Screenshots
+
+<div align="center">
+  <h3>Dynamic Homepage</h3>
+  <img src="readme-img/ss-homepages.png" width="300" style="border-radius: 8px;" alt="Homepage" />
+  <br/>
+  <i><span style="font-size: xx-small;">The homepage changes depending on the election phase <br/> (registration, voting, double-checking, results).</span></i>
+</div>
+
+<div align="center">
+  <h3>Voter Registration</h3>
+  <img src="readme-img/ss-registration.png" width="300" style="border-radius: 8px;" alt="Voter Registration" />
+  <br/>
+  <i><span style="font-size: xx-small;">Only BulSU students can register via Microsoft Authentication.</span></i>
+</div>
+
+<div align="center">
+  <h3>Voting Interface</h3>
+  <img src="readme-img/ss-vote.png" width="300" style="border-radius: 8px;" alt="Vote Interface" />
+  <br/>
+  <i><span style="font-size: xx-small;">Tailored ballots depending on student voter's college and program.</span></i>
+</div>
+
+<div align="center">
+  <h3>Vote Verification</h3>
+  <img src="readme-img/ss-verify.png" width="300" style="border-radius: 8px;" alt="Vote Verification" />
+  <br/>
+  <i><span style="font-size: xx-small;">After voting, the voters can verify their votes along with the hashes.</span></i>
+</div>
+
+<div align="center">
+  <h3>Vote Receipt</h3>
+  <img src="readme-img/ss-receipt.png" style="border-radius: 8px;" alt="Vote Receipt" />
+  <br/>
+  <i><span style="font-size: xx-small;">The receipt is downloadable.</span></i>
+</div>
+
+<div align="center">
+  <h3>Vote Audit</h3>
+  <img src="readme-img/ss-vote-audit.png" width="300" style="border-radius: 8px;" alt="Vote Audit" />
+  <br/>
+  <i><span style="font-size: xx-small;">The votes are tracked by the admin using the Vote Audit Log. <br/>But, they can't see the personal info of the voter, only the hashes.</span></i>
+</div>
+
+<div align="center">
+  <h3>Vote Tally</h3>
+  <img src="readme-img/ss-vote-tally.png" width="300" style="border-radius: 8px;" alt="Vote Tally" />
+  <br/>
+  <i><span style="font-size: xx-small;">The vote tally is a live update of the election.</span></i>
+</div>
+
+<div align="center">
+  <h3>Admin Dashboard</h3>
+  <img src="readme-img/ss-admin-dashboard.png" width="300" style="border-radius: 8px;" alt="Admin Dashboard" />
+  <br/>
+  <i><span style="font-size: xx-small;">Overview of the election and quick actions.</span></i>
+</div>
+
+<div align="center">
+  <h3>Blockchain Management</h3>
+  <img src="readme-img/ss-blockchain-1.png" width="300" style="border-radius: 8px;" alt="Blockchain Record 1" />
+  <br/><br/>
+  <img src="readme-img/ss-blockchain-2.png" width="300" style="border-radius: 8px;" alt="Blockchain Record 2" />
+  <br/>
+  <i><span style="font-size: xx-small;">
+    Info about the blockchain, mostly expenses.
+  </span></i>
+</div>
+
+<div align="center">
+  <h3>Results Verification Portal - About</h3>
+  <img src="readme-img/ss-rvs.png" width="300" style="border-radius: 8px;" alt="RVS Main" />
+  <br/>
+  <i><span style="font-size: xx-small;">This portal will be available once the elections are over.</span></i>
+</div>
+
+<div align="center">
+  <h3>List of Voter IDs</h3>
+  <img src="readme-img/ss-rvs-voter-id.png" width="300" style="border-radius: 8px;" alt="RVS Voter ID View" />
+  <br/>
+  <i><span style="font-size: xx-small;">For each candidate, the user can search for their hash (from their receipt) <br/>to verify if their receipt has been processed.</span></i>
+</div>
+
+<div align="center">
+  <h3>Results Verification Portal - Votes Per Candidate</h3>
+  <img src="readme-img/ss-rvs-votes-per-candidate.png" width="300" style="border-radius: 8px;" alt="RVS Votes Per Candidate" />
+  <br/>
+  <i><span style="font-size: xx-small;">Results and votes per candidates.</span></i>
+</div>
+
+<br/>
+<small>
+<i><b>Disclaimer:</b> Only selected pages and tabs are shown to keep this README concise.</i>
+</small>
 
 ## Acknowledgment
 
@@ -121,15 +180,20 @@ Refer to the file `.env.setup.guide` for info about the environment variables.
 
 If you have any feedback/comment/request, please reach out to us at:  
 
-<p align="center">
-  <div style="display: inline-block; text-align: center; margin: 0 40px;">
-    <img src="./readme-img/yvan.png" width="100"/><br/>
-    💌 aquino.ylt@gmail.com
-  </div>
-  <div style="display: inline-block; text-align: center; margin: 0 40px;">
-    <img src="./readme-img/zari.png" width="100"/><br/>
-    💌 dungo.zr@gmail.com
-  </div>
-</p>
+<table align="center" width="100%">
+  <tr>
+    <td align="center" width="50%">
+      <img src="./readme-img/zari.png" width="100"/><br/>
+      💌 dungo.zr@gmail.com
+    </td>
+    <td align="center" width="50%">
+      <img src="./readme-img/yvan.png" width="100"/><br/>
+      💌 aquino.ylt@gmail.com
+    </td>
+  </tr>
+</table>
+
 
 Include your name, affiliation, and a clear reason for your request.
+
+### Thank you and God bless!
