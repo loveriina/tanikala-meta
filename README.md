@@ -184,11 +184,11 @@ If you have any feedback/comment/request, please reach out to us at:
   <tr>
     <td align="center" width="50%">
       <img src="./readme-img/zari.png" width="120"/><br/>
-      💌 dungo.zr@gmail.com
+      💌<br/>dungo.zr@gmail.com
     </td>
     <td align="center" width="50%">
       <img src="./readme-img/yvan.png" width="120"/><br/>
-      💌 aquino.ylt@gmail.com
+      💌<br/>aquino.ylt@gmail.com
     </td>
   </tr>
 </table>
