@@ -56,28 +56,28 @@ By integrating blockchain into the voting system, this project addresses the com
 
 <div align="center">
   <h3>Dynamic Homepage</h3>
-  <img src="readme-img/ss-homepages.png" width="300" style="border-radius: 8px;" alt="Homepage" />
+  <img src="readme-img/ss-homepages.png" width="500" style="border-radius: 8px;" alt="Homepage" />
   <br/>
   <i><span style="font-size: xx-small;">The homepage changes depending on the election phase <br/> (registration, voting, double-checking, results).</span></i>
 </div>
 
 <div align="center">
   <h3>Voter Registration</h3>
-  <img src="readme-img/ss-registration.png" width="300" style="border-radius: 8px;" alt="Voter Registration" />
+  <img src="readme-img/ss-registration.png" width="500" style="border-radius: 8px;" alt="Voter Registration" />
   <br/>
   <i><span style="font-size: xx-small;">Only BulSU students can register via Microsoft Authentication.</span></i>
 </div>
 
 <div align="center">
   <h3>Voting Interface</h3>
-  <img src="readme-img/ss-vote.png" width="300" style="border-radius: 8px;" alt="Vote Interface" />
+  <img src="readme-img/ss-vote.png" width="500" style="border-radius: 8px;" alt="Vote Interface" />
   <br/>
   <i><span style="font-size: xx-small;">Tailored ballots depending on student voter's college and program.</span></i>
 </div>
 
 <div align="center">
   <h3>Vote Verification</h3>
-  <img src="readme-img/ss-verify.png" width="300" style="border-radius: 8px;" alt="Vote Verification" />
+  <img src="readme-img/ss-verify.png" width="500" style="border-radius: 8px;" alt="Vote Verification" />
   <br/>
   <i><span style="font-size: xx-small;">After voting, the voters can verify their votes along with the hashes.</span></i>
 </div>
@@ -91,30 +91,30 @@ By integrating blockchain into the voting system, this project addresses the com
 
 <div align="center">
   <h3>Vote Audit</h3>
-  <img src="readme-img/ss-vote-audit.png" width="300" style="border-radius: 8px;" alt="Vote Audit" />
+  <img src="readme-img/ss-vote-audit.png" width="500" style="border-radius: 8px;" alt="Vote Audit" />
   <br/>
   <i><span style="font-size: xx-small;">The votes are tracked by the admin using the Vote Audit Log. <br/>But, they can't see the personal info of the voter, only the hashes.</span></i>
 </div>
 
 <div align="center">
   <h3>Vote Tally</h3>
-  <img src="readme-img/ss-vote-tally.png" width="300" style="border-radius: 8px;" alt="Vote Tally" />
+  <img src="readme-img/ss-vote-tally.png" width="500" style="border-radius: 8px;" alt="Vote Tally" />
   <br/>
   <i><span style="font-size: xx-small;">The vote tally is a live update of the election.</span></i>
 </div>
 
 <div align="center">
   <h3>Admin Dashboard</h3>
-  <img src="readme-img/ss-admin-dashboard.png" width="300" style="border-radius: 8px;" alt="Admin Dashboard" />
+  <img src="readme-img/ss-admin-dashboard.png" width="500" style="border-radius: 8px;" alt="Admin Dashboard" />
   <br/>
   <i><span style="font-size: xx-small;">Overview of the election and quick actions.</span></i>
 </div>
 
 <div align="center">
   <h3>Blockchain Management</h3>
-  <img src="readme-img/ss-blockchain-1.png" width="300" style="border-radius: 8px;" alt="Blockchain Record 1" />
+  <img src="readme-img/ss-blockchain-1.png" width="500" style="border-radius: 8px;" alt="Blockchain Record 1" />
   <br/><br/>
-  <img src="readme-img/ss-blockchain-2.png" width="300" style="border-radius: 8px;" alt="Blockchain Record 2" />
+  <img src="readme-img/ss-blockchain-2.png" width="500" style="border-radius: 8px;" alt="Blockchain Record 2" />
   <br/>
   <i><span style="font-size: xx-small;">
     Info about the blockchain, mostly expenses.
@@ -123,21 +123,21 @@ By integrating blockchain into the voting system, this project addresses the com
 
 <div align="center">
   <h3>Results Verification Portal - About</h3>
-  <img src="readme-img/ss-rvs.png" width="300" style="border-radius: 8px;" alt="RVS Main" />
+  <img src="readme-img/ss-rvs.png" width="500" style="border-radius: 8px;" alt="RVS Main" />
   <br/>
   <i><span style="font-size: xx-small;">This portal will be available once the elections are over.</span></i>
 </div>
 
 <div align="center">
   <h3>List of Voter IDs</h3>
-  <img src="readme-img/ss-rvs-voter-id.png" width="300" style="border-radius: 8px;" alt="RVS Voter ID View" />
+  <img src="readme-img/ss-rvs-voter-id.png" width="500" style="border-radius: 8px;" alt="RVS Voter ID View" />
   <br/>
   <i><span style="font-size: xx-small;">For each candidate, the user can search for their hash (from their receipt) <br/>to verify if their receipt has been processed.</span></i>
 </div>
 
 <div align="center">
   <h3>Results Verification Portal - Votes Per Candidate</h3>
-  <img src="readme-img/ss-rvs-votes-per-candidate.png" width="300" style="border-radius: 8px;" alt="RVS Votes Per Candidate" />
+  <img src="readme-img/ss-rvs-votes-per-candidate.png" width="500" style="border-radius: 8px;" alt="RVS Votes Per Candidate" />
   <br/>
   <i><span style="font-size: xx-small;">Results and votes per candidates.</span></i>
 </div>
@@ -183,11 +183,11 @@ If you have any feedback/comment/request, please reach out to us at:
 <table align="center" width="100%">
   <tr>
     <td align="center" width="50%">
-      <img src="./readme-img/zari.png" width="100"/><br/>
+      <img src="./readme-img/zari.png" width="120"/><br/>
       💌 dungo.zr@gmail.com
     </td>
     <td align="center" width="50%">
-      <img src="./readme-img/yvan.png" width="100"/><br/>
+      <img src="./readme-img/yvan.png" width="120"/><br/>
       💌 aquino.ylt@gmail.com
     </td>
   </tr>
